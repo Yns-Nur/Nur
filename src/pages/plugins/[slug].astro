@@ -1,0 +1,320 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import PluginState from '../../components/PluginState.astro';
+import PlaceholderMark from '../../components/PlaceholderMark.astro';
+import { withBase } from '../../lib/base';
+
+export async function getStaticPaths() {
+  const plugins = (await getCollection('plugins')).sort((a, b) => a.data.order - b.data.order);
+  return plugins.map((entry, i) => ({
+    params: { slug: entry.id },
+    props: { entry, next: plugins[(i + 1) % plugins.length] },
+  }));
+}
+
+const { entry, next } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+---
+
+<Base title={`${d.title} — YNS NUR`} description={d.tagline} field="ochre">
+  <article class="act plugin" data-field="ochre">
+    <div class="wrap">
+      <nav class="plugin__crumb micro" aria-label="Back">
+        <a href={withBase("/plugins")}>&larr; Tools</a>
+      </nav>
+
+      <header class="plugin__head">
+        <div class="plugin__headtext">
+          <h1 class="act-title">{d.title}</h1>
+          <p class="lead plugin__tagline">{d.tagline}</p>
+        </div>
+        {d.placeholder && <PlaceholderMark tone="inline" />}
+      </header>
+
+      <div class="plugin__stage">
+        <figure class="plugin__figure" data-loop>
+          <video
+            class="plugin__video"
+            poster={withBase(d.media.poster)}
+            preload="metadata"
+            muted
+            loop
+            playsinline
+            width={d.media.width}
+            height={d.media.height}
+            aria-label={`${d.title} — interface animation, no sound`}
+          >
+            {d.media.src && <source src={withBase(d.media.src)} type="video/mp4" />}
+          </video>
+          <button class="plugin__play" type="button" data-loop-play hidden>
+            <span class="plugin__tri" aria-hidden="true"></span>
+            <span class="vh">Play {d.title}</span>
+          </button>
+          <PlaceholderMark />
+        </figure>
+
+        <aside class="plugin__buy">
+          <PluginState state={d.state} price={d.price} />
+
+          <dl class="plugin__meta micro">
+            <div><dt>Host</dt><dd>{d.host}</dd></div>
+            {d.version && <div><dt>Version</dt><dd>{d.version}</dd></div>}
+          </dl>
+
+          {
+            d.state === 'free' && d.downloadUrl && (
+              <a class="slab plugin__cta" href={d.downloadUrl}>Download</a>
+            )
+          }
+          {
+            d.state === 'paid' && d.storeUrl && (
+              <a class="slab plugin__cta" href={d.storeUrl}>Buy</a>
+            )
+          }
+          {
+            (d.state === 'unreleased' || (d.state === 'free' && !d.downloadUrl) || (d.state === 'paid' && !d.storeUrl)) && (
+              <p class="plugin__pending">
+                {d.state === 'unreleased'
+                  ? 'Not released yet. Ask about it and I will tell you where it stands.'
+                  : 'The distribution link is not set up yet.'}
+                <a class="slab slab--ghost plugin__cta" href={withBase("/contact")}>Ask about it</a>
+              </p>
+            )
+          }
+        </aside>
+      </div>
+
+      <div class="plugin__body">
+        <div class="prose plugin__prose">
+          <Content />
+        </div>
+
+        <div class="plugin__features">
+          <h2 class="micro plugin__subhead">What it does</h2>
+          <ul>
+            {
+              d.features.map((f) => (
+                <li>
+                  <p class="plugin__fname">{f.title}</p>
+                  <p class="plugin__fbody">{f.body}</p>
+                </li>
+              ))
+            }
+          </ul>
+
+          {
+            d.install.length > 0 && (
+              <>
+                <h2 class="micro plugin__subhead plugin__subhead--gap">Install</h2>
+                <ul class="plugin__install">
+                  {d.install.map((line) => <li>{line}</li>)}
+                </ul>
+              </>
+            )
+          }
+        </div>
+      </div>
+
+      <nav class="plugin__next" aria-label="Next tool">
+        <a href={withBase(`/plugins/${next.id}`)}>
+          <span class="micro">Next tool</span>
+          <span class="title">{next.data.title} &rarr;</span>
+        </a>
+      </nav>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .plugin {
+    padding-top: var(--stack-m);
+  }
+
+  .plugin__crumb {
+    margin-bottom: var(--stack-m);
+  }
+
+  .plugin__crumb a:hover,
+  .plugin__crumb a:focus-visible {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+
+  .plugin__head {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding-bottom: var(--stack-m);
+    border-bottom: var(--rule-heavy) solid currentColor;
+    margin-bottom: var(--stack-l);
+  }
+
+  .plugin__tagline {
+    margin-top: var(--stack-s);
+    max-width: 40ch;
+  }
+
+  .plugin__stage {
+    display: grid;
+    gap: var(--stack-m);
+  }
+
+  @media (width >= 55rem) {
+    .plugin__stage {
+      grid-template-columns: 1.8fr 1fr;
+      gap: var(--stack-l);
+      align-items: start;
+    }
+  }
+
+  .plugin__figure {
+    position: relative;
+    margin: 0;
+    background: var(--ink);
+    box-shadow: 12px 12px 0 color-mix(in srgb, var(--ink) 45%, transparent);
+  }
+
+  .plugin__video {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 16 / 10;
+    object-fit: cover;
+  }
+
+  .plugin__play {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: color-mix(in srgb, var(--ink) 40%, transparent);
+    border: none;
+    cursor: pointer;
+  }
+
+  .plugin__play[hidden] {
+    display: none;
+  }
+
+  .plugin__tri {
+    width: 0;
+    height: 0;
+    border-left: 1.6rem solid var(--bone);
+    border-top: 1rem solid transparent;
+    border-bottom: 1rem solid transparent;
+  }
+
+  .plugin__buy {
+    padding: var(--stack-m);
+    box-shadow: inset 0 0 0 var(--rule) var(--on-field);
+  }
+
+  .plugin__meta {
+    margin: var(--stack-m) 0;
+  }
+
+  .plugin__meta div {
+    display: grid;
+    grid-template-columns: 5rem 1fr;
+    gap: 0.75rem;
+    padding: 0.5rem 0;
+    border-top: var(--rule) solid color-mix(in srgb, var(--on-field) 25%, transparent);
+  }
+
+  .plugin__meta dd {
+    margin: 0;
+    color: var(--on-field);
+  }
+
+  .plugin__cta {
+    margin-top: var(--stack-s);
+  }
+
+  .plugin__pending {
+    font-size: 0.95rem;
+    line-height: 1.45;
+    color: var(--on-field-dim);
+    display: grid;
+    gap: 0.5rem;
+    justify-items: start;
+  }
+
+  .plugin__body {
+    display: grid;
+    gap: var(--stack-l);
+    margin-top: var(--stack-xl);
+  }
+
+  @media (width >= 55rem) {
+    .plugin__body {
+      grid-template-columns: 1fr 1.2fr;
+      gap: var(--stack-xl);
+    }
+  }
+
+  .plugin__prose {
+    font-size: var(--step-lead);
+    line-height: 1.5;
+  }
+
+  .plugin__subhead {
+    padding-bottom: var(--stack-xs);
+    border-bottom: var(--rule) solid currentColor;
+  }
+
+  .plugin__subhead--gap {
+    margin-top: var(--stack-l);
+  }
+
+  .plugin__features ul {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .plugin__features li {
+    padding: 1rem 0;
+    border-bottom: var(--rule) solid color-mix(in srgb, var(--on-field) 22%, transparent);
+  }
+
+  .plugin__fname {
+    font-family: var(--font-display);
+    font-size: 1.35rem;
+    text-transform: uppercase;
+    line-height: 1;
+    margin-bottom: 0.3rem;
+  }
+
+  .plugin__fbody {
+    color: var(--on-field-dim);
+    font-size: 0.97rem;
+    line-height: 1.45;
+    max-width: 46ch;
+  }
+
+  .plugin__install li {
+    font-family: var(--font-mono);
+    font-size: 0.85rem;
+    line-height: 1.5;
+  }
+
+  .plugin__next {
+    margin-top: var(--stack-xl);
+    padding-top: var(--stack-m);
+    border-top: var(--rule-heavy) solid currentColor;
+  }
+
+  .plugin__next a {
+    display: grid;
+    gap: 0.3rem;
+  }
+
+  .plugin__next a:hover .title,
+  .plugin__next a:focus-visible .title {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+</style>

@@ -1,0 +1,157 @@
+/* ==========================================================================
+   YNS NUR — design tokens
+   World: Saul Bass title sequence. Flat saturated field per act, black
+   cut-paper silhouettes, condensed caps, mono credit lines.
+   ========================================================================== */
+
+@font-face {
+  font-family: 'Hitmarker Condensed';
+  src: url('/fonts/hitmarker-condensed-black.woff2') format('woff2');
+  font-weight: 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Suisse Intl';
+  src: url('/fonts/suisse-intl-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Suisse Intl';
+  src: url('/fonts/suisse-intl-500.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Suisse Intl';
+  src: url('/fonts/suisse-intl-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'Zagma Mono';
+  src: url('/fonts/zagma-mono-300.woff2') format('woff2');
+  font-weight: 300;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Zagma Mono';
+  src: url('/fonts/zagma-mono-400.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+@font-face {
+  font-family: 'Zagma Mono';
+  src: url('/fonts/zagma-mono-700.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+:root {
+  /* --- pigment ------------------------------------------------------- */
+  --ink: #14100e;
+  --bone: #ede7da;
+  --cardinal: #c7431c;
+  --olive: #6f7357;
+  --midnight: #33505f;
+  --ochre: #c6852b;
+
+  --ink-soft: #2a2320;
+  --bone-dim: #d6cfbe;
+
+  /* Field defaults; every act overrides these via [data-field]. */
+  --field: var(--bone);
+  --on-field: var(--ink);
+  /* Secondary text still has to be read. On a saturated field a 60% mix goes
+     muddy and drops under contrast minimums, so secondary sits high and only
+     the truly incidental sits low. */
+  --on-field-dim: color-mix(in srgb, var(--on-field) 84%, var(--field));
+  --on-field-faint: color-mix(in srgb, var(--on-field) 55%, var(--field));
+  --silhouette: var(--ink);
+  --accent: var(--cardinal);
+
+  /* --- type ----------------------------------------------------------- */
+  --font-display: 'Hitmarker Condensed', 'Haettenschweiler', 'Arial Narrow', sans-serif;
+  --font-body: 'Suisse Intl', -apple-system, BlinkMacSystemFont, 'Segoe UI', Helvetica, Arial, sans-serif;
+  --font-mono: 'Zagma Mono', ui-monospace, 'SFMono-Regular', Menlo, Consolas, monospace;
+
+  /* Display scale — set in caps, tight, off-baseline. */
+  --step-display: clamp(3.4rem, 13vw, 12.5rem);
+  --step-act: clamp(2.6rem, 8.5vw, 7.5rem);
+  --step-title: clamp(1.7rem, 3.6vw, 3.1rem);
+  --step-lead: clamp(1.05rem, 1.55vw, 1.35rem);
+  --step-body: 1.0625rem;
+  --step-label: 0.75rem;
+  --step-micro: 0.6875rem;
+
+  --track-label: 0.16em;
+  --track-mono: 0.045em;
+
+  /* --- rhythm --------------------------------------------------------- */
+  --gutter: clamp(1.25rem, 4.5vw, 4.5rem);
+  --act-pad-y: clamp(4.5rem, 11vh, 9rem);
+  --stack-xs: 0.5rem;
+  --stack-s: 0.875rem;
+  --stack-m: 1.75rem;
+  --stack-l: 3.25rem;
+  --stack-xl: 5.5rem;
+
+  --rule: 2px;
+  --rule-heavy: 4px;
+  --measure: 62ch;
+
+  /* --- motion --------------------------------------------------------- */
+  /* Bass cuts; he does not tween. Reveals land in steps, not glides. */
+  --cut-fast: 260ms;
+  --cut: 420ms;
+  --cut-slow: 680ms;
+  --steps-cut: steps(4, end);
+  --ease-slam: cubic-bezier(0.16, 0.9, 0.2, 1);
+
+  --z-chrome: 60;
+  --z-overlay: 80;
+}
+
+/* Act fields. Each act of the sequence owns a flat saturated field; the
+   silhouettes stay black, exactly as the field colour swaps per act. */
+[data-field='cardinal'] {
+  --field: var(--cardinal);
+  --on-field: var(--ink);
+  --accent: var(--bone);
+}
+[data-field='ink'] {
+  --field: var(--ink);
+  --on-field: var(--bone);
+  --silhouette: var(--bone);
+  --accent: var(--cardinal);
+}
+[data-field='olive'] {
+  --field: var(--olive);
+  --on-field: var(--ink);
+  --accent: var(--bone);
+}
+[data-field='midnight'] {
+  --field: var(--midnight);
+  --on-field: var(--bone);
+  --silhouette: var(--bone);
+  --accent: var(--ochre);
+}
+[data-field='ochre'] {
+  --field: var(--ochre);
+  --on-field: var(--ink);
+  --accent: var(--ink);
+}
+[data-field='bone'] {
+  --field: var(--bone);
+  --on-field: var(--ink);
+  --accent: var(--cardinal);
+}

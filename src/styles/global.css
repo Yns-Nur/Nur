@@ -1,0 +1,360 @@
+@import './tokens.css';
+
+/* ==========================================================================
+   Reset
+   ========================================================================== */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+* {
+  margin: 0;
+}
+
+html {
+  -webkit-text-size-adjust: 100%;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--ink);
+  color: var(--bone);
+  font-family: var(--font-body);
+  font-size: var(--step-body);
+  line-height: 1.55;
+  font-synthesis-weight: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: hidden;
+}
+
+img,
+video,
+svg {
+  display: block;
+  max-width: 100%;
+}
+
+button,
+input,
+textarea,
+select {
+  font: inherit;
+  color: inherit;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+:focus-visible {
+  outline: var(--rule-heavy) solid var(--accent);
+  outline-offset: 3px;
+}
+
+/* The paper the whole thing is cut from — a silkscreen tooth over every
+   field, never strong enough to read as texture-for-its-own-sake. */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  pointer-events: none;
+  opacity: 0.5;
+  mix-blend-mode: multiply;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.86' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='180' height='180' filter='url(%23n)' opacity='0.32'/%3E%3C/svg%3E");
+}
+
+/* ==========================================================================
+   Type
+   ========================================================================== */
+.display,
+.act-title,
+.title {
+  font-family: var(--font-display);
+  font-weight: 900;
+  text-transform: uppercase;
+  line-height: 0.82;
+  letter-spacing: 0.005em;
+  overflow-wrap: anywhere;
+}
+
+.display {
+  font-size: var(--step-display);
+}
+
+.act-title {
+  font-size: var(--step-act);
+}
+
+.title {
+  font-size: var(--step-title);
+  line-height: 0.9;
+}
+
+/* Hand-set caps sit slightly off baseline — the line never lies down flat. */
+.off-baseline > *:nth-child(even) {
+  transform: translateY(0.055em);
+}
+
+.lead {
+  font-size: var(--step-lead);
+  line-height: 1.4;
+  max-width: 34ch;
+  text-wrap: balance;
+}
+
+.prose {
+  max-width: var(--measure);
+}
+
+.prose p + p {
+  margin-top: 1em;
+}
+
+.label {
+  font-family: var(--font-mono);
+  font-size: var(--step-label);
+  font-weight: 700;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+}
+
+.micro {
+  font-family: var(--font-mono);
+  font-size: var(--step-micro);
+  font-weight: 400;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  color: var(--on-field-dim);
+}
+
+.tc {
+  font-family: var(--font-mono);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  letter-spacing: var(--track-mono);
+  color: var(--accent);
+}
+
+/* ==========================================================================
+   Act — one flat saturated field, one idea
+   ========================================================================== */
+.act {
+  position: relative;
+  background: var(--field);
+  color: var(--on-field);
+  padding: var(--act-pad-y) var(--gutter);
+  scroll-margin-top: 0;
+}
+
+.act--full {
+  min-height: 100svh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.act__head {
+  display: flex;
+  align-items: baseline;
+  gap: clamp(0.75rem, 2vw, 1.5rem);
+  flex-wrap: wrap;
+  padding-bottom: var(--stack-s);
+  border-bottom: var(--rule-heavy) solid currentColor;
+  margin-bottom: var(--stack-l);
+}
+
+.act__head .act-title {
+  margin-right: auto;
+}
+
+.act__note {
+  max-width: 38ch;
+  color: var(--on-field-dim);
+  font-size: 0.95rem;
+  line-height: 1.45;
+}
+
+/* ==========================================================================
+   Controls — cut-paper slabs. Active state SKEWS; it does not recolour.
+   ========================================================================== */
+.slab {
+  --slab-bg: var(--on-field);
+  --slab-fg: var(--field);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7em;
+  padding: 0.95em 1.6em;
+  background: var(--slab-bg);
+  color: var(--slab-fg);
+  border: none;
+  font-family: var(--font-mono);
+  font-size: var(--step-label);
+  font-weight: 700;
+  letter-spacing: var(--track-label);
+  text-transform: uppercase;
+  cursor: pointer;
+  transition: transform var(--cut-fast) var(--ease-slam);
+  will-change: transform;
+}
+
+.slab:hover,
+.slab:focus-visible {
+  transform: skewX(-7deg);
+}
+
+.slab:active {
+  transform: skewX(-7deg) translateY(2px);
+}
+
+.slab--ghost {
+  --slab-bg: transparent;
+  --slab-fg: var(--on-field);
+  box-shadow: inset 0 0 0 var(--rule) var(--on-field);
+}
+
+.slab--accent {
+  --slab-bg: var(--accent);
+  --slab-fg: var(--field);
+}
+
+.actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+/* ==========================================================================
+   Fields — the enquiry form, in the same cut vocabulary
+   ========================================================================== */
+.field {
+  display: block;
+}
+
+.field__label {
+  display: block;
+  margin-bottom: 0.5rem;
+}
+
+.field__input {
+  width: 100%;
+  padding: 0.85em 1em;
+  background: transparent;
+  color: var(--on-field);
+  border: var(--rule) solid var(--on-field);
+  border-radius: 0;
+  font-size: 1rem;
+  transition: transform var(--cut-fast) var(--ease-slam);
+}
+
+.field__input::placeholder {
+  color: var(--on-field-faint);
+}
+
+.field__input:focus {
+  outline: none;
+  transform: skewX(-2deg);
+  box-shadow: inset 0 0 0 var(--rule) var(--on-field);
+}
+
+.field__input:user-invalid {
+  border-color: var(--accent);
+  box-shadow: inset 0 0 0 var(--rule) var(--accent);
+}
+
+.field__error {
+  display: none;
+  margin-top: 0.4rem;
+  color: var(--accent);
+}
+
+.field__input:user-invalid ~ .field__error {
+  display: block;
+}
+
+/* ==========================================================================
+   Utility
+   ========================================================================== */
+.wrap {
+  max-width: 96rem;
+  margin-inline: auto;
+  width: 100%;
+}
+
+.skip {
+  position: absolute;
+  left: -9999px;
+  z-index: var(--z-overlay);
+}
+
+.skip:focus {
+  left: var(--gutter);
+  top: 1rem;
+  padding: 0.8em 1.2em;
+  background: var(--bone);
+  color: var(--ink);
+}
+
+.vh {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  overflow: hidden;
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+/* ==========================================================================
+   Reveal — shapes arrive in staccato cuts, never a fade-and-glide
+   ========================================================================== */
+/* Only hidden once the runtime that reveals them is known to be alive. If the
+   script never runs, the work is simply visible — a portfolio that depends on
+   an observer firing to show its work is one failed request from empty. */
+.cuts [data-cut] {
+  opacity: 0;
+}
+
+[data-cut].is-cut {
+  opacity: 1;
+  animation: cut-in var(--cut) var(--steps-cut) both;
+}
+
+@keyframes cut-in {
+  from {
+    opacity: 0;
+    transform: translateY(1.1rem);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+
+  .cuts [data-cut] {
+    opacity: 1;
+  }
+
+  .slab:hover,
+  .slab:focus-visible,
+  .field__input:focus {
+    transform: none;
+  }
+}

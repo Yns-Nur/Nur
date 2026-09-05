@@ -1,0 +1,98 @@
+---
+import { ClientRouter } from 'astro:transitions';
+import SiteHeader from '../components/SiteHeader.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import '../styles/global.css';
+import { withBase } from '../lib/base';
+
+interface Props {
+  title: string;
+  description: string;
+  /** Field colour the page opens on, so the browser chrome matches. */
+  field?: 'cardinal' | 'ink' | 'olive' | 'midnight' | 'ochre' | 'bone';
+}
+
+const { title, description, field = 'cardinal' } = Astro.props;
+
+const FIELD_HEX: Record<string, string> = {
+  cardinal: '#c7431c',
+  ink: '#14100e',
+  olive: '#6f7357',
+  midnight: '#33505f',
+  ochre: '#c6852b',
+  bone: '#ede7da',
+};
+
+const canonical = new URL(Astro.url.pathname, Astro.site);
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    <link rel="icon" href={withBase("/favicon.svg")} type="image/svg+xml" />
+    <meta name="theme-color" content={FIELD_HEX[field]} />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:url" content={canonical} />
+    <meta name="twitter:card" content="summary_large_image" />
+
+    <link rel="preload" href={withBase("/fonts/hitmarker-condensed-black.woff2")} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={withBase("/fonts/suisse-intl-400.woff2")} as="font" type="font/woff2" crossorigin />
+
+    <!--
+      Arms the staccato reveal only when scripting is live. Inline and before
+      paint, so there is no flash, and no way for the page to end up hiding
+      work it cannot then reveal.
+    -->
+    <script is:inline>
+      document.documentElement.classList.add('cuts');
+    </script>
+
+    <ClientRouter />
+  </head>
+
+  <body data-field={field}>
+    <!--
+      DIRECTION CONTRACT — seed 7ca4c8f6
+
+      THESIS: A title sequence for a person. Sections are acts with timecodes,
+      navigation is the credit roll, and the CV is what a credit roll already
+      is. Refuses the near-black grid of hover-to-play thumbnails that every
+      motion portfolio ships.
+
+      OWN-WORLD: One flat saturated field per act (cardinal, ink, olive,
+      midnight, ochre, bone) swapping act to act while silhouettes stay black.
+      Hand-cut torn edges, condensed caps off baseline, mono timecode credits,
+      silkscreen tooth over everything. Controls skew; they do not recolour.
+
+      STORY: A producer sees motion in the first viewport, learns the work
+      comes in three genuinely different formats, and either sends a scoped
+      enquiry or leaves with a plugin.
+
+      FIRST VIEWPORT: Cardinal field. Wordmark top left, credit roll top right.
+      Left two-thirds: the name in condensed caps at display scale, one mono
+      line of fact beneath, two slabs. Right: a 16:9 aperture already playing
+      with a black cut-paper arm reaching across it.
+
+      FORM: Saul Bass title sequence — chosen by the user over assigned index 3
+      (broadcast test card). Seed key 7ca4c8f6.
+
+      FINISH: unreviewed and undocumented is unfinished; this build ends with
+      the finish review, the verdict, and DESIGN.md
+    -->
+    <a class="skip" href="#main">Skip to content</a>
+    <SiteHeader />
+    <main id="main">
+      <slot />
+    </main>
+    <SiteFooter />
+    <script src="../scripts/media.ts"></script>
+  </body>
+</html>

@@ -1,0 +1,149 @@
+---
+import PluginState from './PluginState.astro';
+import PlaceholderMark from './PlaceholderMark.astro';
+import { withBase } from '../lib/base';
+
+interface Props {
+  slug: string;
+  title: string;
+  tagline: string;
+  state: 'free' | 'paid' | 'unreleased';
+  price?: string;
+  host: string;
+  placeholder: boolean;
+  poster: string;
+  src?: string;
+  index: number;
+}
+
+const { slug, title, tagline, state, price, host, placeholder, poster, src, index } = Astro.props;
+const num = String(index).padStart(2, '0');
+---
+
+<article class="pc" data-loop>
+  <div class="pc__frame">
+    <video
+      class="pc__video"
+      poster={withBase(poster)}
+      preload="none"
+      muted
+      loop
+      playsinline
+      aria-label={`${title} — interface animation, no sound`}
+    >
+      {src && <source src={withBase(src)} type="video/mp4" />}
+    </video>
+    <button class="pc__play" type="button" data-loop-play hidden>
+      <span class="pc__tri" aria-hidden="true"></span>
+      <span class="vh">Play {title}</span>
+    </button>
+    {placeholder && <PlaceholderMark />}
+  </div>
+
+  <div class="pc__body">
+    <p class="tc pc__num">{num}</p>
+    <h3 class="title pc__title">
+      <a href={withBase(`/plugins/${slug}`)}>
+        {title}
+        <span class="pc__hit" aria-hidden="true"></span>
+      </a>
+    </h3>
+    <p class="pc__tag">{tagline}</p>
+    <div class="pc__foot">
+      <PluginState state={state} price={price} />
+      <p class="micro pc__host">{host}</p>
+    </div>
+  </div>
+</article>
+
+<style>
+  .pc {
+    position: relative;
+    display: grid;
+    gap: 0;
+    background: color-mix(in srgb, var(--on-field) 8%, transparent);
+    box-shadow: inset 0 0 0 var(--rule) var(--on-field);
+    transition: transform var(--cut-fast) var(--ease-slam);
+  }
+
+  .pc:has(a:hover),
+  .pc:has(a:focus-visible) {
+    transform: translate(-4px, -4px);
+    box-shadow: inset 0 0 0 var(--rule) var(--on-field), 8px 8px 0 var(--on-field);
+  }
+
+  .pc__frame {
+    position: relative;
+    aspect-ratio: 16 / 10;
+    background: var(--ink);
+    overflow: hidden;
+    border-bottom: var(--rule) solid var(--on-field);
+  }
+
+  .pc__video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .pc__play {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: color-mix(in srgb, var(--ink) 40%, transparent);
+    border: none;
+    cursor: pointer;
+  }
+
+  .pc__play[hidden] {
+    display: none;
+  }
+
+  .pc__tri {
+    width: 0;
+    height: 0;
+    border-left: 1.4rem solid var(--bone);
+    border-top: 0.9rem solid transparent;
+    border-bottom: 0.9rem solid transparent;
+  }
+
+  .pc__body {
+    display: grid;
+    gap: 0.5rem;
+    padding: clamp(1rem, 2vw, 1.5rem);
+  }
+
+  .pc__num {
+    font-size: var(--step-micro);
+    letter-spacing: var(--track-label);
+  }
+
+  .pc__title {
+    font-size: clamp(1.6rem, 3vw, 2.4rem);
+  }
+
+  /* One hit area for the whole card, without nesting interactive elements. */
+  .pc__hit {
+    position: absolute;
+    inset: 0;
+  }
+
+  .pc__tag {
+    max-width: 34ch;
+    color: var(--on-field-dim);
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+  .pc__foot {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    margin-top: 0.35rem;
+    padding-top: 0.75rem;
+    border-top: var(--rule) solid color-mix(in srgb, var(--on-field) 30%, transparent);
+  }
+</style>

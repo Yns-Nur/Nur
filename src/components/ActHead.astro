@@ -1,0 +1,30 @@
+---
+import type { Act } from '../data/acts';
+
+interface Props {
+  act: Act;
+  note?: string;
+  count?: string;
+}
+
+const { act, note, count } = Astro.props;
+---
+
+<header class="act__head">
+  <p class="tc acthead__tc">{act.tc}</p>
+  <h2 class="act-title" id={act.id}>{act.title}</h2>
+  {count && <p class="micro acthead__count">{count}</p>}
+  {note && <p class="act__note">{note}</p>}
+</header>
+
+<style>
+  .acthead__tc {
+    font-size: var(--step-label);
+    letter-spacing: var(--track-label);
+    align-self: start;
+  }
+
+  .acthead__count {
+    align-self: end;
+  }
+</style>

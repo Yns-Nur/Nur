@@ -1,0 +1,123 @@
+---
+import PlaceholderMark from './PlaceholderMark.astro';
+import { withBase } from '../lib/base';
+
+/**
+ * A square loop — silent, endless, evaluated in aggregate with its neighbours.
+ * Autoplays only when in view and only when motion is welcome; under
+ * prefers-reduced-motion it rests on its poster behind an explicit play
+ * control, which is the honest reading of that preference on a page made of
+ * loops.
+ */
+interface Props {
+  title: string;
+  kind: string;
+  index: number;
+  placeholder?: boolean;
+  src?: string;
+  poster: string;
+  width: number;
+  height: number;
+}
+
+const { title, kind, index, placeholder = true, src, poster, width, height } = Astro.props;
+const num = String(index).padStart(2, '0');
+---
+
+<figure class="loop" data-loop>
+  <div class="loop__frame">
+    <video
+      class="loop__video"
+      poster={withBase(poster)}
+      preload="none"
+      muted
+      loop
+      playsinline
+      width={width}
+      height={height}
+      aria-label={`${title} — looping animation, no sound`}
+    >
+      {src && <source src={withBase(src)} type="video/mp4" />}
+    </video>
+
+    <button class="loop__play" type="button" data-loop-play hidden>
+      <span class="loop__tri" aria-hidden="true"></span>
+      <span class="vh">Play {title}</span>
+    </button>
+
+    {placeholder && <PlaceholderMark />}
+  </div>
+
+  <figcaption class="loop__cap">
+    <span class="tc">{num}</span>
+    <span class="loop__title">{title}</span>
+    <span class="micro loop__kind">{kind}</span>
+  </figcaption>
+</figure>
+
+<style>
+  .loop {
+    margin: 0;
+    display: grid;
+    gap: 0.6rem;
+  }
+
+  .loop__frame {
+    position: relative;
+    aspect-ratio: 1 / 1;
+    background: var(--ink);
+    overflow: hidden;
+  }
+
+  .loop__video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .loop__play {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: color-mix(in srgb, var(--ink) 40%, transparent);
+    border: none;
+    cursor: pointer;
+  }
+
+  .loop__play[hidden] {
+    display: none;
+  }
+
+  .loop__tri {
+    width: 0;
+    height: 0;
+    border-left: 1.6rem solid var(--bone);
+    border-top: 1rem solid transparent;
+    border-bottom: 1rem solid transparent;
+  }
+
+  .loop__cap {
+    display: grid;
+    grid-template-columns: auto 1fr;
+    gap: 0.15rem 0.6rem;
+    align-items: baseline;
+  }
+
+  .loop__cap .tc {
+    font-size: var(--step-micro);
+    grid-row: span 2;
+  }
+
+  .loop__title {
+    font-family: var(--font-mono);
+    font-size: var(--step-label);
+    font-weight: 700;
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+  }
+
+  .loop__kind {
+    grid-column: 2;
+  }
+</style>

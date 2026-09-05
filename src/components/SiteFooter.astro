@@ -1,0 +1,131 @@
+---
+import { ACTS } from '../data/acts';
+import CutPaper from './CutPaper.astro';
+import { withBase } from '../lib/base';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="foot" data-field="ink">
+  <div class="wrap foot__grid">
+    <div class="foot__mark">
+      <p class="display foot__name">The End</p>
+      <p class="micro foot__note">
+        Every moving image on this site is authored placeholder material, not client work.
+      </p>
+    </div>
+
+    <nav class="foot__nav" aria-label="Sequence">
+      <p class="micro">Credits</p>
+      <ol>
+        {
+          ACTS.map((act) => (
+            <li>
+              <a href={withBase(act.href)}>
+                <span class="tc">{act.tc}</span>
+                <span>{act.title}</span>
+              </a>
+            </li>
+          ))
+        }
+      </ol>
+    </nav>
+
+    <div class="foot__meta">
+      <p class="micro">Elsewhere</p>
+      <p class="foot__todo micro">Social links not decided yet</p>
+      <a class="slab slab--ghost foot__cta" href={withBase("/contact")}>Start a project</a>
+    </div>
+  </div>
+
+  <div class="foot__rule" aria-hidden="true">
+    <CutPaper shape="rule" />
+  </div>
+
+  <p class="micro foot__legal">
+    &copy; {year} Younes Nur &middot; YNS NUR &middot; <a href={withBase("/colophon")}>Colophon</a>
+  </p>
+</footer>
+
+<style>
+  .foot {
+    background: var(--field);
+    color: var(--on-field);
+    padding: var(--stack-xl) var(--gutter) var(--stack-m);
+  }
+
+  .foot__grid {
+    display: grid;
+    gap: var(--stack-l);
+    grid-template-columns: 1fr;
+  }
+
+  @media (width >= 62rem) {
+    .foot__grid {
+      grid-template-columns: 1.6fr 1fr 1fr;
+      gap: var(--stack-m);
+    }
+  }
+
+  .foot__name {
+    font-size: clamp(3rem, 9vw, 7rem);
+    line-height: 0.8;
+  }
+
+  .foot__note {
+    margin-top: var(--stack-s);
+    max-width: 34ch;
+    text-transform: none;
+    letter-spacing: 0.02em;
+  }
+
+  .foot__nav ol {
+    list-style: none;
+    margin: var(--stack-s) 0 0;
+    padding: 0;
+    display: grid;
+    gap: 0.55rem;
+  }
+
+  .foot__nav a {
+    display: grid;
+    grid-template-columns: 4rem 1fr;
+    gap: 0.75rem;
+    font-family: var(--font-mono);
+    font-size: var(--step-label);
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+  }
+
+  .foot__nav a:hover span:last-child,
+  .foot__nav a:focus-visible span:last-child {
+    text-decoration: underline;
+    text-underline-offset: 0.3em;
+  }
+
+  .foot__todo {
+    margin-top: var(--stack-s);
+    text-transform: none;
+    letter-spacing: 0.02em;
+    color: var(--on-field-faint);
+  }
+
+  .foot__cta {
+    margin-top: var(--stack-m);
+  }
+
+  .foot__rule {
+    margin: var(--stack-l) 0 var(--stack-m);
+    opacity: 0.4;
+  }
+
+  .foot__legal {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+  }
+
+  .foot__legal a:hover {
+    text-decoration: underline;
+  }
+</style>

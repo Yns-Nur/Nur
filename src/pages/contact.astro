@@ -1,0 +1,410 @@
+---
+import Base from '../layouts/Base.astro';
+import CutPaper from '../components/CutPaper.astro';
+
+/**
+ * The enquiry arrives scoped: format, shape of the job, budget and timeline,
+ * because an unscoped "I like your work" costs two round-trips before it is
+ * useful.
+ *
+ * NO ENDPOINT IS CONFIGURED — by decision, not oversight. The form validates
+ * for real and then says plainly that it cannot send, and hands the visitor
+ * their own text to take elsewhere. It never pretends to have sent anything.
+ */
+const FORMATS = [
+  ['horizontal', 'Horizontal film', 'Explainer, campaign piece, brand film'],
+  ['loop', 'Square loop', 'Logo animation, preloader, small piece'],
+  ['web', 'Web animation', 'Preloader, transition, interactive state'],
+  ['tooling', 'Tooling', 'An After Effects tool or script'],
+  ['unsure', 'Not sure yet', 'Describe it below and I will tell you'],
+];
+
+const TIMELINES = ['Within two weeks', 'Two to six weeks', 'Six weeks or more', 'No fixed date'];
+const BUDGETS = ['Under 1k', '1k — 3k', '3k — 8k', '8k or more', 'Tell me what it should cost'];
+---
+
+<Base
+  title="Start a project — YNS NUR"
+  description="Send Younes Nur a scoped enquiry: the format, what it needs to do, and when you need it."
+  field="cardinal"
+>
+  <section class="act contact" data-field="cardinal">
+    <div class="wrap contact__grid">
+      <header class="contact__intro">
+        <p class="micro"><span class="tc">02:06</span> End card</p>
+        <h1 class="display off-baseline contact__title">
+          <span>Start</span>
+          <span>a project</span>
+        </h1>
+        <p class="lead">
+          Four questions. They are the ones I would have to ask anyway, and
+          answering them here means the first reply is useful instead of
+          another round of questions.
+        </p>
+
+        <div class="contact__arm" aria-hidden="true"><CutPaper shape="arm" /></div>
+
+        <div class="contact__status" role="note">
+          <p class="micro">Before you write</p>
+          <p>
+            This form has no address to send to yet — the contact email and form
+            provider are not decided. It will not deliver anything. What it will
+            do is put your enquiry together properly so you can copy it and send
+            it wherever we agree.
+          </p>
+        </div>
+      </header>
+
+      <form class="form" novalidate data-enquiry>
+        <div class="form__row">
+          <label class="field" for="name">
+            <span class="field__label label">Your name</span>
+            <input class="field__input" type="text" id="name" name="name" required autocomplete="name" />
+            <span class="field__error micro">A name, so I know who I am replying to.</span>
+          </label>
+
+          <label class="field" for="email">
+            <span class="field__label label">Email</span>
+            <input class="field__input" type="email" id="email" name="email" required autocomplete="email" />
+            <span class="field__error micro">An address I can actually reply to.</span>
+          </label>
+        </div>
+
+        <fieldset class="form__set">
+          <legend class="field__label label">What format is it?</legend>
+          <div class="form__choices">
+            {
+              FORMATS.map(([value, label, hint], i) => (
+                <label class="choice">
+                  <input type="radio" name="format" value={value} required checked={i === 0} />
+                  <span class="choice__box">
+                    <span class="choice__name">{label}</span>
+                    <span class="micro choice__hint">{hint}</span>
+                  </span>
+                </label>
+              ))
+            }
+          </div>
+        </fieldset>
+
+        <div class="form__row">
+          <label class="field" for="timeline">
+            <span class="field__label label">When do you need it?</span>
+            <select class="field__input" id="timeline" name="timeline" required>
+              {TIMELINES.map((t) => <option value={t}>{t}</option>)}
+            </select>
+          </label>
+
+          <label class="field" for="budget">
+            <span class="field__label label">Budget</span>
+            <select class="field__input" id="budget" name="budget" required>
+              {BUDGETS.map((b) => <option value={b}>{b}</option>)}
+            </select>
+          </label>
+        </div>
+
+        <label class="field" for="brief">
+          <span class="field__label label">What does it need to do?</span>
+          <textarea
+            class="field__input form__area"
+            id="brief"
+            name="brief"
+            rows="6"
+            required
+            minlength="20"
+            placeholder="What it is for, where it will run, and anything that has to be in it."></textarea>
+          <span class="field__error micro">A couple of sentences is plenty — at least 20 characters.</span>
+        </label>
+
+        <div class="form__actions">
+          <button class="slab form__submit" type="submit">Compose enquiry</button>
+          <p class="micro form__hint">Nothing is sent. Your text stays in this browser.</p>
+        </div>
+
+        <output class="result" data-result hidden>
+          <p class="label result__head">Not sent — there is nowhere to send it yet</p>
+          <p class="result__body">
+            Copy this and send it to me once we have an address, or paste it into
+            a DM. Nothing left this page.
+          </p>
+          <pre class="result__text" data-result-text tabindex="0"></pre>
+          <div class="actions">
+            <button class="slab slab--ghost" type="button" data-copy>Copy to clipboard</button>
+          </div>
+        </output>
+      </form>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .contact__grid {
+    display: grid;
+    gap: var(--stack-xl);
+  }
+
+  @media (width >= 62rem) {
+    .contact__grid {
+      grid-template-columns: 1fr 1.15fr;
+      gap: var(--stack-xl);
+      align-items: start;
+    }
+  }
+
+  .contact__intro {
+    position: relative;
+  }
+
+  .contact__title {
+    display: grid;
+    margin: var(--stack-s) 0 var(--stack-m);
+  }
+
+  .contact__arm {
+    width: min(70%, 22rem);
+    margin: var(--stack-l) 0;
+    color: var(--silhouette);
+    transform: rotate(4deg);
+  }
+
+  .contact__status {
+    padding: var(--stack-m);
+    box-shadow: inset 0 0 0 var(--rule) var(--on-field);
+    max-width: 44ch;
+  }
+
+  .contact__status p + p {
+    margin-top: 0.55rem;
+    font-size: 0.95rem;
+    line-height: 1.45;
+  }
+
+  /* ------------------------------------------------------------- form -- */
+  .form {
+    display: grid;
+    gap: var(--stack-m);
+  }
+
+  .form__row {
+    display: grid;
+    gap: var(--stack-m);
+  }
+
+  @media (width >= 40rem) {
+    .form__row {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .form__set {
+    border: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .form__set legend {
+    padding: 0;
+    margin-bottom: 0.6rem;
+  }
+
+  .form__choices {
+    display: grid;
+    gap: 0.5rem;
+  }
+
+  @media (width >= 40rem) {
+    .form__choices {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .choice input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+  }
+
+  .choice__box {
+    display: grid;
+    gap: 0.15rem;
+    padding: 0.8rem 1rem;
+    box-shadow: inset 0 0 0 var(--rule) var(--on-field);
+    cursor: pointer;
+    transition: transform var(--cut-fast) var(--ease-slam);
+    height: 100%;
+  }
+
+  /* Selected state swaps the whole block, it does not tint a dot. */
+  .choice input:checked + .choice__box {
+    background: var(--on-field);
+    color: var(--field);
+    transform: skewX(-4deg);
+  }
+
+  .choice input:focus-visible + .choice__box {
+    outline: var(--rule-heavy) solid var(--accent);
+    outline-offset: 3px;
+  }
+
+  .choice__name {
+    font-family: var(--font-mono);
+    font-size: var(--step-label);
+    font-weight: 700;
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+  }
+
+  .choice__hint {
+    color: currentColor;
+    opacity: 0.72;
+  }
+
+  .form__area {
+    resize: vertical;
+    min-height: 8rem;
+    font-family: var(--font-body);
+  }
+
+  select.field__input {
+    appearance: none;
+    background-image: linear-gradient(45deg, transparent 50%, currentColor 50%),
+      linear-gradient(135deg, currentColor 50%, transparent 50%);
+    background-position: right 1.15rem center, right 0.8rem center;
+    background-size: 0.4rem 0.4rem;
+    background-repeat: no-repeat;
+    padding-right: 2.4rem;
+  }
+
+  select.field__input option {
+    background: var(--field);
+    color: var(--on-field);
+  }
+
+  .form__actions {
+    display: flex;
+    align-items: center;
+    gap: var(--stack-m);
+    flex-wrap: wrap;
+  }
+
+  .form__hint {
+    color: var(--on-field-dim);
+    text-transform: none;
+    letter-spacing: 0.02em;
+  }
+
+  /* ----------------------------------------------------------- result -- */
+  .result {
+    display: grid;
+    gap: 0.75rem;
+    padding: var(--stack-m);
+    background: var(--on-field);
+    color: var(--field);
+  }
+
+  .result[hidden] {
+    display: none;
+  }
+
+  .result__head {
+    font-size: var(--step-label);
+  }
+
+  .result__body {
+    font-size: 0.95rem;
+    line-height: 1.45;
+    max-width: 48ch;
+  }
+
+  .result__text {
+    margin: 0;
+    padding: 1rem;
+    background: var(--field);
+    color: var(--on-field);
+    font-family: var(--font-mono);
+    font-size: 0.82rem;
+    line-height: 1.6;
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+    max-height: 22rem;
+    overflow-y: auto;
+  }
+
+  .result .slab {
+    --slab-bg: transparent;
+    --slab-fg: var(--field);
+    box-shadow: inset 0 0 0 var(--rule) var(--field);
+  }
+</style>
+
+<script>
+  const wire = () => {
+    const form = document.querySelector<HTMLFormElement>('[data-enquiry]');
+    if (!form || form.dataset.wired) return;
+    form.dataset.wired = 'true';
+
+    const result = form.querySelector<HTMLElement>('[data-result]');
+    const text = form.querySelector<HTMLElement>('[data-result-text]');
+    const copy = form.querySelector<HTMLButtonElement>('[data-copy]');
+
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+
+      // Validate for real; an honest form still has to be a working form.
+      if (!form.checkValidity()) {
+        form.querySelectorAll('input, textarea, select').forEach((el) => {
+          (el as HTMLInputElement).dispatchEvent(new Event('blur'));
+        });
+        const firstBad = form.querySelector<HTMLElement>(':invalid');
+        firstBad?.focus();
+        firstBad?.scrollIntoView({ block: 'center', behavior: 'smooth' });
+        return;
+      }
+
+      const data = new FormData(form);
+      const get = (k: string) => String(data.get(k) ?? '').trim();
+      const formatLabel =
+        form.querySelector<HTMLElement>('input[name="format"]:checked + .choice__box .choice__name')
+          ?.textContent?.trim() ?? get('format');
+
+      const composed = [
+        `Enquiry for YNS NUR`,
+        ``,
+        `From:     ${get('name')}`,
+        `Email:    ${get('email')}`,
+        `Format:   ${formatLabel}`,
+        `Timeline: ${get('timeline')}`,
+        `Budget:   ${get('budget')}`,
+        ``,
+        `Brief:`,
+        get('brief'),
+      ].join('\n');
+
+      if (text) text.textContent = composed;
+      result?.removeAttribute('hidden');
+      result?.scrollIntoView({ block: 'nearest', behavior: 'smooth' });
+      (result?.querySelector('.result__head') as HTMLElement)?.focus?.();
+    });
+
+    copy?.addEventListener('click', async () => {
+      if (!text?.textContent) return;
+      try {
+        await navigator.clipboard.writeText(text.textContent);
+        copy.textContent = 'Copied';
+        setTimeout(() => { copy.textContent = 'Copy to clipboard'; }, 2200);
+      } catch {
+        // Clipboard blocked — select it so the visitor can copy by hand.
+        const range = document.createRange();
+        range.selectNodeContents(text);
+        const sel = window.getSelection();
+        sel?.removeAllRanges();
+        sel?.addRange(range);
+        copy.textContent = 'Selected — press Ctrl+C';
+      }
+    });
+  };
+
+  wire();
+  document.addEventListener('astro:page-load', wire);
+</script>

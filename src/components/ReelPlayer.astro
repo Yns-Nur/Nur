@@ -1,0 +1,326 @@
+---
+import PlaceholderMark from './PlaceholderMark.astro';
+import { withBase } from '../lib/base';
+
+/**
+ * The deliberate watch — a landscape piece in its native ratio.
+ * Never autoplays: these have sound and a beginning. Fully keyboard operable;
+ * a control surface that only answered a mouse would put the reel out of
+ * reach.
+ */
+interface Props {
+  title: string;
+  duration: string;
+  ratio: string;
+  kind: string;
+  sound?: boolean;
+  placeholder?: boolean;
+  src?: string;
+  poster: string;
+  width: number;
+  height: number;
+  index: number;
+  href?: string;
+  eager?: boolean;
+}
+
+const {
+  title, duration, ratio, kind, sound = false, placeholder = true,
+  src, poster, width, height, index, href, eager = false,
+} = Astro.props;
+
+const num = String(index).padStart(2, '0');
+const id = `reel-${num}-${title.toLowerCase().replace(/[^a-z0-9]+/g, '-')}`;
+---
+
+<figure class="reel" data-player style={`--ar: ${width} / ${height}`}>
+  <div class="reel__frame">
+    <video
+      class="reel__video"
+      id={id}
+      poster={withBase(poster)}
+      preload={eager ? 'metadata' : 'none'}
+      playsinline
+      width={width}
+      height={height}
+    >
+      {src && <source src={withBase(src)} type="video/mp4" />}
+      <p>Your browser cannot play this video.</p>
+    </video>
+
+    <!-- Resting state: the card, before it becomes a player. -->
+    <div class="reel__cover" data-cover>
+      <div class="reel__coverhead">
+        <span class="tc">{num}</span>
+        <span class="micro">{kind}</span>
+      </div>
+      <button class="reel__play" type="button" data-play aria-controls={id}>
+        <span class="reel__tri" aria-hidden="true"></span>
+        <span>Play</span>
+        <span class="vh">{title}</span>
+      </button>
+      <p class="title reel__covertitle">{title}</p>
+    </div>
+
+    {placeholder && <PlaceholderMark />}
+
+    <!-- Playing state -->
+    <div class="reel__bar" data-bar hidden>
+      <button class="reel__btn" type="button" data-toggle aria-label="Pause">
+        <span class="reel__pause" aria-hidden="true"></span>
+      </button>
+      <span class="reel__time tc" data-time>0:00</span>
+      <input
+        class="reel__scrub"
+        type="range"
+        min="0"
+        max="100"
+        value="0"
+        step="0.1"
+        data-scrub
+        aria-label={`Scrub ${title}`}
+      />
+      <span class="reel__time tc" data-dur>{duration}</span>
+      {
+        sound && (
+          <button class="reel__btn" type="button" data-mute aria-pressed="true" aria-label="Unmute">
+            <span class="reel__spk" aria-hidden="true">OFF</span>
+          </button>
+        )
+      }
+      <button class="reel__btn" type="button" data-full aria-label="Full screen">
+        <span aria-hidden="true">⤢</span>
+      </button>
+    </div>
+  </div>
+
+  <figcaption class="reel__cap">
+    <p class="reel__captitle">
+      {href ? <a href={href}>{title}</a> : title}
+    </p>
+    <p class="micro reel__meta">
+      <span>{ratio}</span><span>{duration}</span><span>{sound ? 'Sound' : 'Silent'}</span>
+    </p>
+  </figcaption>
+</figure>
+
+<style>
+  .reel {
+    margin: 0;
+    display: grid;
+    gap: var(--stack-s);
+  }
+
+  .reel__frame {
+    position: relative;
+    aspect-ratio: var(--ar);
+    background: var(--ink);
+    overflow: hidden;
+  }
+
+  .reel__video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+  }
+
+  /* --- resting cover --------------------------------------------------- */
+  .reel__cover {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: clamp(0.9rem, 2vw, 1.5rem);
+    background: color-mix(in srgb, var(--ink) 34%, transparent);
+    transition: opacity var(--cut-fast) var(--steps-cut);
+  }
+
+  .reel[data-playing] .reel__cover {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .reel__coverhead {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    color: var(--bone);
+  }
+
+  .reel__coverhead .tc {
+    color: var(--cardinal);
+  }
+
+  .reel__coverhead .micro {
+    color: var(--bone);
+  }
+
+  /* Asymmetric: the action sits left of centre, never dead middle. */
+  .reel__play {
+    justify-self: start;
+    align-self: center;
+    margin-left: clamp(0, 4vw, 3rem);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.75em;
+    padding: 0.9em 1.5em;
+    background: var(--bone);
+    color: var(--ink);
+    border: none;
+    font-family: var(--font-mono);
+    font-size: var(--step-label);
+    font-weight: 700;
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: transform var(--cut-fast) var(--ease-slam);
+  }
+
+  .reel__play:hover,
+  .reel__play:focus-visible {
+    transform: skewX(-7deg);
+  }
+
+  .reel__tri {
+    width: 0;
+    height: 0;
+    border-left: 0.85em solid currentColor;
+    border-top: 0.52em solid transparent;
+    border-bottom: 0.52em solid transparent;
+  }
+
+  .reel__covertitle {
+    color: var(--bone);
+    max-width: 14ch;
+  }
+
+  /* --- transport ------------------------------------------------------- */
+  .reel__bar {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.6rem clamp(0.7rem, 1.6vw, 1.1rem);
+    background: color-mix(in srgb, var(--ink) 82%, transparent);
+    color: var(--bone);
+  }
+
+  .reel__bar[hidden] {
+    display: none;
+  }
+
+  .reel__btn {
+    display: grid;
+    place-items: center;
+    width: 2rem;
+    height: 2rem;
+    flex: none;
+    background: transparent;
+    border: var(--rule) solid var(--bone);
+    color: var(--bone);
+    cursor: pointer;
+    font-family: var(--font-mono);
+    font-size: 0.6rem;
+    font-weight: 700;
+  }
+
+  .reel__btn:hover,
+  .reel__btn:focus-visible {
+    background: var(--bone);
+    color: var(--ink);
+  }
+
+  .reel__pause {
+    width: 0.55em;
+    height: 0.85em;
+    border-left: 3px solid currentColor;
+    border-right: 3px solid currentColor;
+  }
+
+  .reel[data-paused] .reel__pause {
+    width: 0;
+    height: 0;
+    border: none;
+    border-left: 0.75em solid currentColor;
+    border-top: 0.45em solid transparent;
+    border-bottom: 0.45em solid transparent;
+  }
+
+  .reel__time {
+    font-size: var(--step-micro);
+    color: var(--bone);
+    flex: none;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .reel__scrub {
+    flex: 1;
+    min-width: 3rem;
+    height: 1.4rem;
+    appearance: none;
+    background: transparent;
+    cursor: pointer;
+  }
+
+  .reel__scrub::-webkit-slider-runnable-track {
+    height: 4px;
+    background: color-mix(in srgb, var(--bone) 34%, transparent);
+  }
+
+  .reel__scrub::-moz-range-track {
+    height: 4px;
+    background: color-mix(in srgb, var(--bone) 34%, transparent);
+  }
+
+  .reel__scrub::-webkit-slider-thumb {
+    appearance: none;
+    width: 4px;
+    height: 16px;
+    margin-top: -6px;
+    background: var(--cardinal);
+    border: none;
+    border-radius: 0;
+  }
+
+  .reel__scrub::-moz-range-thumb {
+    width: 4px;
+    height: 16px;
+    background: var(--cardinal);
+    border: none;
+    border-radius: 0;
+  }
+
+  /* --- caption --------------------------------------------------------- */
+  .reel__cap {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding-top: var(--stack-xs);
+    border-top: var(--rule) solid currentColor;
+  }
+
+  .reel__captitle {
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 2.2vw, 1.75rem);
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .reel__captitle a:hover,
+  .reel__captitle a:focus-visible {
+    text-decoration: underline;
+    text-underline-offset: 0.22em;
+  }
+
+  .reel__meta {
+    display: flex;
+    gap: 0.9rem;
+  }
+</style>

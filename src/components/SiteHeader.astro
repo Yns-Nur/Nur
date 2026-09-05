@@ -1,0 +1,274 @@
+---
+import { ACTS } from '../data/acts';
+import { withBase } from '../lib/base';
+
+// The base is stripped back off before comparing, so this reasons in the
+// site's own paths whether or not it is deployed under a subpath. Adding the
+// base to the target instead would make "/" match every page under the base.
+const BASE = import.meta.env.BASE_URL.replace(/\/$/, '');
+const path = (BASE && Astro.url.pathname.startsWith(BASE)
+  ? Astro.url.pathname.slice(BASE.length)
+  : Astro.url.pathname).replace(/\/$/, '') || '/';
+const isCurrent = (href: string) => {
+  const target = href.split('#')[0] || '/';
+  if (target === '/') return path === '/';
+  return path === target || path.startsWith(target + '/');
+};
+---
+
+<header class="head">
+  <a class="mark" href={withBase("/")} aria-label="YNS NUR — home">
+    <span class="mark__name">YNS NUR</span>
+    <span class="mark__sub micro">Younes Nur</span>
+  </a>
+
+  <button class="toggle" type="button" aria-expanded="false" aria-controls="credit-roll">
+    <span class="toggle__rules" aria-hidden="true"><i></i><i></i><i></i></span>
+    <span class="toggle__word">Index</span>
+  </button>
+
+  <nav class="roll" id="credit-roll" aria-label="Sequence">
+    <p class="roll__cap micro">Credits arrive in time</p>
+    <ol class="roll__list">
+      {
+        ACTS.map((act) => (
+          <li>
+            <a class="roll__item" href={withBase(act.href)} aria-current={isCurrent(act.href) ? 'page' : undefined}>
+              <span class="tc">{act.tc}</span>
+              <span class="roll__title">{act.title}</span>
+              <span class="roll__role micro">{act.role}</span>
+            </a>
+          </li>
+        ))
+      }
+    </ol>
+  </nav>
+</header>
+
+<style>
+  .head {
+    position: sticky;
+    top: 0;
+    z-index: var(--z-chrome);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    padding: 0.9rem var(--gutter);
+    background: var(--field);
+    color: var(--on-field);
+    border-bottom: var(--rule) solid currentColor;
+  }
+
+  .mark {
+    display: grid;
+    gap: 0.15rem;
+    line-height: 1;
+  }
+
+  .mark__name {
+    font-family: var(--font-display);
+    font-size: clamp(1.4rem, 2.2vw, 1.9rem);
+    letter-spacing: 0.01em;
+  }
+
+  .mark__sub {
+    color: var(--on-field-dim);
+  }
+
+  /* --- the credit roll ------------------------------------------------- */
+  .roll__cap {
+    display: none;
+  }
+
+  .roll__list {
+    display: flex;
+    align-items: center;
+    gap: clamp(0.9rem, 2vw, 2rem);
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .roll__item {
+    display: grid;
+    gap: 0.1rem;
+    padding: 0.3rem 0;
+    position: relative;
+  }
+
+  .roll__item .tc {
+    font-size: var(--step-micro);
+    letter-spacing: var(--track-label);
+  }
+
+  .roll__title {
+    font-family: var(--font-mono);
+    font-size: var(--step-label);
+    font-weight: 700;
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+  }
+
+  .roll__role {
+    display: none;
+  }
+
+  /* The live element is marked by a hand-drawn rule, never a colour change. */
+  .roll__item::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: -0.35rem;
+    height: 3px;
+    background: currentColor;
+    clip-path: polygon(0 30%, 12% 0, 30% 55%, 48% 10%, 66% 60%, 84% 15%, 100% 45%, 100% 100%, 0 100%);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform var(--cut-fast) var(--steps-cut);
+  }
+
+  .roll__item:hover::after,
+  .roll__item:focus-visible::after,
+  .roll__item[aria-current='page']::after {
+    transform: scaleX(1);
+  }
+
+  /* --- toggle ---------------------------------------------------------- */
+  .toggle {
+    display: none;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.5rem 0.7rem;
+    background: transparent;
+    border: var(--rule) solid currentColor;
+    font-family: var(--font-mono);
+    font-size: var(--step-label);
+    font-weight: 700;
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+    cursor: pointer;
+  }
+
+  .toggle__rules {
+    display: grid;
+    gap: 3px;
+    width: 1.1rem;
+  }
+
+  .toggle__rules i {
+    display: block;
+    height: 2px;
+    background: currentColor;
+    transition: transform var(--cut-fast) var(--ease-slam), opacity var(--cut-fast);
+  }
+
+  .toggle[aria-expanded='true'] .toggle__rules i:nth-child(1) {
+    transform: translateY(5px) rotate(45deg);
+  }
+
+  .toggle[aria-expanded='true'] .toggle__rules i:nth-child(2) {
+    opacity: 0;
+  }
+
+  .toggle[aria-expanded='true'] .toggle__rules i:nth-child(3) {
+    transform: translateY(-5px) rotate(-45deg);
+  }
+
+  @media (width < 62rem) {
+    .toggle {
+      display: inline-flex;
+    }
+
+    .roll {
+      position: fixed;
+      inset: 3.75rem 0 0;
+      z-index: var(--z-overlay);
+      background: var(--field);
+      padding: var(--gutter);
+      border-top: var(--rule) solid var(--on-field);
+      overflow-y: auto;
+      display: none;
+    }
+
+    .roll[data-open] {
+      display: block;
+    }
+
+    .roll__cap {
+      display: block;
+      margin-bottom: var(--stack-m);
+    }
+
+    .roll__list {
+      display: grid;
+      gap: 0;
+    }
+
+    .roll__list li + li {
+      border-top: var(--rule) solid color-mix(in srgb, var(--on-field) 30%, transparent);
+    }
+
+    .roll__item {
+      grid-template-columns: 4.5rem 1fr;
+      grid-template-areas: 'tc title' 'tc role';
+      gap: 0.1rem 1rem;
+      padding: 1rem 0;
+      align-items: baseline;
+    }
+
+    .roll__item .tc {
+      grid-area: tc;
+      font-size: var(--step-label);
+    }
+
+    .roll__title {
+      grid-area: title;
+      font-family: var(--font-display);
+      font-size: 2rem;
+      letter-spacing: 0.01em;
+    }
+
+    .roll__role {
+      grid-area: role;
+      display: block;
+    }
+
+    .roll__item::after {
+      display: none;
+    }
+  }
+</style>
+
+<script>
+  const wire = () => {
+    const toggle = document.querySelector<HTMLButtonElement>('.toggle');
+    const roll = document.getElementById('credit-roll');
+    if (!toggle || !roll) return;
+
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      roll.toggleAttribute('data-open', open);
+      document.documentElement.style.overflow = open ? 'hidden' : '';
+    };
+
+    toggle.addEventListener('click', () => {
+      setOpen(toggle.getAttribute('aria-expanded') !== 'true');
+    });
+
+    roll.addEventListener('click', (e) => {
+      if ((e.target as HTMLElement).closest('a')) setOpen(false);
+    });
+
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+  };
+
+  wire();
+  document.addEventListener('astro:page-load', wire);
+</script>

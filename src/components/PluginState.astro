@@ -1,0 +1,68 @@
+---
+import CutPaper from './CutPaper.astro';
+
+/**
+ * Distribution state, shown by swapping the silhouette rather than by
+ * decorating a badge — the form's own rule for state.
+ *
+ *   free       an arrow, pointing out of the page
+ *   paid       a disc, the coin
+ *   unreleased a closed aperture
+ */
+interface Props {
+  state: 'free' | 'paid' | 'unreleased';
+  price?: string;
+}
+
+const { state, price } = Astro.props;
+
+const SHAPE = { free: 'arrow', paid: 'disc', unreleased: 'aperture' } as const;
+const WORD = {
+  free: 'Free download',
+  paid: price ?? 'Paid',
+  unreleased: 'Not released yet',
+};
+---
+
+<p class={`st st--${state}`}>
+  <span class="st__shape" aria-hidden="true">
+    <CutPaper shape={SHAPE[state]} fill="currentColor" />
+  </span>
+  <span>{WORD[state]}</span>
+</p>
+
+<style>
+  .st {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6em;
+    font-family: var(--font-mono);
+    font-size: var(--step-label);
+    font-weight: 700;
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+  }
+
+  .st__shape {
+    display: block;
+    width: 1.1em;
+    flex: none;
+  }
+
+  .st--free {
+    color: var(--accent);
+  }
+
+  .st--paid {
+    color: var(--on-field);
+  }
+
+  /* Not released is stated plainly and sits back; it is not an error state. */
+  .st--unreleased {
+    color: var(--on-field-dim);
+  }
+
+  .st--unreleased .st__shape {
+    opacity: 0.75;
+  }
+</style>

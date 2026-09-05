@@ -1,0 +1,57 @@
+---
+/**
+ * Authored demonstration material is legitimate; passing it off as client work
+ * is not. Every synthetic piece carries this mark, and README.md lists them
+ * all for replacement.
+ */
+interface Props {
+  tone?: 'over' | 'inline';
+}
+
+const { tone = 'over' } = Astro.props;
+---
+
+<p class={`ph ph--${tone}`}>
+  <span class="ph__dot" aria-hidden="true"></span>
+  <span>Placeholder</span>
+</p>
+
+<style>
+  .ph {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.45em;
+    font-family: var(--font-mono);
+    font-size: var(--step-micro);
+    font-weight: 700;
+    letter-spacing: var(--track-label);
+    text-transform: uppercase;
+  }
+
+  .ph--over {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    z-index: 2;
+    padding: 0.5em 0.8em;
+    background: var(--cardinal);
+    color: var(--bone);
+    pointer-events: none;
+  }
+
+  .ph--inline {
+    padding: 0.35em 0.7em;
+    box-shadow: inset 0 0 0 2px currentColor;
+    color: var(--accent);
+  }
+
+  .ph__dot {
+    width: 0.42em;
+    height: 0.42em;
+    background: currentColor;
+  }
+
+  .ph--over .ph__dot {
+    background: var(--ink);
+  }
+</style>

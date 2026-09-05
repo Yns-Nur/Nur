@@ -1,0 +1,75 @@
+---
+/**
+ * Authored cut-paper silhouettes — the world's own illustration grammar.
+ * Every edge is deliberately irregular: these are torn shapes, not icons.
+ * Decorative by default; pass `label` when a shape carries meaning.
+ */
+interface Props {
+  shape: 'arm' | 'disc' | 'cone' | 'bars' | 'arrow' | 'rule' | 'aperture' | 'wheel';
+  class?: string;
+  label?: string;
+  /** Fill; defaults to the field's silhouette colour. */
+  fill?: string;
+}
+
+const { shape, class: cls = '', label, fill } = Astro.props;
+
+const PATHS: Record<Props['shape'], { box: string; d: string }> = {
+  // The reaching arm — the signature silhouette of this world.
+  arm: {
+    box: '0 0 620 300',
+    d: 'M4 118 L322 96 L318 104 L352 92 L349 101 L381 84 L376 95 L409 74 L401 87 L436 63 L424 79 L455 55 L441 74 L470 52 L452 76 L471 63 L456 84 L462 96 L432 118 L436 131 L406 140 L410 152 L372 158 L376 170 L332 174 L336 186 L10 206 Z',
+  },
+  disc: {
+    box: '0 0 200 200',
+    d: 'M100 4 C147 4 196 46 196 99 C196 152 150 197 100 196 C48 195 5 151 4 99 C3 47 51 5 100 4 Z',
+  },
+  cone: {
+    box: '0 0 400 300',
+    d: 'M6 8 L396 96 L392 108 L398 186 L4 296 L10 150 Z',
+  },
+  bars: {
+    box: '0 0 400 220',
+    d: 'M8 216 L10 92 L64 88 L66 216 Z M86 216 L88 42 L142 46 L140 216 Z M164 216 L162 118 L216 114 L218 216 Z M240 216 L238 8 L292 14 L290 216 Z M314 216 L316 74 L370 70 L368 216 Z',
+  },
+  arrow: {
+    box: '0 0 240 200',
+    d: 'M6 6 L236 96 L232 106 L8 194 L52 102 Z',
+  },
+  rule: {
+    box: '0 0 600 24',
+    d: 'M2 8 L120 4 L280 10 L430 3 L598 9 L596 20 L430 15 L280 21 L120 14 L4 19 Z',
+  },
+  aperture: {
+    box: '0 0 240 240',
+    d: 'M120 6 L186 44 L164 82 L120 60 L76 82 L54 44 Z M212 66 L228 142 L184 150 L172 102 L122 128 L100 92 Z M216 168 L156 232 L126 198 L162 168 L108 152 L120 110 Z M96 234 L28 196 L52 158 L94 182 L100 126 L144 134 Z M14 148 L2 70 L46 64 L56 112 L104 84 L128 122 Z M28 44 L92 4 L120 40 L82 68 L138 86 L124 128 Z',
+  },
+  wheel: {
+    box: '0 0 240 240',
+    d: 'M120 4 A116 116 0 0 1 236 120 L176 120 A56 56 0 0 0 120 64 Z M236 120 A116 116 0 0 1 120 236 L120 176 A56 56 0 0 0 176 120 Z M120 236 A116 116 0 0 1 4 120 L64 120 A56 56 0 0 0 120 176 Z M4 120 A116 116 0 0 1 120 4 L120 64 A56 56 0 0 0 64 120 Z',
+  },
+};
+
+const { box, d } = PATHS[shape];
+---
+
+<svg
+  class={`cut ${cls}`}
+  viewBox={box}
+  fill={fill ?? 'var(--silhouette)'}
+  xmlns="http://www.w3.org/2000/svg"
+  role={label ? 'img' : 'presentation'}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+>
+  <path d={d} />
+</svg>
+
+<style>
+  .cut {
+    display: block;
+    width: 100%;
+    height: auto;
+    overflow: visible;
+  }
+</style>

@@ -1,0 +1,133 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Colophon — YNS NUR"
+  description="How this site is built, what is real on it, and what is still placeholder."
+  field="bone"
+>
+  <section class="act colo" data-field="bone">
+    <div class="wrap">
+      <header class="colo__head">
+        <h1 class="act-title">Colophon</h1>
+        <p class="act__note">What this site is made of, and what on it is not real yet.</p>
+      </header>
+
+      <div class="colo__cols">
+        <section>
+          <h2 class="micro colo__sub">Type</h2>
+          <dl class="colo__list">
+            <div><dt>Display</dt><dd>Hitmarker Condensed Black</dd></div>
+            <div><dt>Text</dt><dd>Suisse Int&rsquo;l</dd></div>
+            <div><dt>Mono</dt><dd>F37 Zagma Mono</dd></div>
+          </dl>
+          <p class="colo__note">
+            All three are commercial faces. Web licences must be cleared before
+            this site is published.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="micro colo__sub">Build</h2>
+          <dl class="colo__list">
+            <div><dt>Framework</dt><dd>Astro, static output</dd></div>
+            <div><dt>Client JS</dt><dd>Players, loop scheduling, reveals</dd></div>
+            <div><dt>Host</dt><dd>Not decided</dd></div>
+          </dl>
+        </section>
+
+        <section>
+          <h2 class="micro colo__sub">The look</h2>
+          <p class="colo__body">
+            A title sequence, after Saul Bass: one flat saturated field per act,
+            black cut-paper silhouettes, condensed caps, and credits that arrive
+            in time. Sections are acts. The navigation is the credit roll. The
+            CV is set as what a credit roll already is.
+          </p>
+        </section>
+
+        <section>
+          <h2 class="micro colo__sub">What is real</h2>
+          <ul class="colo__ul">
+            <li>Orbit, the After Effects extension — real, unreleased.</li>
+            <li>Six years of practice; the current position.</li>
+            <li>The tools and handoff formats listed on the CV.</li>
+          </ul>
+
+          <h2 class="micro colo__sub colo__sub--gap">What is placeholder</h2>
+          <ul class="colo__ul">
+            <li>Every moving image — 26 authored clips, none of them client work.</li>
+            <li>Three of the four tools.</li>
+            <li>Earlier positions and education on the CV.</li>
+            <li>Every contact route, social link and live URL.</li>
+          </ul>
+        </section>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .colo__head {
+    padding-bottom: var(--stack-s);
+    border-bottom: var(--rule-heavy) solid currentColor;
+    margin-bottom: var(--stack-l);
+  }
+
+  .colo__cols {
+    display: grid;
+    gap: var(--stack-l);
+  }
+
+  @media (width >= 55rem) {
+    .colo__cols {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--stack-xl) var(--stack-l);
+    }
+  }
+
+  .colo__sub {
+    padding-bottom: var(--stack-xs);
+    border-bottom: var(--rule) solid currentColor;
+    margin-bottom: var(--stack-s);
+  }
+
+  .colo__sub--gap {
+    margin-top: var(--stack-l);
+  }
+
+  .colo__list {
+    margin: 0;
+  }
+
+  .colo__list div {
+    display: grid;
+    grid-template-columns: 7rem 1fr;
+    gap: 1rem;
+    padding: 0.5rem 0;
+    border-bottom: var(--rule) solid color-mix(in srgb, var(--on-field) 18%, transparent);
+  }
+
+  .colo__list dd {
+    margin: 0;
+  }
+
+  .colo__note,
+  .colo__body {
+    margin-top: var(--stack-s);
+    color: var(--on-field-dim);
+    font-size: 0.97rem;
+    line-height: 1.5;
+    max-width: 46ch;
+  }
+
+  .colo__ul {
+    margin: 0;
+    padding-left: 1.1rem;
+    color: var(--on-field-dim);
+    font-size: 0.97rem;
+    line-height: 1.6;
+    max-width: 46ch;
+  }
+</style>

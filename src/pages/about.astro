@@ -1,0 +1,312 @@
+---
+import Base from '../layouts/Base.astro';
+import CutPaper from '../components/CutPaper.astro';
+import PlaceholderMark from '../components/PlaceholderMark.astro';
+import {
+  NAME, TITLE, SUMMARY, CREDITS, TOOLS, HANDOFF, CAPABILITIES, EDUCATION, CONTACT_NOTE,
+} from '../data/resume';
+import { withBase } from '../lib/base';
+---
+
+<Base
+  title="The Person — YNS NUR"
+  description={`${NAME} — ${TITLE.toLowerCase()}. Six years of motion design, and the After Effects tools that came out of it.`}
+  field="bone"
+>
+  <section class="act cv" data-field="bone">
+    <div class="wrap">
+      <header class="cv__head">
+        <p class="micro"><span class="tc">01:48</span> The Person</p>
+        <h1 class="display off-baseline cv__name">
+          <span>Younes</span>
+          <span>Nur</span>
+        </h1>
+        <p class="cv__role label">{TITLE}</p>
+        <div class="cv__arm" aria-hidden="true"><CutPaper shape="arm" /></div>
+      </header>
+
+      <div class="cv__intro prose">
+        {SUMMARY.map((p) => <p>{p}</p>)}
+      </div>
+
+      <!-- A CV is a credit roll. Set it as one. -->
+      <section class="cv__block">
+        <h2 class="micro cv__subhead">Credits</h2>
+        <ol class="roll">
+          {
+            CREDITS.map((c) => (
+              <li class="roll__row">
+                <p class="roll__years tc">
+                  {c.from}<span aria-hidden="true"> — </span><span class="vh">to</span>{c.to}
+                </p>
+                <div class="roll__what">
+                  <p class="roll__role">{c.role}</p>
+                  <p class="roll__place label">{c.place}</p>
+                  <p class="roll__note">{c.note}</p>
+                </div>
+                {!c.real && <div class="roll__ph"><PlaceholderMark tone="inline" /></div>}
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <div class="cv__cols">
+        <section class="cv__block">
+          <h2 class="micro cv__subhead">What I make</h2>
+          <ul class="deflist">
+            {
+              CAPABILITIES.map((c) => (
+                <li>
+                  <p class="deflist__name">{c.name}</p>
+                  <p class="deflist__note">{c.note}</p>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+
+        <section class="cv__block">
+          <h2 class="micro cv__subhead">Tools</h2>
+          <ul class="deflist">
+            {
+              TOOLS.map((t) => (
+                <li>
+                  <p class="deflist__name">{t.name}</p>
+                  <p class="deflist__note">{t.note}</p>
+                </li>
+              ))
+            }
+          </ul>
+
+          <h2 class="micro cv__subhead cv__subhead--gap">Handoff</h2>
+          <ul class="deflist">
+            {
+              HANDOFF.map((h) => (
+                <li>
+                  <p class="deflist__name">{h.name}</p>
+                  <p class="deflist__note">{h.note}</p>
+                </li>
+              ))
+            }
+          </ul>
+        </section>
+      </div>
+
+      <section class="cv__block">
+        <h2 class="micro cv__subhead">Education</h2>
+        <ol class="roll">
+          {
+            EDUCATION.map((c) => (
+              <li class="roll__row">
+                <p class="roll__years tc">
+                  {c.from}<span aria-hidden="true"> — </span>{c.to}
+                </p>
+                <div class="roll__what">
+                  <p class="roll__role">{c.role}</p>
+                  <p class="roll__place label">{c.place}</p>
+                  <p class="roll__note">{c.note}</p>
+                </div>
+                {!c.real && <div class="roll__ph"><PlaceholderMark tone="inline" /></div>}
+              </li>
+            ))
+          }
+        </ol>
+      </section>
+
+      <aside class="cv__note">
+        <p class="micro">On this page</p>
+        <p>
+          The current position, the length of practice, the tools and the
+          handoff formats are real. Earlier positions and education are
+          placeholder scaffolding, marked as such, waiting on the real details.
+          {' '}{CONTACT_NOTE}
+        </p>
+      </aside>
+
+      <div class="actions cv__actions">
+        <a class="slab" href={withBase("/contact")}>Start a project</a>
+        <button class="slab slab--ghost" type="button" data-print>Print this page</button>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .cv__head {
+    position: relative;
+    padding-bottom: var(--stack-m);
+    border-bottom: var(--rule-heavy) solid currentColor;
+    margin-bottom: var(--stack-l);
+  }
+
+  .cv__name {
+    display: grid;
+    margin: var(--stack-s) 0 var(--stack-xs);
+  }
+
+  .cv__arm {
+    position: absolute;
+    right: -4%;
+    bottom: 12%;
+    width: min(38%, 26rem);
+    color: var(--silhouette);
+    transform: scaleX(-1) rotate(6deg);
+    pointer-events: none;
+    display: none;
+  }
+
+  @media (width >= 62rem) {
+    .cv__arm {
+      display: block;
+    }
+  }
+
+  .cv__intro {
+    font-size: var(--step-lead);
+    line-height: 1.45;
+    margin-bottom: var(--stack-xl);
+  }
+
+  .cv__block {
+    margin-bottom: var(--stack-xl);
+  }
+
+  .cv__subhead {
+    padding-bottom: var(--stack-xs);
+    border-bottom: var(--rule) solid currentColor;
+    margin-bottom: var(--stack-m);
+  }
+
+  .cv__subhead--gap {
+    margin-top: var(--stack-l);
+  }
+
+  /* --- the credit roll ------------------------------------------------- */
+  .roll {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .roll__row {
+    position: relative;
+    display: grid;
+    gap: 0.4rem;
+    padding: var(--stack-m) 0;
+    border-bottom: var(--rule) solid color-mix(in srgb, var(--on-field) 22%, transparent);
+  }
+
+  @media (width >= 48rem) {
+    .roll__row {
+      grid-template-columns: 11rem 1fr auto;
+      gap: var(--stack-m);
+      align-items: baseline;
+    }
+  }
+
+  .roll__years {
+    font-size: var(--step-label);
+    letter-spacing: var(--track-label);
+    white-space: nowrap;
+  }
+
+  .roll__role {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 3.2vw, 2.6rem);
+    text-transform: uppercase;
+    line-height: 0.95;
+  }
+
+  .roll__place {
+    margin-top: 0.3rem;
+    color: var(--on-field-dim);
+  }
+
+  .roll__note {
+    margin-top: 0.6rem;
+    max-width: 54ch;
+    color: var(--on-field-dim);
+    font-size: 0.97rem;
+    line-height: 1.45;
+  }
+
+  /* --- definition lists ------------------------------------------------ */
+  .cv__cols {
+    display: grid;
+    gap: var(--stack-l);
+  }
+
+  @media (width >= 55rem) {
+    .cv__cols {
+      grid-template-columns: repeat(2, 1fr);
+      gap: var(--stack-xl);
+    }
+  }
+
+  .deflist {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .deflist li {
+    padding: 0.8rem 0;
+    border-bottom: var(--rule) solid color-mix(in srgb, var(--on-field) 18%, transparent);
+  }
+
+  .deflist__name {
+    font-family: var(--font-display);
+    font-size: 1.3rem;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .deflist__note {
+    margin-top: 0.25rem;
+    color: var(--on-field-dim);
+    font-size: 0.95rem;
+    line-height: 1.4;
+  }
+
+  .cv__note {
+    padding: var(--stack-m);
+    max-width: 56ch;
+    box-shadow: inset 0 0 0 var(--rule) var(--on-field);
+  }
+
+  .cv__note p + p {
+    margin-top: 0.6rem;
+  }
+
+  .cv__actions {
+    margin-top: var(--stack-l);
+  }
+
+  /* --- print: a CV should survive a printer ---------------------------- */
+  @media print {
+    .cv__arm,
+    .cv__actions,
+    .roll__ph {
+      display: none;
+    }
+
+    .cv__note {
+      box-shadow: none;
+      padding: 0;
+      margin-top: 1rem;
+    }
+
+    .roll__row {
+      break-inside: avoid;
+    }
+  }
+</style>
+
+<script>
+  const wire = () => {
+    document.querySelector<HTMLButtonElement>('[data-print]')?.addEventListener('click', () => window.print());
+  };
+  wire();
+  document.addEventListener('astro:page-load', wire);
+</script>

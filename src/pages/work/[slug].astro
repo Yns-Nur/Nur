@@ -1,0 +1,245 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import ReelPlayer from '../../components/ReelPlayer.astro';
+import LoopTile from '../../components/LoopTile.astro';
+import WebCapture from '../../components/WebCapture.astro';
+import PlaceholderMark from '../../components/PlaceholderMark.astro';
+import { withBase } from '../../lib/base';
+
+export async function getStaticPaths() {
+  const [horizontal, loops, web] = await Promise.all([
+    getCollection('horizontal'),
+    getCollection('loops'),
+    getCollection('web'),
+  ]);
+
+  const all = [
+    ...horizontal.map((e) => ({ e, group: 'horizontal' as const })),
+    ...loops.map((e) => ({ e, group: 'loops' as const })),
+    ...web.map((e) => ({ e, group: 'web' as const })),
+  ];
+
+  return all.map(({ e, group }, i) => ({
+    params: { slug: e.id },
+    props: { entry: e, group, index: i + 1, siblings: all.filter((x) => x.group === group).map((x) => x.e) },
+  }));
+}
+
+const { entry, group, index, siblings } = Astro.props;
+const d: any = entry.data;
+const { Content } = await render(entry);
+
+const pos = siblings.findIndex((s) => s.id === entry.id);
+const next = siblings[(pos + 1) % siblings.length];
+
+const FIELD = { horizontal: 'ink', loops: 'olive', web: 'midnight' } as const;
+const ACT = { horizontal: 'The Reel', loops: 'Loops', web: 'In Situ' } as const;
+const BACK = { horizontal: '/#reel', loops: '/#loops', web: '/#in-situ' } as const;
+
+const specs: [string, string][] = [
+  ['Format', group === 'horizontal' ? 'Horizontal' : group === 'loops' ? 'Square loop' : 'Web animation'],
+  ['Ratio', d.ratio],
+  ['Length', d.duration],
+  ...(d.role ? ([['Role', d.role]] as [string, string][]) : []),
+  ...(d.part ? ([['Part', d.part]] as [string, string][]) : []),
+  ...(d.handoff ? ([['Handoff', d.handoff]] as [string, string][]) : []),
+  ...(d.kind ? ([['Kind', d.kind]] as [string, string][]) : []),
+  ...(d.tools ? ([['Tools', d.tools.join(', ')]] as [string, string][]) : []),
+  ['Year', String(d.year)],
+];
+---
+
+<Base
+  title={`${d.title} — YNS NUR`}
+  description={`${d.title} — ${group === 'horizontal' ? 'horizontal motion graphics' : group === 'loops' ? 'a square loop' : 'web animation'} by Younes Nur.`}
+  field={FIELD[group]}
+>
+  <article class="act piece" data-field={FIELD[group]}>
+    <div class="wrap">
+      <nav class="piece__crumb micro" aria-label="Back">
+        <a href={withBase(BACK[group])}>&larr; {ACT[group]}</a>
+      </nav>
+
+      <header class="piece__head">
+        <h1 class="act-title">{d.title}</h1>
+        {d.placeholder && <PlaceholderMark tone="inline" />}
+      </header>
+
+      <div class="piece__stage">
+        {
+          group === 'horizontal' && (
+            <ReelPlayer
+              title={d.title}
+              duration={d.duration}
+              ratio={d.ratio}
+              kind={d.kind}
+              sound={d.sound}
+              placeholder={d.placeholder}
+              src={d.media.src}
+              poster={d.media.poster}
+              width={d.media.width}
+              height={d.media.height}
+              index={index}
+              eager
+            />
+          )
+        }
+        {
+          group === 'loops' && (
+            <div class="piece__loop">
+              <LoopTile
+                title={d.title}
+                kind={d.kind}
+                index={index}
+                placeholder={d.placeholder}
+                src={d.media.src}
+                poster={d.media.poster}
+                width={d.media.width}
+                height={d.media.height}
+              />
+            </div>
+          )
+        }
+        {
+          group === 'web' && (
+            <WebCapture
+              title={d.title}
+              part={d.part}
+              handoff={d.handoff}
+              duration={d.duration}
+              index={index}
+              placeholder={d.placeholder}
+              src={d.media.src}
+              poster={d.media.poster}
+              width={d.media.width}
+              height={d.media.height}
+              url={d.url}
+            />
+          )
+        }
+      </div>
+
+      <div class="piece__body">
+        <div class="prose piece__prose">
+          <Content />
+          {
+            d.placeholder && (
+              <p class="piece__ph micro">
+                This piece is authored placeholder material made to demonstrate the layout.
+                It is not client work.
+              </p>
+            )
+          }
+        </div>
+
+        <dl class="piece__specs">
+          {
+            specs.map(([k, v]) => (
+              <div>
+                <dt class="micro">{k}</dt>
+                <dd>{v}</dd>
+              </div>
+            ))
+          }
+        </dl>
+      </div>
+
+      <nav class="piece__next" aria-label="Next piece">
+        <a href={withBase(`/work/${next.id}`)}>
+          <span class="micro">Next in {ACT[group]}</span>
+          <span class="title">{next.data.title} &rarr;</span>
+        </a>
+      </nav>
+    </div>
+  </article>
+</Base>
+
+<style>
+  .piece {
+    padding-top: var(--stack-m);
+  }
+
+  .piece__crumb {
+    margin-bottom: var(--stack-m);
+  }
+
+  .piece__crumb a:hover,
+  .piece__crumb a:focus-visible {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+
+  .piece__head {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding-bottom: var(--stack-s);
+    border-bottom: var(--rule-heavy) solid currentColor;
+    margin-bottom: var(--stack-l);
+  }
+
+  .piece__loop {
+    max-width: 36rem;
+  }
+
+  .piece__body {
+    display: grid;
+    gap: var(--stack-l);
+    margin-top: var(--stack-xl);
+  }
+
+  @media (width >= 55rem) {
+    .piece__body {
+      grid-template-columns: 1.5fr 1fr;
+      gap: var(--stack-xl);
+    }
+  }
+
+  .piece__prose {
+    font-size: var(--step-lead);
+    line-height: 1.5;
+  }
+
+  .piece__ph {
+    margin-top: var(--stack-m);
+    text-transform: none;
+    letter-spacing: 0.02em;
+    color: var(--accent);
+  }
+
+  .piece__specs {
+    margin: 0;
+    align-self: start;
+  }
+
+  .piece__specs div {
+    display: grid;
+    grid-template-columns: 7rem 1fr;
+    gap: 1rem;
+    padding: 0.7rem 0;
+    border-top: var(--rule) solid color-mix(in srgb, var(--on-field) 25%, transparent);
+  }
+
+  .piece__specs dd {
+    margin: 0;
+  }
+
+  .piece__next {
+    margin-top: var(--stack-xl);
+    padding-top: var(--stack-m);
+    border-top: var(--rule-heavy) solid currentColor;
+  }
+
+  .piece__next a {
+    display: grid;
+    gap: 0.3rem;
+  }
+
+  .piece__next a:hover .title,
+  .piece__next a:focus-visible .title {
+    text-decoration: underline;
+    text-underline-offset: 0.2em;
+  }
+</style>

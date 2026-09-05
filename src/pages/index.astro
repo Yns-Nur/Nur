@@ -1,0 +1,540 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import ActHead from '../components/ActHead.astro';
+import ReelPlayer from '../components/ReelPlayer.astro';
+import LoopTile from '../components/LoopTile.astro';
+import WebCapture from '../components/WebCapture.astro';
+import PluginCard from '../components/PluginCard.astro';
+import CutPaper from '../components/CutPaper.astro';
+import PlaceholderMark from '../components/PlaceholderMark.astro';
+import { actById } from '../data/acts';
+import { CREDITS, SUMMARY, CAPABILITIES } from '../data/resume';
+import { withBase } from '../lib/base';
+
+const byOrder = (a: any, b: any) => a.data.order - b.data.order;
+
+const horizontal = (await getCollection('horizontal')).sort(byOrder);
+const loops = (await getCollection('loops')).sort(byOrder);
+const web = (await getCollection('web')).sort(byOrder);
+const plugins = (await getCollection('plugins')).sort(byOrder);
+
+/* The hero piece must read as a framed picture, not as more page. Prefer a
+   piece whose own field contrasts with the cardinal prologue — one that is
+   silent and loops, so it can play on arrival without asking. */
+const hero = horizontal.find((h) => h.id === 'hard-split' && !h.data.sound) ?? horizontal[0];
+const current = CREDITS.find((c) => c.real)!;
+---
+
+<Base
+  title="YNS NUR — Younes Nur, motion designer"
+  description="Motion design in three formats: horizontal films, square loops, and animation that ships inside websites. Plus the After Effects tools behind them."
+  field="cardinal"
+>
+  <!-- ===================================================== 00:00 PROLOGUE -->
+  <section class="act act--full prologue" data-field="cardinal">
+    <div class="wrap prologue__grid">
+      <div class="prologue__type">
+        <p class="micro prologue__tc"><span class="tc">00:00</span> Prologue</p>
+
+        <h1 class="display off-baseline prologue__name" id="prologue">
+          <span>Younes</span>
+          <span>Nur</span>
+        </h1>
+
+        <p class="lead prologue__lead">
+          Three formats on three levels: films that play, loops that never stop,
+          and the animation that ships inside a website.
+        </p>
+
+        <p class="micro prologue__fact">
+          Motion design &middot; Six years &middot; {current.place} &middot; After Effects, Rive, Lottie
+        </p>
+
+        <div class="actions prologue__actions">
+          <a class="slab" href="#reel">See the work</a>
+          <a class="slab slab--ghost" href={withBase("/contact")}>Start a project</a>
+        </div>
+      </div>
+
+      <div class="prologue__stage">
+        <figure class="prologue__figure" data-loop>
+          <div class="prologue__screen">
+            <video
+              class="prologue__video"
+              poster={withBase(hero.data.media.poster)}
+              preload="metadata"
+              muted
+              loop
+              playsinline
+              width={hero.data.media.width}
+              height={hero.data.media.height}
+              aria-label={`${hero.data.title} — looping silently`}
+            >
+              {hero.data.media.src && <source src={withBase(hero.data.media.src)} type="video/mp4" />}
+            </video>
+            <button class="prologue__playbtn" type="button" data-loop-play hidden>
+              <span class="prologue__tri" aria-hidden="true"></span>
+              <span class="vh">Play {hero.data.title}</span>
+            </button>
+            <PlaceholderMark />
+          </div>
+          <figcaption class="micro prologue__figcap">
+            <span>{hero.data.title}</span>
+            <a href={withBase(`/work/${hero.id}`)}>See the piece &rarr;</a>
+          </figcaption>
+        </figure>
+
+        <!--
+          The arm is cut in the field's own colour, so where it crosses the
+          picture it reads as a hole torn through to the field behind. A black
+          arm would disappear into a black frame.
+        -->
+        <div class="prologue__arm" aria-hidden="true">
+          <CutPaper shape="arm" fill="var(--field)" />
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ========================================================= 00:18 REEL -->
+  <section class="act" data-field="ink">
+    <div class="wrap">
+      <ActHead
+        act={actById('reel')}
+        count={`${horizontal.length} pieces`}
+        note="Landscape, seconds to minutes, watched deliberately. Sound is off until you ask for it."
+      />
+
+      <div class="reelgrid">
+        {
+          horizontal.map((item, i) => (
+            <div class={i === 0 ? 'reelgrid__lead' : ''} data-cut={i % 3}>
+              <ReelPlayer
+                title={item.data.title}
+                duration={item.data.duration}
+                ratio={item.data.ratio}
+                kind={item.data.kind}
+                sound={item.data.sound}
+                placeholder={item.data.placeholder}
+                src={item.data.media.src}
+                poster={item.data.media.poster}
+                width={item.data.media.width}
+                height={item.data.media.height}
+                index={i + 1}
+                href={withBase(`/work/${item.id}`)}
+                eager={i === 0}
+              />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================== 00:42 LOOPS -->
+  <section class="act" data-field="olive">
+    <div class="wrap">
+      <ActHead
+        act={actById('loops')}
+        count={`${loops.length} loops`}
+        note="1080 × 1080, silent, endless. Logo animations, preloaders and small pieces — judged together, not one at a time."
+      />
+
+      <div class="loopgrid">
+        {
+          loops.map((item, i) => (
+            <div data-cut={i % 4}>
+              <LoopTile
+                title={item.data.title}
+                kind={item.data.kind}
+                index={i + 1}
+                placeholder={item.data.placeholder}
+                src={item.data.media.src}
+                poster={item.data.media.poster}
+                width={item.data.media.width}
+                height={item.data.media.height}
+              />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ====================================================== 01:04 IN SITU -->
+  <section class="act" data-field="midnight">
+    <div class="wrap">
+      <ActHead
+        act={actById('in-situ')}
+        count={`${web.length} builds`}
+        note="Animation that shipped inside a website. The artefact is the live site, so these are captures — each one says which part it is and how it reached the developers."
+      />
+
+      <div class="webgrid">
+        {
+          web.map((item, i) => (
+            <div data-cut={i % 2}>
+              <WebCapture
+                title={item.data.title}
+                part={item.data.part}
+                handoff={item.data.handoff}
+                duration={item.data.duration}
+                index={i + 1}
+                placeholder={item.data.placeholder}
+                src={item.data.media.src}
+                poster={item.data.media.poster}
+                width={item.data.media.width}
+                height={item.data.media.height}
+                url={item.data.url}
+                href={withBase(`/work/${item.id}`)}
+              />
+            </div>
+          ))
+        }
+      </div>
+    </div>
+  </section>
+
+  <!-- ======================================================== 01:26 TOOLS -->
+  <section class="act" data-field="ochre">
+    <div class="wrap">
+      <ActHead
+        act={actById('tools')}
+        count={`${plugins.length} tools`}
+        note="I build the things I animate with. Extensions that run inside After Effects — the same software the work above was made in."
+      />
+
+      <div class="toolgrid">
+        {
+          plugins.slice(0, 2).map((item, i) => (
+            <div data-cut={i}>
+              <PluginCard
+                slug={item.id}
+                title={item.data.title}
+                tagline={item.data.tagline}
+                state={item.data.state}
+                price={item.data.price}
+                host={item.data.host}
+                placeholder={item.data.placeholder}
+                poster={item.data.media.poster}
+                src={item.data.media.src}
+                index={i + 1}
+              />
+            </div>
+          ))
+        }
+      </div>
+
+      <p class="actions act__more">
+        <a class="slab" href={withBase("/plugins")}>All {plugins.length} tools</a>
+      </p>
+    </div>
+  </section>
+
+  <!-- =================================================== 01:48 THE PERSON -->
+  <section class="act" data-field="bone">
+    <div class="wrap person">
+      <ActHead act={actById('the-person')} note="Six years of it, and the tools that came out of the habit." />
+
+      <div class="person__grid">
+        <div class="prose person__prose">
+          {SUMMARY.map((p) => <p>{p}</p>)}
+
+          <ul class="person__caps">
+            {
+              CAPABILITIES.map((c) => (
+                <li>
+                  <span class="person__capname">{c.name}</span>
+                  <span class="micro">{c.note}</span>
+                </li>
+              ))
+            }
+          </ul>
+
+          <p class="actions person__actions">
+            <a class="slab" href={withBase("/about")}>Full credits</a>
+          </p>
+        </div>
+
+        <aside class="person__aside">
+          <p class="micro">Now</p>
+          <p class="person__now">{current.role}, {current.place}</p>
+          <p class="micro person__nownote">{current.from} &rarr; {current.to}</p>
+          <div class="person__bars" aria-hidden="true"><CutPaper shape="bars" /></div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================================================== 02:06 END CARD -->
+  <section class="act act--end" data-field="cardinal">
+    <div class="wrap end">
+      <p class="micro end__tc"><span class="tc">02:06</span> End card</p>
+      <p class="display off-baseline end__title">
+        <span>Start</span>
+        <span>a project</span>
+      </p>
+      <p class="lead end__lead">
+        Tell me the format, roughly what it needs to do, and when you need it.
+        That is enough to answer properly the first time.
+      </p>
+      <div class="actions end__actions">
+        <a class="slab" href={withBase("/contact")}>Send an enquiry</a>
+        <a class="slab slab--ghost" href={withBase("/plugins")}>Take a tool instead</a>
+      </div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  /* ------------------------------------------------------------ prologue */
+  .prologue {
+    padding-block: clamp(2rem, 6vh, 4rem);
+    overflow: hidden;
+  }
+
+  .prologue__grid {
+    display: grid;
+    gap: var(--stack-l);
+    align-items: center;
+  }
+
+  @media (width >= 62rem) {
+    .prologue__grid {
+      grid-template-columns: 1.05fr 1fr;
+      gap: var(--stack-m);
+    }
+  }
+
+  .prologue__tc {
+    margin-bottom: var(--stack-s);
+  }
+
+  .prologue__name {
+    display: grid;
+    margin-bottom: var(--stack-m);
+  }
+
+  .prologue__lead {
+    margin-bottom: var(--stack-m);
+  }
+
+  .prologue__fact {
+    margin-bottom: var(--stack-m);
+    max-width: 40ch;
+    line-height: 1.7;
+  }
+
+  .prologue__stage {
+    position: relative;
+  }
+
+  .prologue__figure {
+    position: relative;
+    margin: 0;
+    background: var(--ink);
+    box-shadow: 14px 14px 0 color-mix(in srgb, var(--ink) 55%, transparent);
+  }
+
+  /* The mark belongs on the picture, not across the caption under it. */
+  .prologue__screen {
+    position: relative;
+  }
+
+  .prologue__video {
+    width: 100%;
+    /* The width/height attributes are presentational hints that survive
+       aspect-ratio; height:auto is what lets the ratio actually govern. */
+    height: auto;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+  }
+
+  .prologue__playbtn {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    background: color-mix(in srgb, var(--ink) 40%, transparent);
+    border: none;
+    cursor: pointer;
+  }
+
+  .prologue__playbtn[hidden] {
+    display: none;
+  }
+
+  .prologue__tri {
+    width: 0;
+    height: 0;
+    border-left: 1.8rem solid var(--bone);
+    border-top: 1.1rem solid transparent;
+    border-bottom: 1.1rem solid transparent;
+  }
+
+  .prologue__figcap {
+    display: flex;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+    padding: 0.6rem 0.75rem;
+    color: var(--bone);
+    background: var(--ink);
+  }
+
+  .prologue__figcap a {
+    text-decoration: underline;
+    text-underline-offset: 0.25em;
+  }
+
+  /* The arm reaches out of the picture and over the type. */
+  .prologue__arm {
+    position: absolute;
+    left: -12%;
+    bottom: 21%;
+    width: 74%;
+    pointer-events: none;
+    transform: rotate(-7deg);
+    display: none;
+    z-index: 3;
+  }
+
+  @media (width >= 62rem) {
+    .prologue__arm {
+      display: block;
+    }
+  }
+
+  /* ---------------------------------------------------------------- reel */
+  .reelgrid {
+    display: grid;
+    gap: var(--stack-l) var(--stack-m);
+    grid-template-columns: 1fr;
+  }
+
+  @media (width >= 48rem) {
+    .reelgrid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .reelgrid__lead {
+      grid-column: 1 / -1;
+    }
+  }
+
+  /* --------------------------------------------------------------- loops */
+  .loopgrid {
+    display: grid;
+    gap: var(--stack-m);
+    grid-template-columns: repeat(auto-fill, minmax(min(100%, 13rem), 1fr));
+  }
+
+  /* ----------------------------------------------------------- in situ -- */
+  .webgrid {
+    display: grid;
+    gap: var(--stack-xl) var(--stack-l);
+    grid-template-columns: 1fr;
+  }
+
+  @media (width >= 55rem) {
+    .webgrid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  /* --------------------------------------------------------------- tools */
+  .toolgrid {
+    display: grid;
+    gap: var(--stack-m);
+    grid-template-columns: 1fr;
+  }
+
+  @media (width >= 55rem) {
+    .toolgrid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  .act__more {
+    margin-top: var(--stack-l);
+  }
+
+  /* -------------------------------------------------------------- person */
+  .person__grid {
+    display: grid;
+    gap: var(--stack-l);
+  }
+
+  @media (width >= 62rem) {
+    .person__grid {
+      grid-template-columns: 1.7fr 1fr;
+      gap: var(--stack-xl);
+    }
+  }
+
+  .person__caps {
+    list-style: none;
+    margin: var(--stack-m) 0 0;
+    padding: 0;
+    display: grid;
+    gap: 0;
+  }
+
+  .person__caps li {
+    display: grid;
+    gap: 0.1rem;
+    padding: 0.85rem 0;
+    border-top: var(--rule) solid color-mix(in srgb, var(--on-field) 25%, transparent);
+  }
+
+  .person__capname {
+    font-family: var(--font-display);
+    font-size: 1.4rem;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .person__actions {
+    margin-top: var(--stack-m);
+  }
+
+  .person__aside {
+    align-self: start;
+    padding: var(--stack-m);
+    box-shadow: inset 0 0 0 var(--rule) var(--on-field);
+  }
+
+  .person__now {
+    font-family: var(--font-display);
+    font-size: clamp(1.6rem, 2.6vw, 2.2rem);
+    text-transform: uppercase;
+    line-height: 0.95;
+    margin: 0.5rem 0 0.35rem;
+  }
+
+  .person__bars {
+    margin-top: var(--stack-m);
+    width: 60%;
+    opacity: 0.9;
+  }
+
+  /* ------------------------------------------------------------ end card */
+  .act--end {
+    padding-block: clamp(5rem, 16vh, 11rem);
+  }
+
+  .end__tc {
+    margin-bottom: var(--stack-s);
+  }
+
+  .end__title {
+    display: grid;
+    margin-bottom: var(--stack-m);
+  }
+
+  .end__lead {
+    margin-bottom: var(--stack-l);
+    max-width: 42ch;
+  }
+</style>

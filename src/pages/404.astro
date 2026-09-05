@@ -1,0 +1,103 @@
+---
+import Base from '../layouts/Base.astro';
+import CutPaper from '../components/CutPaper.astro';
+import { ACTS } from '../data/acts';
+import { withBase } from '../lib/base';
+---
+
+<Base title="Missing frame — YNS NUR" description="That page is not part of the sequence." field="ink">
+  <section class="act act--full nf" data-field="ink">
+    <div class="wrap nf__grid">
+      <div>
+        <p class="micro"><span class="tc">--:--</span> Missing frame</p>
+        <h1 class="display off-baseline nf__title">
+          <span>No such</span>
+          <span>cut</span>
+        </h1>
+        <p class="lead nf__lead">
+          That page is not in the sequence. Pick up anywhere below.
+        </p>
+        <ol class="nf__roll">
+          {
+            ACTS.map((act) => (
+              <li>
+                <a href={withBase(act.href)}>
+                  <span class="tc">{act.tc}</span>
+                  <span class="nf__rolltitle">{act.title}</span>
+                  <span class="micro">{act.role}</span>
+                </a>
+              </li>
+            ))
+          }
+        </ol>
+      </div>
+      <div class="nf__shape" aria-hidden="true"><CutPaper shape="aperture" /></div>
+    </div>
+  </section>
+</Base>
+
+<style>
+  .nf__grid {
+    display: grid;
+    gap: var(--stack-l);
+    align-items: center;
+  }
+
+  @media (width >= 55rem) {
+    .nf__grid {
+      grid-template-columns: 1.3fr 1fr;
+    }
+  }
+
+  .nf__title {
+    display: grid;
+    margin: var(--stack-s) 0 var(--stack-m);
+  }
+
+  .nf__lead {
+    margin-bottom: var(--stack-l);
+  }
+
+  .nf__roll {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  .nf__roll li {
+    border-top: var(--rule) solid color-mix(in srgb, var(--on-field) 25%, transparent);
+  }
+
+  .nf__roll a {
+    display: grid;
+    grid-template-columns: 4.5rem 1fr;
+    gap: 0.1rem 1rem;
+    padding: 0.8rem 0;
+    align-items: baseline;
+  }
+
+  .nf__roll a:hover .nf__rolltitle,
+  .nf__roll a:focus-visible .nf__rolltitle {
+    text-decoration: underline;
+    text-underline-offset: 0.22em;
+  }
+
+  .nf__roll .tc {
+    grid-row: span 2;
+    font-size: var(--step-label);
+  }
+
+  .nf__rolltitle {
+    font-family: var(--font-display);
+    font-size: 1.5rem;
+    text-transform: uppercase;
+    line-height: 1;
+  }
+
+  .nf__shape {
+    width: min(70%, 22rem);
+    justify-self: center;
+    color: var(--silhouette);
+    opacity: 0.85;
+  }
+</style>
