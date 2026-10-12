@@ -521,7 +521,17 @@ ul.products li.product .product-card__price .price-from {
 ul.products li.product .product-card__price del {
 	order: 3;
 	flex-basis: 100%;
+	line-height: 1.6;
 	text-align: end;
+}
+
+/* Cards without an old price keep that line empty, so prices line up across a row. */
+ul.products li.product .product-card__price:not(:has(del))::after {
+	content: "";
+	order: 3;
+	flex-basis: 100%;
+	height: 1.6em;
+	font-size: 0.8em;
 }
 
 ul.products li.product .button {

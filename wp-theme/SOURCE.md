@@ -1955,9 +1955,7 @@ input[type="search"]::-webkit-search-cancel-button {
 }
 
 .hdr__actions .header-cart {
-	border-inline-start: 1px solid var(--c-line);
-	border-radius: 0 var(--r) var(--r) 0;
-	padding-inline-start: 14px;
+	padding-inline: 10px;
 }
 
 /* The count sits on the bag's top corner and only clips its edge. */
@@ -2602,28 +2600,19 @@ html:not([dir="rtl"]) .site-drawer {
 }
 
 /* Category circles */
-.cat-circles .container {
-	background: var(--c-surface);
-	border-radius: var(--r-l);
-	padding-block: 18px;
-	box-shadow: var(--shadow-s);
-}
-
-@media (min-width: 1360px) {
-	.cat-circles .container {
-		max-width: calc(var(--container) - 2 * var(--gutter));
-	}
-}
-
+/* The panel is the list itself, so it keeps the page gutters at every width. */
 .cat-circles__list {
 	display: flex;
 	gap: clamp(12px, 3vw, 28px);
 	justify-content: space-around;
 	margin: 0;
-	padding: 2px;
+	padding: 18px clamp(12px, 2vw, 20px);
 	list-style: none;
 	overflow-x: auto;
 	scrollbar-width: none;
+	background: var(--c-surface);
+	border-radius: var(--r-l);
+	box-shadow: var(--shadow-s);
 }
 
 .cat-circles__list::-webkit-scrollbar {
@@ -3848,7 +3837,17 @@ ul.products li.product .product-card__price .price-from {
 ul.products li.product .product-card__price del {
 	order: 3;
 	flex-basis: 100%;
+	line-height: 1.6;
 	text-align: end;
+}
+
+/* Cards without an old price keep that line empty, so prices line up across a row. */
+ul.products li.product .product-card__price:not(:has(del))::after {
+	content: "";
+	order: 3;
+	flex-basis: 100%;
+	height: 1.6em;
+	font-size: 0.8em;
 }
 
 ul.products li.product .button {
