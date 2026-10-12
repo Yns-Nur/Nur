@@ -2,8 +2,8 @@
 /**
  * Plugin Name:       Sofreh Phone Accounts
  * Plugin URI:        https://github.com/yns-nur/nur/tree/main/wp-theme/sofreh-phone-accounts
- * Description:       Customers buy with just their mobile number. A customer account is created automatically when the order is placed, and the order confirmation page shows the order tracking code together with the login details (mobile number as username, plus a generated password). Adds an order-tracking form that works with order number and mobile number. Companion to the Sofreh theme, but works with any theme.
- * Version:           1.1.0
+ * Description:       Customers buy with just their mobile number, or create an account first. When a signed-out customer's order is paid, a customer account is created automatically, and the order confirmation page shows the order tracking code with the account confirmation and login details beside it (mobile number as username, plus a generated password). Adds an order-tracking form that works with order number and mobile number. Companion to the Sofreh theme, but works with any theme.
+ * Version:           1.2.0
  * Requires at least: 6.7
  * Requires PHP:      7.4
  * Requires Plugins:  woocommerce
@@ -20,7 +20,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'SOFREH_PA_VERSION', '1.1.0' );
+define( 'SOFREH_PA_VERSION', '1.2.0' );
 define( 'SOFREH_PA_FILE', __FILE__ );
 define( 'SOFREH_PA_DIR', plugin_dir_path( __FILE__ ) );
 define( 'SOFREH_PA_URL', plugin_dir_url( __FILE__ ) );

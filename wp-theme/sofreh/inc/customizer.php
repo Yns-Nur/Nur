@@ -24,19 +24,19 @@ function sofreh_customizer_defaults() {
 		'hero_button'       => __( 'See the products', 'sofreh' ),
 		'hero_image'        => 0,
 		'hero_link'         => '',
-		'hero_tone'         => 'teal',
+		'hero_tone'         => 'lapis',
 		'slide2_title'      => '',
 		'slide2_text'       => '',
 		'slide2_button'     => '',
 		'slide2_image'      => 0,
 		'slide2_link'       => '',
-		'slide2_tone'       => 'ink',
+		'slide2_tone'       => 'plum',
 		'slide3_title'      => '',
 		'slide3_text'       => '',
 		'slide3_button'     => '',
 		'slide3_image'      => 0,
 		'slide3_link'       => '',
-		'slide3_tone'       => 'accent',
+		'slide3_tone'       => 'saffron',
 		'home_categories'   => true,
 		'home_new'          => true,
 		'home_sale'         => true,
@@ -95,7 +95,16 @@ function sofreh_sanitize_product_count( $value ) {
  * @return string
  */
 function sofreh_sanitize_tone( $value ) {
-	return in_array( $value, array( 'teal', 'ink', 'accent' ), true ) ? $value : 'teal';
+	// Tones saved by theme 2.0 (teal, dark, red) map onto the current palette.
+	$legacy = array(
+		'teal'   => 'lapis',
+		'ink'    => 'plum',
+		'accent' => 'saffron',
+	);
+	if ( isset( $legacy[ $value ] ) ) {
+		return $legacy[ $value ];
+	}
+	return in_array( $value, array( 'lapis', 'plum', 'saffron' ), true ) ? $value : 'lapis';
 }
 
 /**
@@ -186,9 +195,9 @@ function sofreh_customize_register( $wp_customize ) {
 	$add( 'hero_show', 'sofreh_home', __( 'Show the banner', 'sofreh' ), 'checkbox', 'sofreh_sanitize_checkbox' );
 
 	$tones = array(
-		'teal'   => __( 'Teal', 'sofreh' ),
-		'ink'    => __( 'Dark', 'sofreh' ),
-		'accent' => __( 'Red', 'sofreh' ),
+		'lapis'   => __( 'Lapis', 'sofreh' ),
+		'plum'    => __( 'Plum', 'sofreh' ),
+		'saffron' => __( 'Saffron', 'sofreh' ),
 	);
 	foreach ( array(
 		'hero'   => 1,

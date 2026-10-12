@@ -5,18 +5,25 @@
  * Flow:
  * 1. Checkout always allows buying without signing in first (no redirect to a
  *    registration page) and requires a mobile number.
- * 2. When a signed-out customer places an order, an account is created with
- *    the mobile number as username and a generated password. The order is
- *    attached to it and the customer is signed in, the same way WooCommerce's
- *    own "create an account" checkout option does.
- * 3. The order confirmation page shows the order tracking code and those
- *    login details. The password is kept only in the customer's own session,
- *    for a limited time, and is never stored in the order or sent by email.
+ * 2. When a signed-out customer's order is paid (the gateway confirms the
+ *    payment, or WooCommerce moves the order to a paid status such as
+ *    "processing" for cash on delivery), an account is created with the
+ *    mobile number as username and a generated password. The order is
+ *    attached to it and, in the buyer's own browser, the customer is signed
+ *    in, the same way WooCommerce's own checkout sign-up does. Unpaid,
+ *    failed or cancelled orders never create accounts.
+ * 3. The order confirmation page shows the order tracking code with the
+ *    account confirmation and login details beside it. The password is kept
+ *    only in the customer's own session, for a limited time, and is never
+ *    stored in the order or sent by email. If the payment was confirmed by a
+ *    server-to-server callback while the buyer was away, the account is
+ *    created then and its password is set and shown when the buyer opens the
+ *    confirmation page in the browser that placed the order.
  * 4. Customers can sign in later with the mobile number (Persian digits and
  *    +98 forms accepted) and complete their account details.
- * 5. Manual sign-up stays available on the My Account page; it asks for the
- *    mobile number too, which becomes the username, so every account signs
- *    in the same way.
+ * 5. "Create account" (manual sign-up) sits beside "Log in" on the My Account
+ *    page and is offered at checkout; it asks for the mobile number too,
+ *    which becomes the username, so every account signs in the same way.
  *
  * @package SofrehPhoneAccounts
  */
@@ -39,6 +46,18 @@ final class Sofreh_Phone_Accounts {
 
 	/** Option holding the order tracking page ID. */
 	const OPTION_TRACKING_PAGE = 'sofreh_pa_tracking_page_id';
+
+	/** Session key: the order this browser placed without signing in. */
+	const SESSION_ORDER = 'sofreh_pa_guest_order';
+
+	/** Order meta: placed at checkout by a signed-out customer. */
+	const META_GUEST = '_sofreh_pa_guest_checkout';
+
+	/** Order meta: the account step for this order is finished. */
+	const META_DONE = '_sofreh_pa_account_done';
+
+	/** Order meta: an account was created while the buyer was away; set and show its password on their next visit. */
+	const META_REVEAL = '_sofreh_pa_reveal_pending';
 
 	/**
 	 * Singleton.
@@ -75,11 +94,14 @@ final class Sofreh_Phone_Accounts {
 		add_action( 'woocommerce_checkout_create_order', array( $this, 'classic_normalize_order_phone' ), 10 );
 		add_action( 'woocommerce_store_api_checkout_update_order_from_request', array( $this, 'blocks_validate_mobile' ), 10 );
 
-		// 2. Account creation once the order exists.
+		// 2. Account creation once the order is paid.
 		add_action( 'woocommerce_checkout_order_processed', array( $this, 'classic_order_processed' ), 20, 3 );
-		add_action( 'woocommerce_store_api_checkout_order_processed', array( $this, 'maybe_create_account' ), 20 );
+		add_action( 'woocommerce_store_api_checkout_order_processed', array( $this, 'mark_guest_order' ), 20 );
+		add_action( 'woocommerce_payment_complete', array( $this, 'on_payment_complete' ) );
+		add_action( 'woocommerce_order_status_changed', array( $this, 'on_status_changed' ), 10, 4 );
 
 		// 3. Order confirmation page.
+		add_action( 'template_redirect', array( $this, 'on_confirmation_page' ), 5 );
 		add_action( 'woocommerce_before_thankyou', array( $this, 'render_confirmation' ), 5 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 
@@ -92,8 +114,12 @@ final class Sofreh_Phone_Accounts {
 		add_action( 'woocommerce_account_dashboard', array( $this, 'dashboard_notice' ), 5 );
 		add_action( 'woocommerce_save_account_details', array( $this, 'mark_complete' ) );
 
-		// 5. Manual sign-up with the mobile number as username.
+		// 5. "Create account" with the mobile number as username.
 		add_action( 'woocommerce_register_form_start', array( $this, 'register_mobile_field' ) );
+		add_action( 'woocommerce_login_form_end', array( $this, 'return_field' ) );
+		add_action( 'woocommerce_register_form_end', array( $this, 'return_field' ) );
+		add_action( 'woocommerce_before_checkout_form', array( $this, 'checkout_account_notice' ), 15 );
+		add_filter( 'render_block_woocommerce/checkout', array( $this, 'block_checkout_account_notice' ) );
 		add_filter( 'woocommerce_process_registration_errors', array( $this, 'register_validate' ) );
 		add_filter( 'woocommerce_new_customer_data', array( $this, 'register_username' ) );
 		add_action( 'woocommerce_created_customer', array( $this, 'register_save_phone' ) );
@@ -227,7 +253,7 @@ final class Sofreh_Phone_Accounts {
 			$fields['billing_phone']['label']       = __( 'Mobile number', 'sofreh-phone-accounts' );
 			$fields['billing_phone']['placeholder'] = '09121234567';
 			if ( ! is_user_logged_in() ) {
-				$fields['billing_phone']['description'] = __( 'Your account is created with this number; you will see your password after placing the order.', 'sofreh-phone-accounts' );
+				$fields['billing_phone']['description'] = __( 'Once your payment is confirmed, your account is created with this number and your password is shown on the confirmation page.', 'sofreh-phone-accounts' );
 			}
 		}
 		if ( isset( $fields['billing_email'] ) ) {
@@ -312,34 +338,100 @@ final class Sofreh_Phone_Accounts {
 	 * @param WC_Order $order    Order.
 	 */
 	public function classic_order_processed( $order_id, $posted, $order ) {
-		$this->maybe_create_account( $order instanceof WC_Order ? $order : wc_get_order( $order_id ) );
+		$this->mark_guest_order( $order instanceof WC_Order ? $order : wc_get_order( $order_id ) );
 	}
 
 	/**
-	 * Create an account for a signed-out customer and attach the order to it.
+	 * Remember that this browser placed the order without signing in. Runs
+	 * before the payment is taken, so no account is created yet.
 	 *
 	 * @param WC_Order $order Order.
 	 */
-	public function maybe_create_account( $order ) {
+	public function mark_guest_order( $order ) {
 		if ( ! $order instanceof WC_Order || is_user_logged_in() || $order->get_customer_id() ) {
 			return;
 		}
+		$order->update_meta_data( self::META_GUEST, 1 );
+		$order->save_meta_data();
+		if ( WC()->session ) {
+			WC()->session->set( self::SESSION_ORDER, $order->get_id() );
+		}
+	}
 
-		$mobile = self::normalize_mobile( $order->get_billing_phone() );
+	/**
+	 * The gateway reported a successful payment.
+	 *
+	 * @param int $order_id Order ID.
+	 */
+	public function on_payment_complete( $order_id ) {
+		$this->create_account_for_paid_order( wc_get_order( $order_id ) );
+	}
+
+	/**
+	 * The order moved to a paid status (for example "processing" for cash on
+	 * delivery, or when the store marks a bank transfer as received).
+	 *
+	 * @param int      $order_id Order ID.
+	 * @param string   $from     Old status.
+	 * @param string   $to       New status.
+	 * @param WC_Order $order    Order.
+	 */
+	public function on_status_changed( $order_id, $from, $to, $order ) {
+		if ( in_array( $to, wc_get_is_paid_statuses(), true ) ) {
+			$this->create_account_for_paid_order( $order instanceof WC_Order ? $order : wc_get_order( $order_id ) );
+		}
+	}
+
+	/**
+	 * Is this request the buyer's own browser session for the order?
+	 *
+	 * @param WC_Order $order Order.
+	 * @return bool
+	 */
+	private function is_buyer_session( $order ) {
+		return ! is_user_logged_in()
+			&& WC()->session
+			&& (int) WC()->session->get( self::SESSION_ORDER ) === (int) $order->get_id();
+	}
+
+	/**
+	 * Create an account for a paid order placed without signing in, and
+	 * attach the order to it. In the buyer's own browser the customer is
+	 * signed in and the login details are kept for the confirmation page;
+	 * otherwise (a server callback) the password is set and shown when the
+	 * buyer next opens the confirmation page.
+	 *
+	 * @param WC_Order|false $order Order.
+	 */
+	public function create_account_for_paid_order( $order ) {
+		if ( ! $order instanceof WC_Order || ! $order->is_paid() || $order->get_customer_id() ) {
+			return;
+		}
+		if ( ! $order->get_meta( self::META_GUEST ) || $order->get_meta( self::META_DONE ) ) {
+			return;
+		}
+
+		$in_session = $this->is_buyer_session( $order );
+		$mobile     = self::normalize_mobile( $order->get_billing_phone() );
+
+		$order->update_meta_data( self::META_DONE, 1 );
+		$order->save_meta_data();
+
 		if ( '' === $mobile ) {
 			return;
 		}
 
 		// An account with this number already exists: never attach the order
-		// to it or reveal anything about it; the confirmation page simply
-		// suggests signing in.
+		// to it; the confirmation page suggests signing in.
 		if ( username_exists( $mobile ) ) {
-			$this->remember(
-				array(
-					'order_id' => $order->get_id(),
-					'existing' => true,
-				)
-			);
+			if ( $in_session ) {
+				$this->remember(
+					array(
+						'order_id' => $order->get_id(),
+						'existing' => true,
+					)
+				);
+			}
 			return;
 		}
 
@@ -388,7 +480,10 @@ final class Sofreh_Phone_Accounts {
 		$customer->save();
 
 		$order->set_customer_id( $user_id );
-		$order->add_order_note( __( 'Customer account created automatically from the mobile number.', 'sofreh-phone-accounts' ) );
+		if ( ! $in_session ) {
+			$order->update_meta_data( self::META_REVEAL, 1 );
+		}
+		$order->add_order_note( __( 'Payment confirmed: customer account created automatically from the mobile number.', 'sofreh-phone-accounts' ) );
 		$order->save();
 
 		/** This action is documented in woocommerce/includes/wc-user-functions.php */
@@ -404,6 +499,56 @@ final class Sofreh_Phone_Accounts {
 			true
 		);
 
+		if ( $in_session ) {
+			$this->sign_in_and_remember( $order, $user_id, $mobile, $password );
+		}
+	}
+
+	/**
+	 * Confirmation page, before anything is printed: create the account if
+	 * the order is paid but the paid hooks ran before this browser was
+	 * recognised, and reveal an account created while the buyer was away.
+	 * Only for the browser session that placed the order, with its order key.
+	 */
+	public function on_confirmation_page() {
+		if ( ! function_exists( 'is_order_received_page' ) || ! is_order_received_page() ) {
+			return;
+		}
+		global $wp;
+		$order = wc_get_order( absint( isset( $wp->query_vars['order-received'] ) ? $wp->query_vars['order-received'] : 0 ) );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- The order key is the capability, as in WooCommerce.
+		$key = isset( $_GET['key'] ) ? sanitize_text_field( wp_unslash( $_GET['key'] ) ) : '';
+		if ( ! $order || ! is_string( $key ) || ! hash_equals( $order->get_order_key(), $key ) || ! $this->is_buyer_session( $order ) ) {
+			return;
+		}
+
+		$this->create_account_for_paid_order( $order );
+
+		if ( ! $order->get_meta( self::META_REVEAL ) || ! $this->is_buyer_session( $order ) ) {
+			return;
+		}
+		$user = get_userdata( $order->get_customer_id() );
+		if ( ! $user || ! in_array( 'customer', (array) $user->roles, true ) ) {
+			return;
+		}
+		// Nobody has seen this password yet: set a fresh one now and show it.
+		$password = self::generate_password();
+		wp_set_password( $password, $user->ID );
+		$order->delete_meta_data( self::META_REVEAL );
+		$order->save_meta_data();
+		$this->sign_in_and_remember( $order, $user->ID, $user->user_login, $password );
+	}
+
+	/**
+	 * Sign the new customer in and keep the login details for the
+	 * confirmation page.
+	 *
+	 * @param WC_Order $order    Order.
+	 * @param int      $user_id  User ID.
+	 * @param string   $username Username.
+	 * @param string   $password Password.
+	 */
+	private function sign_in_and_remember( $order, $user_id, $username, $password ) {
 		// Sign the customer in, as WooCommerce does for accounts created at
 		// checkout. Without this, WooCommerce (8.4+) would hide the order
 		// confirmation page behind a login form.
@@ -414,7 +559,7 @@ final class Sofreh_Phone_Accounts {
 		$this->remember(
 			array(
 				'order_id' => $order->get_id(),
-				'username' => $mobile,
+				'username' => $username,
 				'password' => $password,
 				'expires'  => time() + self::SHOW_PASSWORD_FOR,
 			)
@@ -457,7 +602,7 @@ final class Sofreh_Phone_Accounts {
 	 */
 
 	/**
-	 * Tracking code and, for a just-created account, the login details.
+	 * Tracking code, with the account confirmation and login details beside it.
 	 *
 	 * @param int $order_id Order ID.
 	 */
@@ -480,10 +625,22 @@ final class Sofreh_Phone_Accounts {
 			}
 		}
 
+		$guest_order = (bool) $order->get_meta( self::META_GUEST );
+		$state       = '';
+		if ( $credentials ) {
+			$state = 'created';
+		} elseif ( $stash && ! empty( $stash['existing'] ) ) {
+			$state = 'existing';
+		} elseif ( $guest_order && $order->get_customer_id() && get_current_user_id() === (int) $order->get_customer_id() ) {
+			$state = 'created-earlier';
+		} elseif ( $guest_order && ! $order->get_customer_id() && ! $order->is_paid() && ! $order->has_status( array( 'failed', 'cancelled', 'refunded' ) ) ) {
+			$state = 'awaiting';
+		}
+
 		$tracking_url = $this->tracking_url();
 		$account_url  = wc_get_page_permalink( 'myaccount' );
 		?>
-		<section class="sofreh-pa-card" aria-labelledby="sofreh-pa-title">
+		<section class="sofreh-pa-card<?php echo $state ? ' sofreh-pa-card--split' : ''; ?>" aria-labelledby="sofreh-pa-title">
 			<div class="sofreh-pa-card__row sofreh-pa-card__row--tracking">
 				<div>
 					<h2 id="sofreh-pa-title" class="sofreh-pa-card__title"><?php esc_html_e( 'Your order tracking code', 'sofreh-phone-accounts' ); ?></h2>
@@ -504,10 +661,10 @@ final class Sofreh_Phone_Accounts {
 				<?php $this->copy_value( $order->get_order_number(), __( 'Copy tracking code', 'sofreh-phone-accounts' ), 'sofreh-pa-value--large' ); ?>
 			</div>
 
-			<?php if ( $credentials ) : ?>
-				<div class="sofreh-pa-card__row sofreh-pa-card__row--account">
-					<h3 class="sofreh-pa-card__subtitle"><?php esc_html_e( 'Your account has been created', 'sofreh-phone-accounts' ); ?></h3>
-					<p class="sofreh-pa-card__help"><?php esc_html_e( 'You are signed in. Use these details to sign in next time, then complete your account information whenever you like.', 'sofreh-phone-accounts' ); ?></p>
+			<?php if ( 'created' === $state ) : ?>
+				<div class="sofreh-pa-card__row sofreh-pa-card__row--account" role="status">
+					<h3 class="sofreh-pa-card__subtitle sofreh-pa-card__subtitle--done"><?php esc_html_e( 'Your account has been created', 'sofreh-phone-accounts' ); ?></h3>
+					<p class="sofreh-pa-card__help"><?php esc_html_e( 'Your payment was confirmed and you are signed in. Use these details to sign in next time, then complete your account information whenever you like.', 'sofreh-phone-accounts' ); ?></p>
 					<dl class="sofreh-pa-credentials">
 						<div>
 							<dt><?php esc_html_e( 'Username (your mobile number)', 'sofreh-phone-accounts' ); ?></dt>
@@ -532,8 +689,25 @@ final class Sofreh_Phone_Accounts {
 						<a class="button button--ghost" href="<?php echo esc_url( $account_url ); ?>"><?php esc_html_e( 'Go to my account', 'sofreh-phone-accounts' ); ?></a>
 					</p>
 				</div>
-			<?php elseif ( $stash && ! empty( $stash['existing'] ) ) : ?>
+			<?php elseif ( 'created-earlier' === $state ) : ?>
 				<div class="sofreh-pa-card__row sofreh-pa-card__row--account">
+					<h3 class="sofreh-pa-card__subtitle sofreh-pa-card__subtitle--done"><?php esc_html_e( 'Your account has been created', 'sofreh-phone-accounts' ); ?></h3>
+					<p class="sofreh-pa-card__help">
+						<?php
+						printf(
+							/* translators: %s: the customer's mobile number (username). */
+							esc_html__( 'This order is saved in your account. Sign in with %s and your password.', 'sofreh-phone-accounts' ),
+							'<bdi dir="ltr">' . esc_html( wp_get_current_user()->user_login ) . '</bdi>' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in place.
+						);
+						?>
+					</p>
+					<p class="sofreh-pa-card__actions">
+						<a class="button" href="<?php echo esc_url( $account_url ); ?>"><?php esc_html_e( 'Go to my account', 'sofreh-phone-accounts' ); ?></a>
+					</p>
+				</div>
+			<?php elseif ( 'existing' === $state ) : ?>
+				<div class="sofreh-pa-card__row sofreh-pa-card__row--account">
+					<h3 class="sofreh-pa-card__subtitle"><?php esc_html_e( 'You already have an account', 'sofreh-phone-accounts' ); ?></h3>
 					<p class="sofreh-pa-card__help">
 						<?php
 						printf(
@@ -543,6 +717,11 @@ final class Sofreh_Phone_Accounts {
 						);
 						?>
 					</p>
+				</div>
+			<?php elseif ( 'awaiting' === $state ) : ?>
+				<div class="sofreh-pa-card__row sofreh-pa-card__row--account">
+					<h3 class="sofreh-pa-card__subtitle sofreh-pa-card__subtitle--waiting"><?php esc_html_e( 'Your account is created after payment', 'sofreh-phone-accounts' ); ?></h3>
+					<p class="sofreh-pa-card__help"><?php esc_html_e( 'As soon as your payment is confirmed, an account is created with your mobile number. Open this page again in this browser to see your login details.', 'sofreh-phone-accounts' ); ?></p>
 				</div>
 			<?php endif; ?>
 		</section>
@@ -624,6 +803,10 @@ final class Sofreh_Phone_Accounts {
 		if ( 'Username or email address' === $text ) {
 			return __( 'Mobile number or email', 'sofreh-phone-accounts' );
 		}
+		// The sign-up form's heading and button: "Create account".
+		if ( 'Register' === $text ) {
+			return __( 'Create account', 'sofreh-phone-accounts' );
+		}
 		return $translation;
 	}
 
@@ -674,6 +857,74 @@ final class Sofreh_Phone_Accounts {
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- WooCommerce verifies the registration nonce before these hooks run.
 		$raw = isset( $_POST['sofreh_pa_mobile'] ) ? sanitize_text_field( wp_unslash( $_POST['sofreh_pa_mobile'] ) ) : '';
 		return self::normalize_mobile( $raw );
+	}
+
+	/**
+	 * Link to "Create account" on the My Account page; after signing up (or
+	 * signing in there) the customer comes back to $return.
+	 *
+	 * @param string $return_url Page to return to.
+	 * @return string
+	 */
+	public static function create_account_url( $return_url = '' ) {
+		$url = add_query_arg( 'action', 'register', wc_get_page_permalink( 'myaccount' ) );
+		if ( $return_url ) {
+			$url = add_query_arg( 'redirect_to', rawurlencode( $return_url ), $url );
+		}
+		return $url;
+	}
+
+	/**
+	 * Send the customer back where they came from (for example the checkout)
+	 * after signing in or creating an account. Only addresses on this site.
+	 */
+	public function return_field() {
+		if ( is_checkout() ) {
+			return; // The checkout's own login form already returns to the checkout.
+		}
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only return address, validated below.
+		$target = isset( $_GET['redirect_to'] ) ? wp_validate_redirect( esc_url_raw( wp_unslash( $_GET['redirect_to'] ) ), '' ) : '';
+		if ( $target ) {
+			echo '<input type="hidden" name="redirect" value="' . esc_url( $target ) . '">';
+		}
+	}
+
+	/**
+	 * The account choice, shown at checkout to signed-out customers.
+	 *
+	 * @return string
+	 */
+	private function checkout_account_notice_html() {
+		if ( is_user_logged_in() || 'yes' !== get_option( 'woocommerce_enable_myaccount_registration' ) ) {
+			return '';
+		}
+		$link = sprintf(
+			'<a class="sofreh-pa-create-link" href="%1$s">%2$s</a>',
+			esc_url( self::create_account_url( wc_get_checkout_url() ) ),
+			esc_html__( 'Create account', 'sofreh-phone-accounts' )
+		);
+		return '<div class="woocommerce-info sofreh-pa-checkout-account" role="note">' . sprintf(
+			/* translators: %s: "Create account" link. */
+			esc_html__( 'No account yet? %s first, or simply place your order: once your payment is confirmed, an account is created for you with your mobile number.', 'sofreh-phone-accounts' ),
+			$link
+		) . '</div>';
+	}
+
+	/**
+	 * Classic checkout: the account choice above the form.
+	 */
+	public function checkout_account_notice() {
+		echo $this->checkout_account_notice_html(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped while building.
+	}
+
+	/**
+	 * Checkout block: the same account choice above the block.
+	 *
+	 * @param string $content Block HTML.
+	 * @return string
+	 */
+	public function block_checkout_account_notice( $content ) {
+		return $this->checkout_account_notice_html() . $content;
 	}
 
 	/**

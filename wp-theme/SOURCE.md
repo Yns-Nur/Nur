@@ -419,7 +419,7 @@ get_footer();
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'SOFREH_VERSION', '2.0.0' );
+define( 'SOFREH_VERSION', '2.1.0' );
 define( 'SOFREH_DIR', get_template_directory() );
 define( 'SOFREH_URI', get_template_directory_uri() );
 
@@ -704,7 +704,7 @@ Contributors: yns-nur
 Requires at least: 6.7
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.0.0
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Tags: e-commerce, rtl-language-support, translation-ready, custom-logo, custom-menu, featured-images, footer-widgets, right-sidebar, theme-options, threaded-comments, wide-blocks, block-styles
@@ -721,7 +721,7 @@ shoppers already know from the big marketplaces, so nothing has to be learned:
   category mega menu on desktop and a category drawer on phones; a fixed bottom
   tab bar on phones (home, categories, cart, account).
 * Home page: a swipeable banner (up to three slides, set in the Customizer), round
-  category shortcuts, a red "special offers" strip of products that are really
+  category shortcuts, a lapis-and-plum "special offers" band of products that are really
   on sale, a newest-products shelf and a numbered best-seller list. Every section
   is built from the store's own data and only appears when it has content.
 * Listings: sort links, category chips, a filters panel (a drawer on phones),
@@ -737,6 +737,8 @@ shoppers already know from the big marketplaces, so nothing has to be learned:
   data stays in ASCII digits. Phone numbers and postcodes typed on a Persian
   keyboard are accepted on the classic checkout, the Checkout block and the
   account address form.
+* Its own palette: lapis for actions, saffron for offers, plum and a fine
+  khatam (8-point star) pattern on the banner and the offers band.
 * Restrained motion (banner swipe, add-to-cart flight to the cart, cart count
   bump, drawers and menus) that switches off under "reduce motion".
 * Keyboard-accessible menus and drawers; WCAG 2.1 AA colour contrast.
@@ -768,6 +770,13 @@ WooCommerce is active.
 The theme uses WordPress's date functions, so a Jalali date plugin works with it.
 
 == Changelog ==
+
+= 2.1.0 =
+* Own colour identity: lapis, saffron and plum on a warm porcelain ground, red
+  for errors only; khatam pattern on the banner and offers band, saffron star
+  before section titles, jewel line on the header, saffron discount tags.
+* My Account: «ورود» / «ساخت حساب» tabs; header link «ورود | ساخت حساب».
+* Order confirmation: tracking code and account confirmation side by side.
 
 = 2.0.0 =
 * Redesign from scratch: phone-first marketplace layout (search-first header,
@@ -981,8 +990,8 @@ Theme Name: Sofreh
 Theme URI: https://github.com/yns-nur/nur/tree/main/wp-theme/sofreh
 Author: Younes Nur
 Author URI: https://github.com/yns-nur
-Description: A Persian, right-to-left WooCommerce theme for home and kitchen stores, built phone-first in the familiar Iranian marketplace layout: product search up front, a category mega menu and drawer, a swipeable banner, a red special-offers strip, a numbered best-seller list, a sticky buy box and buy bar on product pages, and a bottom tab bar on phones. Styles the classic and block cart, checkout and account pages. Ships with the Vazirmatn typeface and a full Persian (fa_IR) translation.
-Version: 2.0.0
+Description: A Persian, right-to-left WooCommerce theme for home and kitchen stores, built phone-first in the familiar Iranian marketplace layout and its own lapis, saffron and plum palette: product search up front, a category mega menu and drawer, a swipeable banner, a special-offers band, a numbered best-seller list, a sticky buy box and buy bar on product pages, and a bottom tab bar on phones. Styles the classic and block cart, checkout and account pages. Ships with the Vazirmatn typeface and a full Persian (fa_IR) translation.
+Version: 2.1.0
 Requires at least: 6.7
 Tested up to: 7.1
 Requires PHP: 7.4
@@ -1024,8 +1033,8 @@ which WordPress requires; it is intentionally not enqueued.
 			"palette": [
 				{
 					"slug": "ground",
-					"name": "Ground",
-					"color": "#F3F4F6"
+					"name": "Porcelain",
+					"color": "#F7F4EF"
 				},
 				{
 					"slug": "surface",
@@ -1035,37 +1044,42 @@ which WordPress requires; it is intentionally not enqueued.
 				{
 					"slug": "line",
 					"name": "Line",
-					"color": "#E6E8EB"
+					"color": "#EAE6DF"
 				},
 				{
 					"slug": "ink",
 					"name": "Ink",
-					"color": "#1F2328"
+					"color": "#191D34"
 				},
 				{
 					"slug": "muted",
 					"name": "Muted",
-					"color": "#62666D"
+					"color": "#5E6275"
 				},
 				{
 					"slug": "accent",
-					"name": "Accent",
-					"color": "#D1352F"
+					"name": "Lapis",
+					"color": "#2D48C0"
 				},
 				{
 					"slug": "accent-deep",
-					"name": "Accent deep",
-					"color": "#B32A25"
+					"name": "Lapis deep",
+					"color": "#1E339B"
 				},
 				{
 					"slug": "accent-soft",
-					"name": "Accent soft",
-					"color": "#FDECEA"
+					"name": "Lapis soft",
+					"color": "#E9F0FF"
 				},
 				{
-					"slug": "teal",
-					"name": "Teal",
-					"color": "#1F6F6A"
+					"slug": "saffron",
+					"name": "Saffron",
+					"color": "#FAAB35"
+				},
+				{
+					"slug": "plum",
+					"name": "Plum",
+					"color": "#67237A"
 				},
 				{
 					"slug": "success",
@@ -1269,9 +1283,12 @@ which WordPress requires; it is intentionally not enqueued.
 /*
  * Sofreh — base styles.
  *
- * Direction: the familiar Iranian marketplace storefront, made with care.
- * White surfaces on a cool grey ground, one coral-red accent for actions and
- * discounts, hairline dividers, Vazirmatn throughout. Phone first.
+ * Direction: the familiar Iranian marketplace storefront, made with care,
+ * in the store's own colours: lapis (لاجوردی) for actions and the brand,
+ * saffron (زعفرانی) for offers, plum as the deep jewel partner, on a warm
+ * porcelain ground. A fine 8-point-star (khatam) line pattern marks the
+ * banner and the offers band. Hairline dividers, Vazirmatn throughout.
+ * Phone first.
  *
  * Logical properties (inline-start/end) keep one stylesheet correct in RTL
  * (Persian) and LTR.
@@ -1289,23 +1306,41 @@ which WordPress requires; it is intentionally not enqueued.
 /* ------------------------------------------------------------------ */
 
 :root {
-	--c-ground: #f3f4f6;
+	/* Neutrals: warm porcelain ground, indigo-tinted ink. */
+	--c-ground: #f7f4ef;
 	--c-surface: #ffffff;
-	--c-line: #e6e8eb;
-	--c-line-strong: #d3d6db;
-	--c-ink: #1f2328;
-	--c-muted: #62666d;
-	--c-accent: #d1352f;
-	--c-accent-deep: #b32a25;
-	--c-accent-soft: #fdecea;
-	--c-teal: #1f6f6a;
+	--c-line: #eae6df;
+	--c-line-strong: #d6d0c7;
+	--c-ink: #191d34;
+	--c-muted: #5e6275;
+
+	/* Lapis: actions, links, current state, the wordmark (white on it 7.5:1). */
+	--c-accent: #2d48c0;
+	--c-accent-deep: #1e339b;
+	--c-accent-soft: #e9f0ff;
+
+	/* Saffron: offers only — discount tags, the cart count, the section star (ink on it 8.6:1). */
+	--c-saffron: #faab35;
+	--c-saffron-soft: #fff0d0;
+
+	/* Plum: the deep partner in the banner and the offers band. */
+	--c-plum: #67237a;
+
+	/* Status. Red now means errors and nothing else. */
+	--c-error: #b32228;
+	--c-error-soft: #ffece9;
 	--c-success: #1a7f45;
 	--c-success-soft: #e7f5ec;
 	--c-warning-soft: #fff4e0;
 	--c-warning-ink: #7a4d00;
-	--c-info-soft: #eaf1fb;
-	--c-star: #f0a62b;
-	--c-focus: #1f6fd1;
+	--c-info-soft: #e9f0ff;
+	--c-star: #faab35;
+	--c-focus: #1e339b;
+
+	/* Signature: khatam line pattern (light on colour, dark on light) and the solid star mark. */
+	--pattern-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cpath d='M32.0 12.0L37.2 19.5L46.1 17.9L44.5 26.8L52.0 32.0L44.5 37.2L46.1 46.1L37.2 44.5L32.0 52.0L26.8 44.5L17.9 46.1L19.5 37.2L12.0 32.0L19.5 26.8L17.9 17.9L26.8 19.5Z M0.0 -20.0L5.2 -12.5L14.1 -14.1L12.5 -5.2L20.0 0.0L12.5 5.2L14.1 14.1L5.2 12.5L0.0 20.0L-5.2 12.5L-14.1 14.1L-12.5 5.2L-20.0 0.0L-12.5 -5.2L-14.1 -14.1L-5.2 -12.5Z M64.0 -20.0L69.2 -12.5L78.1 -14.1L76.5 -5.2L84.0 0.0L76.5 5.2L78.1 14.1L69.2 12.5L64.0 20.0L58.8 12.5L49.9 14.1L51.5 5.2L44.0 0.0L51.5 -5.2L49.9 -14.1L58.8 -12.5Z M0.0 44.0L5.2 51.5L14.1 49.9L12.5 58.8L20.0 64.0L12.5 69.2L14.1 78.1L5.2 76.5L0.0 84.0L-5.2 76.5L-14.1 78.1L-12.5 69.2L-20.0 64.0L-12.5 58.8L-14.1 49.9L-5.2 51.5Z M64.0 44.0L69.2 51.5L78.1 49.9L76.5 58.8L84.0 64.0L76.5 69.2L78.1 78.1L69.2 76.5L64.0 84.0L58.8 76.5L49.9 78.1L51.5 69.2L44.0 64.0L51.5 58.8L49.9 49.9L58.8 51.5Z' fill='none' stroke='%23fff' stroke-opacity='0.13' stroke-width='1'/%3E%3C/svg%3E");
+	--pattern-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cpath d='M32.0 12.0L37.2 19.5L46.1 17.9L44.5 26.8L52.0 32.0L44.5 37.2L46.1 46.1L37.2 44.5L32.0 52.0L26.8 44.5L17.9 46.1L19.5 37.2L12.0 32.0L19.5 26.8L17.9 17.9L26.8 19.5Z M0.0 -20.0L5.2 -12.5L14.1 -14.1L12.5 -5.2L20.0 0.0L12.5 5.2L14.1 14.1L5.2 12.5L0.0 20.0L-5.2 12.5L-14.1 14.1L-12.5 5.2L-20.0 0.0L-12.5 -5.2L-14.1 -14.1L-5.2 -12.5Z M64.0 -20.0L69.2 -12.5L78.1 -14.1L76.5 -5.2L84.0 0.0L76.5 5.2L78.1 14.1L69.2 12.5L64.0 20.0L58.8 12.5L49.9 14.1L51.5 5.2L44.0 0.0L51.5 -5.2L49.9 -14.1L58.8 -12.5Z M0.0 44.0L5.2 51.5L14.1 49.9L12.5 58.8L20.0 64.0L12.5 69.2L14.1 78.1L5.2 76.5L0.0 84.0L-5.2 76.5L-14.1 78.1L-12.5 69.2L-20.0 64.0L-12.5 58.8L-14.1 49.9L-5.2 51.5Z M64.0 44.0L69.2 51.5L78.1 49.9L76.5 58.8L84.0 64.0L76.5 69.2L78.1 78.1L69.2 76.5L64.0 84.0L58.8 76.5L49.9 78.1L51.5 69.2L44.0 64.0L51.5 58.8L49.9 49.9L58.8 51.5Z' fill='none' stroke='%23191d34' stroke-opacity='0.09' stroke-width='1'/%3E%3C/svg%3E");
+	--mark-star: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12.0 1.0L14.4 6.3L19.8 4.2L17.7 9.6L23.0 12.0L17.7 14.4L19.8 19.8L14.4 17.7L12.0 23.0L9.6 17.7L4.2 19.8L6.3 14.4L1.0 12.0L6.3 9.6L4.2 4.2L9.6 6.3Z'/%3E%3C/svg%3E");
 
 	--font: "Vazirmatn FD", Tahoma, "Segoe UI", sans-serif;
 	--font-latin-digits: "Vazirmatn", Tahoma, "Segoe UI", sans-serif;
@@ -1313,8 +1348,8 @@ which WordPress requires; it is intentionally not enqueued.
 	--r-s: 6px;
 	--r: 10px;
 	--r-l: 16px;
-	--shadow-s: 0 1px 2px rgb(31 35 40 / 6%);
-	--shadow: 0 2px 6px rgb(31 35 40 / 6%), 0 12px 32px -12px rgb(31 35 40 / 18%);
+	--shadow-s: 0 1px 2px rgb(25 29 52 / 6%);
+	--shadow: 0 2px 6px rgb(25 29 52 / 6%), 0 12px 32px -12px rgb(25 29 52 / 18%);
 
 	--container: 1336px;
 	--gutter: clamp(12px, 3vw, 24px);
@@ -1415,13 +1450,13 @@ ol {
 
 /* Text links use the deeper red: 4.5:1 or better on both white and the grey ground. */
 a {
-	color: var(--c-accent-deep);
+	color: var(--c-accent);
 	text-decoration-thickness: 1px;
 	text-underline-offset: 0.3em;
 }
 
 a:hover {
-	color: var(--c-ink);
+	color: var(--c-accent-deep);
 }
 
 hr {
@@ -1755,7 +1790,7 @@ select:focus,
 textarea:focus {
 	outline: none;
 	border-color: var(--c-focus);
-	box-shadow: 0 0 0 3px rgb(31 111 209 / 18%);
+	box-shadow: 0 0 0 3px rgb(45 72 192 / 20%);
 }
 
 input[type="email"],
@@ -1880,8 +1915,16 @@ input[type="search"]::-webkit-search-cancel-button {
 	}
 }
 
+/* Signature: a thin lapis–plum–saffron line along the top of the header. */
+.site-header::before {
+	content: "";
+	display: block;
+	height: 3px;
+	background: linear-gradient(90deg, var(--c-saffron), var(--c-plum) 45%, var(--c-accent));
+}
+
 .site-header.is-scrolled {
-	box-shadow: 0 1px 0 var(--c-line), 0 8px 20px -16px rgb(31 35 40 / 40%);
+	box-shadow: 0 1px 0 var(--c-line), 0 8px 20px -16px rgb(25 29 52 / 40%);
 }
 
 .hdr {
@@ -1969,8 +2012,8 @@ input[type="search"]::-webkit-search-cancel-button {
 	height: 18px;
 	padding-inline: 4px;
 	border-radius: 9px;
-	background: var(--c-accent);
-	color: #fff;
+	background: var(--c-saffron);
+	color: var(--c-ink);
 	font-size: 0.75rem;
 	font-weight: 700;
 	line-height: 1;
@@ -2029,7 +2072,7 @@ input[type="search"]::-webkit-search-cancel-button {
 	z-index: 60;
 	background: var(--c-surface);
 	border-top: 1px solid var(--c-line);
-	box-shadow: 0 24px 40px -24px rgb(31 35 40 / 35%);
+	box-shadow: 0 24px 40px -24px rgb(25 29 52 / 35%);
 	padding-block: 24px 28px;
 	animation: sofreh-drop 0.22s var(--ease-out);
 }
@@ -2348,7 +2391,7 @@ html:not([dir="rtl"]) .site-drawer {
 		height: calc(var(--tabbar-h) + env(safe-area-inset-bottom, 0px));
 		padding-bottom: env(safe-area-inset-bottom, 0px);
 		background: var(--c-surface);
-		box-shadow: 0 -1px 0 var(--c-line), 0 -8px 24px -18px rgb(31 35 40 / 40%);
+		box-shadow: 0 -1px 0 var(--c-line), 0 -8px 24px -18px rgb(25 29 52 / 40%);
 	}
 
 	.tabbar__item {
@@ -2377,10 +2420,10 @@ html:not([dir="rtl"]) .site-drawer {
 		content: "";
 		position: absolute;
 		top: 0;
-		width: 28px;
-		height: 3px;
-		border-radius: 0 0 3px 3px;
-		background: var(--c-accent);
+		width: 24px;
+		height: 4px;
+		border-radius: 0 0 4px 4px;
+		background: var(--c-saffron);
 	}
 
 	.tabbar__icon {
@@ -2450,9 +2493,38 @@ html:not([dir="rtl"]) .site-drawer {
 	color: #fff;
 }
 
-.banner__slide.tone-teal { background: var(--c-teal); }
-.banner__slide.tone-ink { background: #2a2f37; }
-.banner__slide.tone-accent { background: var(--c-accent); }
+/* Banner tones: jewel colours under the khatam line pattern. */
+.banner__slide.tone-lapis {
+	background:
+		var(--pattern-light) 0 0 / 64px,
+		radial-gradient(120% 140% at 100% 0%, #4562dc 0%, var(--c-accent) 42%, var(--c-accent-deep) 100%);
+}
+
+.banner__slide.tone-plum {
+	background:
+		var(--pattern-light) 0 0 / 64px,
+		radial-gradient(120% 140% at 100% 0%, #8a3aa0 0%, var(--c-plum) 50%, #4a1859 100%);
+}
+
+.banner__slide.tone-saffron {
+	color: var(--c-ink);
+	background:
+		var(--pattern-dark) 0 0 / 64px,
+		radial-gradient(120% 140% at 100% 0%, #ffc56a 0%, var(--c-saffron) 55%, #f29a1f 100%);
+}
+
+.banner__slide.tone-saffron .banner__title {
+	color: var(--c-ink);
+}
+
+.banner__slide.tone-saffron .banner__text {
+	color: rgb(25 29 52 / 82%);
+}
+
+.banner__slide.tone-saffron .banner__button {
+	background: var(--c-ink);
+	color: #fff;
+}
 
 .banner__title {
 	margin: 0 0 6px;
@@ -2756,8 +2828,22 @@ html:not([dir="rtl"]) .site-drawer {
 }
 
 .strip__title {
+	display: flex;
+	align-items: center;
+	gap: 8px;
 	margin: 0;
 	font-size: clamp(1rem, 0.9rem + 0.4vw, 1.2rem);
+}
+
+/* Signature: a small saffron khatam star before each section title. */
+.strip__title::before {
+	content: "";
+	flex: none;
+	width: 14px;
+	height: 14px;
+	background: var(--c-saffron);
+	-webkit-mask: var(--mark-star) center / contain no-repeat;
+	mask: var(--mark-star) center / contain no-repeat;
 }
 
 .strip__more {
@@ -2782,9 +2868,16 @@ html:not([dir="rtl"]) .strip__more:hover .icon {
 	transform: scaleX(-1) translateX(-3px);
 }
 
-/* Special offers: the red strip */
+/* Special offers: lapis into plum under the khatam pattern. */
 .strip--deals .strip__frame {
-	background: var(--c-accent);
+	background:
+		var(--pattern-light) 0 0 / 64px,
+		linear-gradient(110deg, var(--c-accent) 0%, #4a37b0 48%, var(--c-plum) 100%);
+}
+
+.strip--deals :focus-visible,
+.banner__slide:not(.tone-saffron) :focus-visible {
+	outline-color: #fff;
 }
 
 .strip--deals .strip__title,
@@ -3641,11 +3734,19 @@ html:not([dir="rtl"]) .icon-chevron {
 	display: inline-block;
 	padding: 1px 8px;
 	border-radius: 999px;
-	background: var(--c-accent);
+	background: var(--c-ink);
 	color: #fff;
 	font-size: 0.75rem;
 	font-weight: 700;
 	line-height: 1.8;
+}
+
+/* Discount tag: saffron with ink type, squared at its inner end like a price tag. */
+.onsale {
+	background: var(--c-saffron);
+	color: var(--c-ink);
+	border-start-end-radius: 4px;
+	border-end-end-radius: 4px;
 }
 
 .badge--soldout {
@@ -3737,7 +3838,7 @@ ul.products li.product {
 
 ul.products li.product:hover {
 	z-index: 1;
-	box-shadow: 0 0 0 1px var(--c-line), 0 12px 32px -14px rgb(31 35 40 / 28%);
+	box-shadow: 0 0 0 1px var(--c-line), 0 12px 32px -14px rgb(25 29 52 / 28%);
 }
 
 .store-layout--listing ul.products[class*="columns-"] {
@@ -4169,7 +4270,7 @@ p.no-comments {
 .woocommerce-error {
 	flex-direction: column;
 	align-items: stretch;
-	background: var(--c-accent-soft);
+	background: var(--c-error-soft);
 	color: #8c211d;
 }
 
@@ -4497,7 +4598,7 @@ div.product > section {
 }
 
 .stock.out-of-stock {
-	color: var(--c-accent-deep);
+	color: var(--c-error);
 }
 
 form.cart {
@@ -4611,7 +4712,7 @@ table.variations label {
 
 .quantity:focus-within {
 	border-color: var(--c-focus);
-	box-shadow: 0 0 0 3px rgb(31 111 209 / 18%);
+	box-shadow: 0 0 0 3px rgb(45 72 192 / 20%);
 }
 
 .quantity .qty::-webkit-outer-spin-button,
@@ -4695,7 +4796,7 @@ table.variations label {
 	gap: 12px;
 	padding: 10px var(--gutter);
 	background: var(--c-surface);
-	box-shadow: 0 -1px 0 var(--c-line), 0 -10px 24px -18px rgb(31 35 40 / 45%);
+	box-shadow: 0 -1px 0 var(--c-line), 0 -10px 24px -18px rgb(25 29 52 / 45%);
 	animation: sofreh-rise-in 0.3s var(--ease-out);
 }
 
@@ -5112,8 +5213,8 @@ a.remove::before {
 }
 
 a.remove:hover {
-	background: var(--c-accent-soft);
-	color: var(--c-accent) !important;
+	background: var(--c-error-soft);
+	color: var(--c-error) !important;
 }
 
 .woocommerce-cart-form td.actions {
@@ -5411,7 +5512,7 @@ a.remove:hover {
 }
 
 .form-row .required {
-	color: var(--c-accent);
+	color: var(--c-error);
 	text-decoration: none;
 	border: 0;
 }
@@ -5481,12 +5582,12 @@ a.remove:hover {
 .form-row.woocommerce-invalid input.input-text,
 .form-row.woocommerce-invalid select,
 .form-row.woocommerce-invalid .select2-selection {
-	border-color: var(--c-accent) !important;
+	border-color: var(--c-error) !important;
 }
 
 .checkout-inline-error-message {
 	margin: 4px 0 0;
-	color: var(--c-accent);
+	color: var(--c-error);
 	font-size: 0.8125rem;
 }
 
@@ -5533,7 +5634,7 @@ a.remove:hover {
 
 .woocommerce-password-strength.short,
 .woocommerce-password-strength.bad {
-	background: var(--c-accent-soft);
+	background: var(--c-error-soft);
 	color: #8c211d;
 }
 
@@ -5624,7 +5725,7 @@ a.remove:hover {
 .select2-container--focus .select2-selection--single,
 .select2-container--open .select2-selection--single {
 	border-color: var(--c-focus);
-	box-shadow: 0 0 0 3px rgb(31 111 209 / 18%);
+	box-shadow: 0 0 0 3px rgb(45 72 192 / 20%);
 }
 
 .select2-dropdown {
@@ -5997,6 +6098,90 @@ ul.order_details li strong {
 	margin-block-start: 0;
 }
 
+/*
+ * «ورود» / «ساخت حساب»: with the script, one panel holds both forms under two
+ * tabs (WooCommerce's headings stay for screen readers).
+ */
+#customer_login.has-tabs {
+	display: block;
+	max-width: 560px;
+	margin-inline: auto;
+	padding: clamp(8px, 2vw, 16px) clamp(16px, 3vw, 28px) clamp(20px, 3vw, 28px);
+	background: var(--c-surface);
+	border-radius: var(--r-l);
+	box-shadow: var(--shadow-s);
+}
+
+#customer_login.has-tabs > .u-column1,
+#customer_login.has-tabs > .u-column2 {
+	padding: 0;
+	background: none;
+	box-shadow: none;
+}
+
+#customer_login.has-tabs > [hidden] {
+	display: none !important;
+}
+
+#customer_login.has-tabs h2 {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	overflow: hidden;
+	clip-path: inset(50%);
+	white-space: nowrap;
+}
+
+.auth-tabs {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	margin: 0 0 20px;
+	box-shadow: inset 0 -1px 0 var(--c-line);
+}
+
+.auth-tabs[hidden] {
+	display: none;
+}
+
+.auth-tabs__tab {
+	min-height: 52px;
+	padding: 0 12px;
+	border: 0;
+	background: none;
+	color: var(--c-muted);
+	font: inherit;
+	font-size: 1rem;
+	font-weight: 700;
+	cursor: pointer;
+	box-shadow: inset 0 -2px 0 transparent;
+	transition: color 0.15s ease, box-shadow 0.25s var(--ease-out);
+}
+
+.auth-tabs__tab:hover {
+	color: var(--c-ink);
+}
+
+.auth-tabs__tab[aria-selected="true"] {
+	color: var(--c-accent);
+	box-shadow: inset 0 -3px 0 var(--c-accent);
+}
+
+.auth-switch {
+	margin: 16px 0 0;
+	color: var(--c-muted);
+	font-size: 0.875rem;
+	text-align: center;
+}
+
+.auth-switch a {
+	font-weight: 700;
+}
+
+/* Checkout: the account choice for signed-out customers. */
+.sofreh-pa-checkout-account .sofreh-pa-create-link {
+	font-weight: 700;
+}
+
 .woocommerce-account .woocommerce > h2,
 #customer_login h2 {
 	font-size: 1.1rem;
@@ -6195,10 +6380,68 @@ html[dir="rtl"] .widget_price_filter .ui-slider .ui-slider-handle {
 
 .sofreh-pa-card {
 	margin: 0 0 24px;
-	border: 1px solid var(--c-line);
+	padding: 0; /* The plugin's fallback styles pad and frame the card; the theme's rows carry their own padding. */
+	border: 0;
 	border-radius: var(--r-l);
+	background: var(--c-surface);
+	box-shadow: var(--shadow-s);
 	overflow: hidden;
 	animation: sofreh-rise 0.5s var(--ease-out) both;
+}
+
+/* Tracking code and account confirmation side by side on wide screens. */
+@media (min-width: 900px) {
+	.sofreh-pa-card--split {
+		display: grid;
+		grid-template-columns: minmax(0, 1fr) minmax(0, 1.2fr);
+	}
+
+	.sofreh-pa-card--split .sofreh-pa-card__row + .sofreh-pa-card__row {
+		border-top: 0;
+		border-inline-start: 1px solid var(--c-line);
+	}
+
+	.sofreh-pa-card--split .sofreh-pa-card__row--tracking {
+		gap: 14px;
+	}
+
+	.sofreh-pa-card--split .sofreh-pa-card__row--tracking {
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: center;
+	}
+
+	.sofreh-pa-card--split .sofreh-pa-card__row--tracking > div {
+		flex: none;
+	}
+}
+
+.sofreh-pa-card__subtitle--done,
+.sofreh-pa-card__subtitle--waiting {
+	display: flex;
+	align-items: center;
+	gap: 8px;
+}
+
+.sofreh-pa-card__subtitle--done::before {
+	content: "";
+	flex: none;
+	width: 24px;
+	height: 24px;
+	border-radius: 50%;
+	background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23fff' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 12.5 4 4 8-9'/%3E%3C/svg%3E") center / 14px no-repeat, var(--c-accent);
+	animation: sofreh-pop 0.4s var(--ease-out) 0.35s both;
+}
+
+.sofreh-pa-card__subtitle--waiting::before {
+	content: "";
+	flex: none;
+	width: 10px;
+	height: 10px;
+	margin-inline: 4px;
+	border-radius: 50%;
+	background: var(--c-saffron);
+	box-shadow: 0 0 0 5px var(--c-saffron-soft);
 }
 
 @keyframes sofreh-rise {
@@ -6212,7 +6455,9 @@ html[dir="rtl"] .widget_price_filter .ui-slider .ui-slider-handle {
 	padding: clamp(16px, 2.5vw, 22px);
 }
 
-.sofreh-pa-card__row + .sofreh-pa-card__row {
+.sofreh-pa-card .sofreh-pa-card__row + .sofreh-pa-card__row {
+	margin-top: 0;
+	padding-top: clamp(16px, 2.5vw, 22px);
 	border-top: 1px solid var(--c-line);
 }
 
@@ -6458,7 +6703,7 @@ html[dir="rtl"] .widget_price_filter .ui-slider .ui-slider-handle {
 .sofreh-pa-status--cancelled,
 .sofreh-pa-status--failed,
 .sofreh-pa-status--refunded {
-	background: var(--c-accent-soft);
+	background: var(--c-error-soft);
 	color: #8c211d;
 }
 
@@ -7106,6 +7351,75 @@ html[dir="rtl"] .widget_price_filter .ui-slider .ui-slider-handle {
 	}
 	document.body.addEventListener( 'wc-blocks_added_to_cart', refreshFragments );
 	document.body.addEventListener( 'wc-blocks_removed_from_cart', refreshFragments );
+
+	/* ------------------------------------------------------------------ */
+	/* 9. My account: «ورود» / «ساخت حساب» tabs                            */
+	/* ------------------------------------------------------------------ */
+
+	// WooCommerce prints the login and sign-up forms side by side; the tabs
+	// show one at a time inside a single panel. Without this script both
+	// forms simply stay visible.
+	var authTabs = document.querySelector( '[data-sofreh-auth-tabs]' );
+	var authBox = document.getElementById( 'customer_login' );
+	if ( authTabs && authBox ) {
+		var panels = {
+			login: authBox.querySelector( '.u-column1' ),
+			register: authBox.querySelector( '.u-column2' ),
+		};
+		if ( panels.login && panels.register ) {
+			var tabs = {
+				login: authTabs.querySelector( '[data-tab="login"]' ),
+				register: authTabs.querySelector( '[data-tab="register"]' ),
+			};
+			[ 'login', 'register' ].forEach( function ( name ) {
+				panels[ name ].id = panels[ name ].id || 'auth-panel-' + name;
+				panels[ name ].setAttribute( 'role', 'tabpanel' );
+				panels[ name ].setAttribute( 'aria-labelledby', tabs[ name ].id );
+				tabs[ name ].setAttribute( 'aria-controls', panels[ name ].id );
+			} );
+
+			var showTab = function ( name, focusTab ) {
+				[ 'login', 'register' ].forEach( function ( other ) {
+					var on = other === name;
+					tabs[ other ].setAttribute( 'aria-selected', on ? 'true' : 'false' );
+					tabs[ other ].tabIndex = on ? 0 : -1;
+					panels[ other ].hidden = ! on;
+				} );
+				if ( focusTab ) {
+					tabs[ name ].focus();
+				}
+			};
+
+			authBox.insertBefore( authTabs, authBox.firstChild );
+			authTabs.hidden = false;
+			authBox.classList.add( 'has-tabs' );
+			showTab( authTabs.getAttribute( 'data-initial' ) === 'register' ? 'register' : 'login' );
+
+			authTabs.addEventListener( 'click', function ( event ) {
+				var tab = event.target.closest( '[data-tab]' );
+				if ( tab ) {
+					showTab( tab.getAttribute( 'data-tab' ) );
+				}
+			} );
+			// Arrow keys move between the two tabs, whatever the direction.
+			authTabs.addEventListener( 'keydown', function ( event ) {
+				if ( [ 'ArrowLeft', 'ArrowRight', 'Home', 'End' ].indexOf( event.key ) === -1 ) {
+					return;
+				}
+				event.preventDefault();
+				var current = tabs.login.getAttribute( 'aria-selected' ) === 'true' ? 'login' : 'register';
+				var next = event.key === 'Home' ? 'login' : event.key === 'End' ? 'register' : ( current === 'login' ? 'register' : 'login' );
+				showTab( next, true );
+			} );
+			authBox.addEventListener( 'click', function ( event ) {
+				var link = event.target.closest( '[data-sofreh-auth-switch]' );
+				if ( link ) {
+					event.preventDefault();
+					showTab( link.getAttribute( 'data-sofreh-auth-switch' ), true );
+				}
+			} );
+		}
+	}
 }() );
 ```
 
@@ -7138,19 +7452,19 @@ function sofreh_customizer_defaults() {
 		'hero_button'       => __( 'See the products', 'sofreh' ),
 		'hero_image'        => 0,
 		'hero_link'         => '',
-		'hero_tone'         => 'teal',
+		'hero_tone'         => 'lapis',
 		'slide2_title'      => '',
 		'slide2_text'       => '',
 		'slide2_button'     => '',
 		'slide2_image'      => 0,
 		'slide2_link'       => '',
-		'slide2_tone'       => 'ink',
+		'slide2_tone'       => 'plum',
 		'slide3_title'      => '',
 		'slide3_text'       => '',
 		'slide3_button'     => '',
 		'slide3_image'      => 0,
 		'slide3_link'       => '',
-		'slide3_tone'       => 'accent',
+		'slide3_tone'       => 'saffron',
 		'home_categories'   => true,
 		'home_new'          => true,
 		'home_sale'         => true,
@@ -7209,7 +7523,16 @@ function sofreh_sanitize_product_count( $value ) {
  * @return string
  */
 function sofreh_sanitize_tone( $value ) {
-	return in_array( $value, array( 'teal', 'ink', 'accent' ), true ) ? $value : 'teal';
+	// Tones saved by theme 2.0 (teal, dark, red) map onto the current palette.
+	$legacy = array(
+		'teal'   => 'lapis',
+		'ink'    => 'plum',
+		'accent' => 'saffron',
+	);
+	if ( isset( $legacy[ $value ] ) ) {
+		return $legacy[ $value ];
+	}
+	return in_array( $value, array( 'lapis', 'plum', 'saffron' ), true ) ? $value : 'lapis';
 }
 
 /**
@@ -7300,9 +7623,9 @@ function sofreh_customize_register( $wp_customize ) {
 	$add( 'hero_show', 'sofreh_home', __( 'Show the banner', 'sofreh' ), 'checkbox', 'sofreh_sanitize_checkbox' );
 
 	$tones = array(
-		'teal'   => __( 'Teal', 'sofreh' ),
-		'ink'    => __( 'Dark', 'sofreh' ),
-		'accent' => __( 'Red', 'sofreh' ),
+		'lapis'   => __( 'Lapis', 'sofreh' ),
+		'plum'    => __( 'Plum', 'sofreh' ),
+		'saffron' => __( 'Saffron', 'sofreh' ),
 	);
 	foreach ( array(
 		'hero'   => 1,
@@ -8404,7 +8727,7 @@ function sofreh_wc_sale_flash( $html, $post, $product ) {
 		'<span class="onsale"><span aria-hidden="true">%1$s</span><span class="screen-reader-text">%2$s</span></span>',
 		esc_html(
 			/* translators: %s: discount percentage, e.g. 20. Shown in a small badge. */
-			sprintf( _x( '%s%%', 'discount badge', 'sofreh' ), number_format_i18n( $percent ) )
+			sprintf( __( '%s%%', 'sofreh' ), number_format_i18n( $percent ) )
 		),
 		esc_html(
 			/* translators: %s: discount percentage, e.g. 20. */
@@ -8652,7 +8975,7 @@ function sofreh_wc_cart_fragment( $fragments ) {
 add_filter( 'woocommerce_add_to_cart_fragments', 'sofreh_wc_cart_fragment' );
 
 /**
- * Header account link: "Log in | Sign up" for visitors, "My account" after.
+ * Header account link: "Log in | Create account" for visitors, "My account" after.
  */
 function sofreh_account_link() {
 	if ( is_user_logged_in() ) {
@@ -8668,9 +8991,78 @@ function sofreh_account_link() {
 		'<a class="header-action header-account header-account--guest" href="%1$s">%2$s<span class="header-action__label">%3$s</span></a>',
 		esc_url( wc_get_page_permalink( 'myaccount' ) ),
 		sofreh_get_icon( 'user' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Fixed SVG string.
-		esc_html__( 'Log in | Sign up', 'sofreh' )
+		esc_html__( 'Log in | Create account', 'sofreh' )
 	);
 }
+
+/*
+ * -------------------------------------------------------------------------
+ * Log in / Create account
+ * -------------------------------------------------------------------------
+ */
+
+/**
+ * Is sign-up offered on the My Account page?
+ *
+ * @return bool
+ */
+function sofreh_wc_registration_open() {
+	return 'yes' === get_option( 'woocommerce_enable_myaccount_registration' );
+}
+
+/**
+ * Tabs over WooCommerce's own login and sign-up forms: «ورود» and
+ * «ساخت حساب». The script moves them into the panel and shows one form at a
+ * time; without it both forms stay visible side by side.
+ */
+function sofreh_wc_auth_tabs() {
+	if ( ! sofreh_wc_registration_open() || is_checkout() ) {
+		return;
+	}
+	// phpcs:disable WordPress.Security.NonceVerification -- Only chooses which tab opens first.
+	$initial = ( isset( $_POST['register'] ) || ( isset( $_GET['action'] ) && 'register' === $_GET['action'] ) ) ? 'register' : 'login';
+	// phpcs:enable
+	?>
+	<div class="auth-tabs" role="tablist" aria-label="<?php esc_attr_e( 'Your account', 'sofreh' ); ?>" data-sofreh-auth-tabs data-initial="<?php echo esc_attr( $initial ); ?>" hidden>
+		<button type="button" class="auth-tabs__tab" role="tab" id="auth-tab-login" data-tab="login"><?php esc_html_e( 'Log in', 'sofreh' ); ?></button>
+		<button type="button" class="auth-tabs__tab" role="tab" id="auth-tab-register" data-tab="register"><?php esc_html_e( 'Create account', 'sofreh' ); ?></button>
+	</div>
+	<?php
+}
+add_action( 'woocommerce_before_customer_login_form', 'sofreh_wc_auth_tabs' );
+
+/**
+ * "No account yet? Create account" under the login form, and the way back
+ * under the sign-up form.
+ */
+function sofreh_wc_auth_switch_to_register() {
+	if ( ! sofreh_wc_registration_open() || is_checkout() ) {
+		return;
+	}
+	printf(
+		'<p class="auth-switch">%1$s <a href="%2$s" data-sofreh-auth-switch="register">%3$s</a></p>',
+		esc_html__( 'No account yet?', 'sofreh' ),
+		esc_url( add_query_arg( 'action', 'register' ) ),
+		esc_html__( 'Create account', 'sofreh' )
+	);
+}
+add_action( 'woocommerce_login_form_end', 'sofreh_wc_auth_switch_to_register', 20 );
+
+/**
+ * "Already have an account? Log in" under the sign-up form.
+ */
+function sofreh_wc_auth_switch_to_login() {
+	if ( is_checkout() ) {
+		return;
+	}
+	printf(
+		'<p class="auth-switch">%1$s <a href="%2$s" data-sofreh-auth-switch="login">%3$s</a></p>',
+		esc_html__( 'Already have an account?', 'sofreh' ),
+		esc_url( remove_query_arg( 'action' ) ),
+		esc_html__( 'Log in', 'sofreh' )
+	);
+}
+add_action( 'woocommerce_register_form_end', 'sofreh_wc_auth_switch_to_login', 20 );
 ```
 
 ### sofreh/languages/fa_IR.po
@@ -8680,7 +9072,7 @@ function sofreh_account_link() {
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Sofreh 2.0.0\n"
+"Project-Id-Version: Sofreh 2.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/sofreh\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Persian\n"
@@ -8689,7 +9081,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"POT-Creation-Date: 2026-10-12T17:32:00+00:00\n"
+"POT-Creation-Date: 2026-10-12T18:33:25+00:00\n"
 "PO-Revision-Date: 2026-10-12 12:00+0330\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: sofreh\n"
@@ -8706,8 +9098,8 @@ msgstr "https://github.com/yns-nur/nur/tree/main/wp-theme/sofreh"
 
 #. Description of the theme
 #: style.css:6
-msgid "A Persian, right-to-left WooCommerce theme for home and kitchen stores, built phone-first in the familiar Iranian marketplace layout: product search up front, a category mega menu and drawer, a swipeable banner, a red special-offers strip, a numbered best-seller list, a sticky buy box and buy bar on product pages, and a bottom tab bar on phones. Styles the classic and block cart, checkout and account pages. Ships with the Vazirmatn typeface and a full Persian (fa_IR) translation."
-msgstr "پوسته‌ای فارسی و راست‌به‌چپ برای فروشگاه‌های ووکامرسی لوازم خانه و آشپزخانه، با اولویت موبایل و در چیدمان آشنای فروشگاه‌های اینترنتی ایرانی: جست‌وجوی محصول در بالای صفحه، منوی دسته‌بندی‌ها و کشوی دسته‌ها، بنر قابل کشیدن، نوار قرمز پیشنهادهای ویژه، فهرست شماره‌دار پرفروش‌ترین‌ها، جعبهٔ خرید و نوار خرید چسبان در صفحهٔ محصول و نوار پایینی در موبایل. سبد خرید، تسویه حساب و حساب کاربری (کلاسیک و بلوکی) را هماهنگ می‌کند. همراه با قلم وزیرمتن و ترجمهٔ کامل فارسی."
+msgid "A Persian, right-to-left WooCommerce theme for home and kitchen stores, built phone-first in the familiar Iranian marketplace layout and its own lapis, saffron and plum palette: product search up front, a category mega menu and drawer, a swipeable banner, a special-offers band, a numbered best-seller list, a sticky buy box and buy bar on product pages, and a bottom tab bar on phones. Styles the classic and block cart, checkout and account pages. Ships with the Vazirmatn typeface and a full Persian (fa_IR) translation."
+msgstr "پوسته‌ای فارسی و راست‌به‌چپ برای فروشگاه‌های ووکامرسی لوازم خانه و آشپزخانه، با اولویت موبایل، در چیدمان آشنای فروشگاه‌های اینترنتی ایرانی و با رنگ‌های خودش (لاجوردی، زعفرانی و آلویی): جست‌وجوی محصول در بالای صفحه، منوی دسته‌بندی‌ها و کشوی دسته‌ها، بنر قابل کشیدن، نوار پیشنهادهای ویژه، فهرست شماره‌دار پرفروش‌ترین‌ها، جعبهٔ خرید و نوار خرید چسبان در صفحهٔ محصول و نوار پایینی در موبایل. سبد خرید، تسویه حساب و حساب کاربری (کلاسیک و بلوکی) را هماهنگ می‌کند. همراه با قلم وزیرمتن و ترجمهٔ کامل فارسی."
 
 #. Author of the theme
 #: style.css:4
@@ -8827,6 +9219,8 @@ msgid "My account"
 msgstr "حساب من"
 
 #: header.php:141
+#: inc/woocommerce.php:646
+#: inc/woocommerce.php:681
 msgid "Log in"
 msgstr "ورود"
 
@@ -8846,170 +9240,170 @@ msgstr "دیدن محصولات"
 msgid "A store for home and kitchen goods."
 msgstr "فروشگاه لوازم خانه و آشپزخانه."
 
-#: inc/customizer.php:140
+#: inc/customizer.php:149
 msgid "Sofreh theme"
 msgstr "پوستهٔ سفره"
 
-#: inc/customizer.php:146
+#: inc/customizer.php:155
 msgid "Header"
 msgstr "سربرگ"
 
-#: inc/customizer.php:147
+#: inc/customizer.php:156
 msgid "Home page"
 msgstr "صفحهٔ اصلی"
 
-#: inc/customizer.php:148
+#: inc/customizer.php:157
 #: template-parts/home/trust.php:28
 msgid "Store promises"
 msgstr "تعهدهای فروشگاه"
 
-#: inc/customizer.php:149
+#: inc/customizer.php:158
 msgid "Product page"
 msgstr "صفحهٔ محصول"
 
-#: inc/customizer.php:150
+#: inc/customizer.php:159
 msgid "Footer and contact"
 msgstr "پانویس و تماس"
 
-#: inc/customizer.php:184
+#: inc/customizer.php:193
 msgid "Announcement bar text (leave empty to hide)"
 msgstr "متن نوار اطلاع‌رسانی (برای پنهان شدن خالی بگذارید)"
 
-#: inc/customizer.php:186
+#: inc/customizer.php:195
 msgid "Show the banner"
 msgstr "نمایش بنر"
 
-#: inc/customizer.php:189
-msgid "Teal"
-msgstr "سبزآبی"
+#: inc/customizer.php:198
+msgid "Lapis"
+msgstr "لاجوردی"
 
-#: inc/customizer.php:190
-msgid "Dark"
-msgstr "تیره"
+#: inc/customizer.php:199
+msgid "Plum"
+msgstr "آلویی"
 
-#: inc/customizer.php:191
-msgid "Red"
-msgstr "قرمز"
+#: inc/customizer.php:200
+msgid "Saffron"
+msgstr "زعفرانی"
 
 #. translators: %d: banner slide number.
-#: inc/customizer.php:199
+#: inc/customizer.php:208
 #, php-format
 msgid "Banner %d"
 msgstr "بنر %d"
 
-#: inc/customizer.php:203
+#: inc/customizer.php:212
 msgid "heading"
 msgstr "عنوان"
 
-#: inc/customizer.php:206
+#: inc/customizer.php:215
 msgid "Leave empty to hide this slide."
 msgstr "برای پنهان کردن این اسلاید خالی بگذارید."
 
-#: inc/customizer.php:208
+#: inc/customizer.php:217
 msgid "text"
 msgstr "متن"
 
-#: inc/customizer.php:209
+#: inc/customizer.php:218
 msgid "button label"
 msgstr "متن دکمه"
 
-#: inc/customizer.php:210
+#: inc/customizer.php:219
 msgid "link (empty = shop page)"
 msgstr "پیوند (خالی = صفحهٔ فروشگاه)"
 
-#: inc/customizer.php:211
+#: inc/customizer.php:220
 msgid "background"
 msgstr "رنگ پس‌زمینه"
 
-#: inc/customizer.php:225
+#: inc/customizer.php:234
 msgid "image"
 msgstr "تصویر"
 
-#: inc/customizer.php:226
+#: inc/customizer.php:235
 msgid "A product photo on a plain or transparent background works best (about 800 × 800 pixels)."
 msgstr "عکس محصول روی زمینهٔ ساده یا شفاف بهترین نتیجه را دارد (حدود ۸۰۰ × ۸۰۰ پیکسل)."
 
-#: inc/customizer.php:234
+#: inc/customizer.php:243
 msgid "Show product categories"
 msgstr "نمایش دسته‌بندی محصولات"
 
-#: inc/customizer.php:235
+#: inc/customizer.php:244
 msgid "Show newest products"
 msgstr "نمایش جدیدترین محصولات"
 
-#: inc/customizer.php:236
+#: inc/customizer.php:245
 msgid "Show products on sale"
 msgstr "نمایش محصولات تخفیف‌دار"
 
-#: inc/customizer.php:237
+#: inc/customizer.php:246
 msgid "Show best sellers"
 msgstr "نمایش پرفروش‌ترین‌ها"
 
-#: inc/customizer.php:241
+#: inc/customizer.php:250
 msgid "Products per home page section"
 msgstr "تعداد محصول در هر بخش صفحهٔ اصلی"
 
-#: inc/customizer.php:254
+#: inc/customizer.php:263
 msgid "Show the promises strip on the home page"
 msgstr "نمایش نوار تعهدها در صفحهٔ اصلی"
 
-#: inc/customizer.php:255
+#: inc/customizer.php:264
 msgid "Only state what your store actually offers. Leave a field empty to hide it."
 msgstr "فقط چیزی را بنویسید که فروشگاه شما واقعاً ارائه می‌دهد. برای پنهان کردن هر مورد، آن را خالی بگذارید."
 
-#: inc/customizer.php:257
+#: inc/customizer.php:266
 msgid "Promise 1 (delivery)"
 msgstr "تعهد ۱ (ارسال)"
 
-#: inc/customizer.php:257
+#: inc/customizer.php:266
 msgid "e.g. Delivery across the country"
 msgstr "مثلاً ارسال به سراسر کشور"
 
-#: inc/customizer.php:258
+#: inc/customizer.php:267
 msgid "Promise 2 (payment)"
 msgstr "تعهد ۲ (پرداخت)"
 
-#: inc/customizer.php:258
+#: inc/customizer.php:267
 msgid "e.g. Pay on delivery"
 msgstr "مثلاً پرداخت در محل"
 
-#: inc/customizer.php:259
+#: inc/customizer.php:268
 msgid "Promise 3 (returns)"
 msgstr "تعهد ۳ (بازگشت کالا)"
 
-#: inc/customizer.php:259
+#: inc/customizer.php:268
 msgid "e.g. Seven-day returns"
 msgstr "مثلاً هفت روز ضمانت بازگشت"
 
-#: inc/customizer.php:260
+#: inc/customizer.php:269
 msgid "Promise 4 (support)"
 msgstr "تعهد ۴ (پشتیبانی)"
 
-#: inc/customizer.php:260
+#: inc/customizer.php:269
 msgid "e.g. Support by phone"
 msgstr "مثلاً پشتیبانی تلفنی"
 
-#: inc/customizer.php:273
+#: inc/customizer.php:282
 msgid "Note under the add-to-cart button"
 msgstr "یادداشت زیر دکمهٔ افزودن به سبد"
 
-#: inc/customizer.php:276
+#: inc/customizer.php:285
 msgid "For example your shipping time or return policy. Leave empty to hide."
 msgstr "برای نمونه زمان ارسال یا شرایط بازگشت کالا. برای پنهان شدن خالی بگذارید."
 
-#: inc/customizer.php:279
+#: inc/customizer.php:288
 msgid "About the store"
 msgstr "دربارهٔ فروشگاه"
 
-#: inc/customizer.php:280
+#: inc/customizer.php:289
 msgid "Phone"
 msgstr "تلفن"
 
-#: inc/customizer.php:281
+#: inc/customizer.php:290
 msgid "Email"
 msgstr "ایمیل"
 
-#: inc/customizer.php:282
+#: inc/customizer.php:291
 msgid "Address"
 msgstr "نشانی"
 
@@ -9136,7 +9530,6 @@ msgstr "حراج"
 #. translators: %s: discount percentage, e.g. 20. Shown in a small badge.
 #: inc/woocommerce.php:349
 #, php-format
-msgctxt "discount badge"
 msgid "%s%%"
 msgstr "%s٪"
 
@@ -9177,8 +9570,25 @@ msgid "Cart"
 msgstr "سبد خرید"
 
 #: inc/woocommerce.php:613
-msgid "Log in | Sign up"
-msgstr "ورود | ثبت‌نام"
+msgid "Log in | Create account"
+msgstr "ورود | ساخت حساب"
+
+#: inc/woocommerce.php:645
+msgid "Your account"
+msgstr "حساب کاربری"
+
+#: inc/woocommerce.php:647
+#: inc/woocommerce.php:665
+msgid "Create account"
+msgstr "ساخت حساب"
+
+#: inc/woocommerce.php:663
+msgid "No account yet?"
+msgstr "حساب کاربری ندارید؟"
+
+#: inc/woocommerce.php:679
+msgid "Already have an account?"
+msgstr "حساب کاربری دارید؟"
 
 #: index.php:21
 msgid "Latest posts"
@@ -9750,7 +10160,7 @@ Requires at least: 6.7
 Tested up to: 7.1
 Requires PHP: 7.4
 Requires Plugins: woocommerce
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -9763,21 +10173,30 @@ login details are shown on the order confirmation page.
   buy straight away.
 * The mobile number is required and becomes the username. Persian/Arabic digits,
   spaces and +98 / 0098 prefixes are accepted and stored as 09XXXXXXXXX.
-* When the order is placed, a customer account is created with a generated
-  password, the order is attached to it, the checkout addresses are saved to it
-  and the customer is signed in (as WooCommerce does for its own checkout
-  sign-up).
-* The order confirmation page shows the order tracking code, the username and
-  the password, with copy buttons, and links to complete the account.
+* Only when the order is paid (the gateway reports payment complete, or the
+  order reaches Processing/Completed) is a customer account created with a
+  generated password; the order is attached to it, the checkout addresses are
+  saved to it and the customer is signed in (as WooCommerce does for its own
+  checkout sign-up). Unpaid, failed and cancelled orders never create accounts.
+* The order confirmation page shows the order tracking code with the account
+  confirmation beside it: the username and the password, with copy buttons, and
+  links to complete the account. While a payment is still awaited (for example
+  a bank transfer on hold) it says the account is created once the payment is
+  confirmed.
+* If the payment is confirmed while the buyer is away (a server callback, or
+  the store marking a bank transfer as paid), the account is created then, and
+  its password is set and shown the next time the buyer opens the confirmation
+  page in the browser they ordered from.
 * The password is kept only in that customer's session for 30 minutes. It is
   never stored with the order, never written to a log and never sent by email
   or SMS; WordPress stores only its hash.
 * If an account with the number already exists, the order is NOT attached to it
   (placing an order never grants access to someone else's account); the page
   suggests signing in, and the order can still be tracked with its code.
-* Manual sign-up stays available on the My Account page: the form asks for the
-  mobile number (it becomes the username), an email address (WooCommerce
-  requires one for sign-up) and a password the customer chooses.
+* "Create account" (ساخت حساب) sits beside "Log in" on the My Account page and
+  is offered at checkout, returning to the checkout afterwards. The form asks
+  for the mobile number (it becomes the username), an email address
+  (WooCommerce requires one for sign-up) and a password the customer chooses.
 * Customers sign in later with the mobile number (any digit form) and the
   password, and are reminded on their dashboard to complete their account. The
   login field is labelled "Mobile number or email".
@@ -9801,6 +10220,12 @@ there); on the classic checkout the email becomes optional.
 
 == Changelog ==
 
+= 1.2.0 =
+* Accounts for guest orders are created only once the order is paid, and shown
+  beside the tracking code on the confirmation page.
+* "Create account" offered at checkout, with a return to the checkout.
+* The sign-up form's heading and button read "Create account".
+
 = 1.1.0 =
 * Manual sign-up on My Account with the mobile number as the username.
 * Login field labelled "Mobile number or email".
@@ -9816,8 +10241,8 @@ there); on the classic checkout the email becomes optional.
 /**
  * Plugin Name:       Sofreh Phone Accounts
  * Plugin URI:        https://github.com/yns-nur/nur/tree/main/wp-theme/sofreh-phone-accounts
- * Description:       Customers buy with just their mobile number. A customer account is created automatically when the order is placed, and the order confirmation page shows the order tracking code together with the login details (mobile number as username, plus a generated password). Adds an order-tracking form that works with order number and mobile number. Companion to the Sofreh theme, but works with any theme.
- * Version:           1.1.0
+ * Description:       Customers buy with just their mobile number, or create an account first. When a signed-out customer's order is paid, a customer account is created automatically, and the order confirmation page shows the order tracking code with the account confirmation and login details beside it (mobile number as username, plus a generated password). Adds an order-tracking form that works with order number and mobile number. Companion to the Sofreh theme, but works with any theme.
+ * Version:           1.2.0
  * Requires at least: 6.7
  * Requires PHP:      7.4
  * Requires Plugins:  woocommerce
@@ -9834,7 +10259,7 @@ there); on the classic checkout the email becomes optional.
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'SOFREH_PA_VERSION', '1.1.0' );
+define( 'SOFREH_PA_VERSION', '1.2.0' );
 define( 'SOFREH_PA_FILE', __FILE__ );
 define( 'SOFREH_PA_DIR', plugin_dir_path( __FILE__ ) );
 define( 'SOFREH_PA_URL', plugin_dir_url( __FILE__ ) );
@@ -10006,18 +10431,25 @@ register_activation_hook( __FILE__, array( 'Sofreh_Phone_Accounts', 'activate' )
  * Flow:
  * 1. Checkout always allows buying without signing in first (no redirect to a
  *    registration page) and requires a mobile number.
- * 2. When a signed-out customer places an order, an account is created with
- *    the mobile number as username and a generated password. The order is
- *    attached to it and the customer is signed in, the same way WooCommerce's
- *    own "create an account" checkout option does.
- * 3. The order confirmation page shows the order tracking code and those
- *    login details. The password is kept only in the customer's own session,
- *    for a limited time, and is never stored in the order or sent by email.
+ * 2. When a signed-out customer's order is paid (the gateway confirms the
+ *    payment, or WooCommerce moves the order to a paid status such as
+ *    "processing" for cash on delivery), an account is created with the
+ *    mobile number as username and a generated password. The order is
+ *    attached to it and, in the buyer's own browser, the customer is signed
+ *    in, the same way WooCommerce's own checkout sign-up does. Unpaid,
+ *    failed or cancelled orders never create accounts.
+ * 3. The order confirmation page shows the order tracking code with the
+ *    account confirmation and login details beside it. The password is kept
+ *    only in the customer's own session, for a limited time, and is never
+ *    stored in the order or sent by email. If the payment was confirmed by a
+ *    server-to-server callback while the buyer was away, the account is
+ *    created then and its password is set and shown when the buyer opens the
+ *    confirmation page in the browser that placed the order.
  * 4. Customers can sign in later with the mobile number (Persian digits and
  *    +98 forms accepted) and complete their account details.
- * 5. Manual sign-up stays available on the My Account page; it asks for the
- *    mobile number too, which becomes the username, so every account signs
- *    in the same way.
+ * 5. "Create account" (manual sign-up) sits beside "Log in" on the My Account
+ *    page and is offered at checkout; it asks for the mobile number too,
+ *    which becomes the username, so every account signs in the same way.
  *
  * @package SofrehPhoneAccounts
  */
@@ -10040,6 +10472,18 @@ final class Sofreh_Phone_Accounts {
 
 	/** Option holding the order tracking page ID. */
 	const OPTION_TRACKING_PAGE = 'sofreh_pa_tracking_page_id';
+
+	/** Session key: the order this browser placed without signing in. */
+	const SESSION_ORDER = 'sofreh_pa_guest_order';
+
+	/** Order meta: placed at checkout by a signed-out customer. */
+	const META_GUEST = '_sofreh_pa_guest_checkout';
+
+	/** Order meta: the account step for this order is finished. */
+	const META_DONE = '_sofreh_pa_account_done';
+
+	/** Order meta: an account was created while the buyer was away; set and show its password on their next visit. */
+	const META_REVEAL = '_sofreh_pa_reveal_pending';
 
 	/**
 	 * Singleton.
@@ -10076,11 +10520,14 @@ final class Sofreh_Phone_Accounts {
 		add_action( 'woocommerce_checkout_create_order', array( $this, 'classic_normalize_order_phone' ), 10 );
 		add_action( 'woocommerce_store_api_checkout_update_order_from_request', array( $this, 'blocks_validate_mobile' ), 10 );
 
-		// 2. Account creation once the order exists.
+		// 2. Account creation once the order is paid.
 		add_action( 'woocommerce_checkout_order_processed', array( $this, 'classic_order_processed' ), 20, 3 );
-		add_action( 'woocommerce_store_api_checkout_order_processed', array( $this, 'maybe_create_account' ), 20 );
+		add_action( 'woocommerce_store_api_checkout_order_processed', array( $this, 'mark_guest_order' ), 20 );
+		add_action( 'woocommerce_payment_complete', array( $this, 'on_payment_complete' ) );
+		add_action( 'woocommerce_order_status_changed', array( $this, 'on_status_changed' ), 10, 4 );
 
 		// 3. Order confirmation page.
+		add_action( 'template_redirect', array( $this, 'on_confirmation_page' ), 5 );
 		add_action( 'woocommerce_before_thankyou', array( $this, 'render_confirmation' ), 5 );
 		add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_assets' ) );
 
@@ -10093,8 +10540,12 @@ final class Sofreh_Phone_Accounts {
 		add_action( 'woocommerce_account_dashboard', array( $this, 'dashboard_notice' ), 5 );
 		add_action( 'woocommerce_save_account_details', array( $this, 'mark_complete' ) );
 
-		// 5. Manual sign-up with the mobile number as username.
+		// 5. "Create account" with the mobile number as username.
 		add_action( 'woocommerce_register_form_start', array( $this, 'register_mobile_field' ) );
+		add_action( 'woocommerce_login_form_end', array( $this, 'return_field' ) );
+		add_action( 'woocommerce_register_form_end', array( $this, 'return_field' ) );
+		add_action( 'woocommerce_before_checkout_form', array( $this, 'checkout_account_notice' ), 15 );
+		add_filter( 'render_block_woocommerce/checkout', array( $this, 'block_checkout_account_notice' ) );
 		add_filter( 'woocommerce_process_registration_errors', array( $this, 'register_validate' ) );
 		add_filter( 'woocommerce_new_customer_data', array( $this, 'register_username' ) );
 		add_action( 'woocommerce_created_customer', array( $this, 'register_save_phone' ) );
@@ -10228,7 +10679,7 @@ final class Sofreh_Phone_Accounts {
 			$fields['billing_phone']['label']       = __( 'Mobile number', 'sofreh-phone-accounts' );
 			$fields['billing_phone']['placeholder'] = '09121234567';
 			if ( ! is_user_logged_in() ) {
-				$fields['billing_phone']['description'] = __( 'Your account is created with this number; you will see your password after placing the order.', 'sofreh-phone-accounts' );
+				$fields['billing_phone']['description'] = __( 'Once your payment is confirmed, your account is created with this number and your password is shown on the confirmation page.', 'sofreh-phone-accounts' );
 			}
 		}
 		if ( isset( $fields['billing_email'] ) ) {
@@ -10313,34 +10764,100 @@ final class Sofreh_Phone_Accounts {
 	 * @param WC_Order $order    Order.
 	 */
 	public function classic_order_processed( $order_id, $posted, $order ) {
-		$this->maybe_create_account( $order instanceof WC_Order ? $order : wc_get_order( $order_id ) );
+		$this->mark_guest_order( $order instanceof WC_Order ? $order : wc_get_order( $order_id ) );
 	}
 
 	/**
-	 * Create an account for a signed-out customer and attach the order to it.
+	 * Remember that this browser placed the order without signing in. Runs
+	 * before the payment is taken, so no account is created yet.
 	 *
 	 * @param WC_Order $order Order.
 	 */
-	public function maybe_create_account( $order ) {
+	public function mark_guest_order( $order ) {
 		if ( ! $order instanceof WC_Order || is_user_logged_in() || $order->get_customer_id() ) {
 			return;
 		}
+		$order->update_meta_data( self::META_GUEST, 1 );
+		$order->save_meta_data();
+		if ( WC()->session ) {
+			WC()->session->set( self::SESSION_ORDER, $order->get_id() );
+		}
+	}
 
-		$mobile = self::normalize_mobile( $order->get_billing_phone() );
+	/**
+	 * The gateway reported a successful payment.
+	 *
+	 * @param int $order_id Order ID.
+	 */
+	public function on_payment_complete( $order_id ) {
+		$this->create_account_for_paid_order( wc_get_order( $order_id ) );
+	}
+
+	/**
+	 * The order moved to a paid status (for example "processing" for cash on
+	 * delivery, or when the store marks a bank transfer as received).
+	 *
+	 * @param int      $order_id Order ID.
+	 * @param string   $from     Old status.
+	 * @param string   $to       New status.
+	 * @param WC_Order $order    Order.
+	 */
+	public function on_status_changed( $order_id, $from, $to, $order ) {
+		if ( in_array( $to, wc_get_is_paid_statuses(), true ) ) {
+			$this->create_account_for_paid_order( $order instanceof WC_Order ? $order : wc_get_order( $order_id ) );
+		}
+	}
+
+	/**
+	 * Is this request the buyer's own browser session for the order?
+	 *
+	 * @param WC_Order $order Order.
+	 * @return bool
+	 */
+	private function is_buyer_session( $order ) {
+		return ! is_user_logged_in()
+			&& WC()->session
+			&& (int) WC()->session->get( self::SESSION_ORDER ) === (int) $order->get_id();
+	}
+
+	/**
+	 * Create an account for a paid order placed without signing in, and
+	 * attach the order to it. In the buyer's own browser the customer is
+	 * signed in and the login details are kept for the confirmation page;
+	 * otherwise (a server callback) the password is set and shown when the
+	 * buyer next opens the confirmation page.
+	 *
+	 * @param WC_Order|false $order Order.
+	 */
+	public function create_account_for_paid_order( $order ) {
+		if ( ! $order instanceof WC_Order || ! $order->is_paid() || $order->get_customer_id() ) {
+			return;
+		}
+		if ( ! $order->get_meta( self::META_GUEST ) || $order->get_meta( self::META_DONE ) ) {
+			return;
+		}
+
+		$in_session = $this->is_buyer_session( $order );
+		$mobile     = self::normalize_mobile( $order->get_billing_phone() );
+
+		$order->update_meta_data( self::META_DONE, 1 );
+		$order->save_meta_data();
+
 		if ( '' === $mobile ) {
 			return;
 		}
 
 		// An account with this number already exists: never attach the order
-		// to it or reveal anything about it; the confirmation page simply
-		// suggests signing in.
+		// to it; the confirmation page suggests signing in.
 		if ( username_exists( $mobile ) ) {
-			$this->remember(
-				array(
-					'order_id' => $order->get_id(),
-					'existing' => true,
-				)
-			);
+			if ( $in_session ) {
+				$this->remember(
+					array(
+						'order_id' => $order->get_id(),
+						'existing' => true,
+					)
+				);
+			}
 			return;
 		}
 
@@ -10389,7 +10906,10 @@ final class Sofreh_Phone_Accounts {
 		$customer->save();
 
 		$order->set_customer_id( $user_id );
-		$order->add_order_note( __( 'Customer account created automatically from the mobile number.', 'sofreh-phone-accounts' ) );
+		if ( ! $in_session ) {
+			$order->update_meta_data( self::META_REVEAL, 1 );
+		}
+		$order->add_order_note( __( 'Payment confirmed: customer account created automatically from the mobile number.', 'sofreh-phone-accounts' ) );
 		$order->save();
 
 		/** This action is documented in woocommerce/includes/wc-user-functions.php */
@@ -10405,6 +10925,56 @@ final class Sofreh_Phone_Accounts {
 			true
 		);
 
+		if ( $in_session ) {
+			$this->sign_in_and_remember( $order, $user_id, $mobile, $password );
+		}
+	}
+
+	/**
+	 * Confirmation page, before anything is printed: create the account if
+	 * the order is paid but the paid hooks ran before this browser was
+	 * recognised, and reveal an account created while the buyer was away.
+	 * Only for the browser session that placed the order, with its order key.
+	 */
+	public function on_confirmation_page() {
+		if ( ! function_exists( 'is_order_received_page' ) || ! is_order_received_page() ) {
+			return;
+		}
+		global $wp;
+		$order = wc_get_order( absint( isset( $wp->query_vars['order-received'] ) ? $wp->query_vars['order-received'] : 0 ) );
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- The order key is the capability, as in WooCommerce.
+		$key = isset( $_GET['key'] ) ? sanitize_text_field( wp_unslash( $_GET['key'] ) ) : '';
+		if ( ! $order || ! is_string( $key ) || ! hash_equals( $order->get_order_key(), $key ) || ! $this->is_buyer_session( $order ) ) {
+			return;
+		}
+
+		$this->create_account_for_paid_order( $order );
+
+		if ( ! $order->get_meta( self::META_REVEAL ) || ! $this->is_buyer_session( $order ) ) {
+			return;
+		}
+		$user = get_userdata( $order->get_customer_id() );
+		if ( ! $user || ! in_array( 'customer', (array) $user->roles, true ) ) {
+			return;
+		}
+		// Nobody has seen this password yet: set a fresh one now and show it.
+		$password = self::generate_password();
+		wp_set_password( $password, $user->ID );
+		$order->delete_meta_data( self::META_REVEAL );
+		$order->save_meta_data();
+		$this->sign_in_and_remember( $order, $user->ID, $user->user_login, $password );
+	}
+
+	/**
+	 * Sign the new customer in and keep the login details for the
+	 * confirmation page.
+	 *
+	 * @param WC_Order $order    Order.
+	 * @param int      $user_id  User ID.
+	 * @param string   $username Username.
+	 * @param string   $password Password.
+	 */
+	private function sign_in_and_remember( $order, $user_id, $username, $password ) {
 		// Sign the customer in, as WooCommerce does for accounts created at
 		// checkout. Without this, WooCommerce (8.4+) would hide the order
 		// confirmation page behind a login form.
@@ -10415,7 +10985,7 @@ final class Sofreh_Phone_Accounts {
 		$this->remember(
 			array(
 				'order_id' => $order->get_id(),
-				'username' => $mobile,
+				'username' => $username,
 				'password' => $password,
 				'expires'  => time() + self::SHOW_PASSWORD_FOR,
 			)
@@ -10458,7 +11028,7 @@ final class Sofreh_Phone_Accounts {
 	 */
 
 	/**
-	 * Tracking code and, for a just-created account, the login details.
+	 * Tracking code, with the account confirmation and login details beside it.
 	 *
 	 * @param int $order_id Order ID.
 	 */
@@ -10481,10 +11051,22 @@ final class Sofreh_Phone_Accounts {
 			}
 		}
 
+		$guest_order = (bool) $order->get_meta( self::META_GUEST );
+		$state       = '';
+		if ( $credentials ) {
+			$state = 'created';
+		} elseif ( $stash && ! empty( $stash['existing'] ) ) {
+			$state = 'existing';
+		} elseif ( $guest_order && $order->get_customer_id() && get_current_user_id() === (int) $order->get_customer_id() ) {
+			$state = 'created-earlier';
+		} elseif ( $guest_order && ! $order->get_customer_id() && ! $order->is_paid() && ! $order->has_status( array( 'failed', 'cancelled', 'refunded' ) ) ) {
+			$state = 'awaiting';
+		}
+
 		$tracking_url = $this->tracking_url();
 		$account_url  = wc_get_page_permalink( 'myaccount' );
 		?>
-		<section class="sofreh-pa-card" aria-labelledby="sofreh-pa-title">
+		<section class="sofreh-pa-card<?php echo $state ? ' sofreh-pa-card--split' : ''; ?>" aria-labelledby="sofreh-pa-title">
 			<div class="sofreh-pa-card__row sofreh-pa-card__row--tracking">
 				<div>
 					<h2 id="sofreh-pa-title" class="sofreh-pa-card__title"><?php esc_html_e( 'Your order tracking code', 'sofreh-phone-accounts' ); ?></h2>
@@ -10505,10 +11087,10 @@ final class Sofreh_Phone_Accounts {
 				<?php $this->copy_value( $order->get_order_number(), __( 'Copy tracking code', 'sofreh-phone-accounts' ), 'sofreh-pa-value--large' ); ?>
 			</div>
 
-			<?php if ( $credentials ) : ?>
-				<div class="sofreh-pa-card__row sofreh-pa-card__row--account">
-					<h3 class="sofreh-pa-card__subtitle"><?php esc_html_e( 'Your account has been created', 'sofreh-phone-accounts' ); ?></h3>
-					<p class="sofreh-pa-card__help"><?php esc_html_e( 'You are signed in. Use these details to sign in next time, then complete your account information whenever you like.', 'sofreh-phone-accounts' ); ?></p>
+			<?php if ( 'created' === $state ) : ?>
+				<div class="sofreh-pa-card__row sofreh-pa-card__row--account" role="status">
+					<h3 class="sofreh-pa-card__subtitle sofreh-pa-card__subtitle--done"><?php esc_html_e( 'Your account has been created', 'sofreh-phone-accounts' ); ?></h3>
+					<p class="sofreh-pa-card__help"><?php esc_html_e( 'Your payment was confirmed and you are signed in. Use these details to sign in next time, then complete your account information whenever you like.', 'sofreh-phone-accounts' ); ?></p>
 					<dl class="sofreh-pa-credentials">
 						<div>
 							<dt><?php esc_html_e( 'Username (your mobile number)', 'sofreh-phone-accounts' ); ?></dt>
@@ -10533,8 +11115,25 @@ final class Sofreh_Phone_Accounts {
 						<a class="button button--ghost" href="<?php echo esc_url( $account_url ); ?>"><?php esc_html_e( 'Go to my account', 'sofreh-phone-accounts' ); ?></a>
 					</p>
 				</div>
-			<?php elseif ( $stash && ! empty( $stash['existing'] ) ) : ?>
+			<?php elseif ( 'created-earlier' === $state ) : ?>
 				<div class="sofreh-pa-card__row sofreh-pa-card__row--account">
+					<h3 class="sofreh-pa-card__subtitle sofreh-pa-card__subtitle--done"><?php esc_html_e( 'Your account has been created', 'sofreh-phone-accounts' ); ?></h3>
+					<p class="sofreh-pa-card__help">
+						<?php
+						printf(
+							/* translators: %s: the customer's mobile number (username). */
+							esc_html__( 'This order is saved in your account. Sign in with %s and your password.', 'sofreh-phone-accounts' ),
+							'<bdi dir="ltr">' . esc_html( wp_get_current_user()->user_login ) . '</bdi>' // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped in place.
+						);
+						?>
+					</p>
+					<p class="sofreh-pa-card__actions">
+						<a class="button" href="<?php echo esc_url( $account_url ); ?>"><?php esc_html_e( 'Go to my account', 'sofreh-phone-accounts' ); ?></a>
+					</p>
+				</div>
+			<?php elseif ( 'existing' === $state ) : ?>
+				<div class="sofreh-pa-card__row sofreh-pa-card__row--account">
+					<h3 class="sofreh-pa-card__subtitle"><?php esc_html_e( 'You already have an account', 'sofreh-phone-accounts' ); ?></h3>
 					<p class="sofreh-pa-card__help">
 						<?php
 						printf(
@@ -10544,6 +11143,11 @@ final class Sofreh_Phone_Accounts {
 						);
 						?>
 					</p>
+				</div>
+			<?php elseif ( 'awaiting' === $state ) : ?>
+				<div class="sofreh-pa-card__row sofreh-pa-card__row--account">
+					<h3 class="sofreh-pa-card__subtitle sofreh-pa-card__subtitle--waiting"><?php esc_html_e( 'Your account is created after payment', 'sofreh-phone-accounts' ); ?></h3>
+					<p class="sofreh-pa-card__help"><?php esc_html_e( 'As soon as your payment is confirmed, an account is created with your mobile number. Open this page again in this browser to see your login details.', 'sofreh-phone-accounts' ); ?></p>
 				</div>
 			<?php endif; ?>
 		</section>
@@ -10625,6 +11229,10 @@ final class Sofreh_Phone_Accounts {
 		if ( 'Username or email address' === $text ) {
 			return __( 'Mobile number or email', 'sofreh-phone-accounts' );
 		}
+		// The sign-up form's heading and button: "Create account".
+		if ( 'Register' === $text ) {
+			return __( 'Create account', 'sofreh-phone-accounts' );
+		}
 		return $translation;
 	}
 
@@ -10675,6 +11283,74 @@ final class Sofreh_Phone_Accounts {
 		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- WooCommerce verifies the registration nonce before these hooks run.
 		$raw = isset( $_POST['sofreh_pa_mobile'] ) ? sanitize_text_field( wp_unslash( $_POST['sofreh_pa_mobile'] ) ) : '';
 		return self::normalize_mobile( $raw );
+	}
+
+	/**
+	 * Link to "Create account" on the My Account page; after signing up (or
+	 * signing in there) the customer comes back to $return.
+	 *
+	 * @param string $return_url Page to return to.
+	 * @return string
+	 */
+	public static function create_account_url( $return_url = '' ) {
+		$url = add_query_arg( 'action', 'register', wc_get_page_permalink( 'myaccount' ) );
+		if ( $return_url ) {
+			$url = add_query_arg( 'redirect_to', rawurlencode( $return_url ), $url );
+		}
+		return $url;
+	}
+
+	/**
+	 * Send the customer back where they came from (for example the checkout)
+	 * after signing in or creating an account. Only addresses on this site.
+	 */
+	public function return_field() {
+		if ( is_checkout() ) {
+			return; // The checkout's own login form already returns to the checkout.
+		}
+		// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only return address, validated below.
+		$target = isset( $_GET['redirect_to'] ) ? wp_validate_redirect( esc_url_raw( wp_unslash( $_GET['redirect_to'] ) ), '' ) : '';
+		if ( $target ) {
+			echo '<input type="hidden" name="redirect" value="' . esc_url( $target ) . '">';
+		}
+	}
+
+	/**
+	 * The account choice, shown at checkout to signed-out customers.
+	 *
+	 * @return string
+	 */
+	private function checkout_account_notice_html() {
+		if ( is_user_logged_in() || 'yes' !== get_option( 'woocommerce_enable_myaccount_registration' ) ) {
+			return '';
+		}
+		$link = sprintf(
+			'<a class="sofreh-pa-create-link" href="%1$s">%2$s</a>',
+			esc_url( self::create_account_url( wc_get_checkout_url() ) ),
+			esc_html__( 'Create account', 'sofreh-phone-accounts' )
+		);
+		return '<div class="woocommerce-info sofreh-pa-checkout-account" role="note">' . sprintf(
+			/* translators: %s: "Create account" link. */
+			esc_html__( 'No account yet? %s first, or simply place your order: once your payment is confirmed, an account is created for you with your mobile number.', 'sofreh-phone-accounts' ),
+			$link
+		) . '</div>';
+	}
+
+	/**
+	 * Classic checkout: the account choice above the form.
+	 */
+	public function checkout_account_notice() {
+		echo $this->checkout_account_notice_html(); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped while building.
+	}
+
+	/**
+	 * Checkout block: the same account choice above the block.
+	 *
+	 * @param string $content Block HTML.
+	 * @return string
+	 */
+	public function block_checkout_account_notice( $content ) {
+		return $this->checkout_account_notice_html() . $content;
 	}
 
 	/**
@@ -10867,7 +11543,7 @@ final class Sofreh_Phone_Accounts {
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Sofreh Phone Accounts 1.1.0\n"
+"Project-Id-Version: Sofreh Phone Accounts 1.2.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/sofreh-phone-accounts\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Persian\n"
@@ -10876,7 +11552,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"POT-Creation-Date: 2026-10-12T17:30:23+00:00\n"
+"POT-Creation-Date: 2026-10-12T18:18:52+00:00\n"
 "PO-Revision-Date: 2026-10-12 12:00+0330\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: sofreh-phone-accounts\n"
@@ -10893,178 +11569,209 @@ msgstr "https://github.com/yns-nur/nur/tree/main/wp-theme/sofreh-phone-accounts"
 
 #. Description of the plugin
 #: sofreh-phone-accounts.php:5
-msgid "Customers buy with just their mobile number. A customer account is created automatically when the order is placed, and the order confirmation page shows the order tracking code together with the login details (mobile number as username, plus a generated password). Adds an order-tracking form that works with order number and mobile number. Companion to the Sofreh theme, but works with any theme."
-msgstr "مشتری فقط با شماره موبایل خرید می‌کند. هنگام ثبت سفارش حساب کاربری به‌صورت خودکار ساخته می‌شود و صفحهٔ تأیید سفارش، کد پیگیری را همراه با اطلاعات ورود (شماره موبایل به‌عنوان نام کاربری و یک رمز عبور ساخته‌شده) نشان می‌دهد. فرم پیگیری سفارش با کد پیگیری و شماره موبایل نیز اضافه می‌شود. همراه پوستهٔ سفره، اما با هر پوسته‌ای کار می‌کند."
+msgid "Customers buy with just their mobile number, or create an account first. When a signed-out customer's order is paid, a customer account is created automatically, and the order confirmation page shows the order tracking code with the account confirmation and login details beside it (mobile number as username, plus a generated password). Adds an order-tracking form that works with order number and mobile number. Companion to the Sofreh theme, but works with any theme."
+msgstr "مشتری فقط با شماره موبایل خرید می‌کند یا پیش از خرید حساب می‌سازد. وقتی سفارشِ مشتریِ واردنشده پرداخت شد، حساب کاربری به‌صورت خودکار ساخته می‌شود و صفحهٔ تأیید سفارش، کد پیگیری را همراه با تأیید ساخت حساب و اطلاعات ورود (شماره موبایل به‌عنوان نام کاربری و یک رمز عبور ساخته‌شده) در کنار هم نشان می‌دهد. فرم پیگیری سفارش با کد پیگیری و شماره موبایل نیز اضافه می‌شود. همراه پوستهٔ سفره، اما با هر پوسته‌ای کار می‌کند."
 
 #. Author of the plugin
 #: sofreh-phone-accounts.php:12
 msgid "Younes Nur"
 msgstr "یونس نور"
 
-#: includes/class-sofreh-phone-accounts.php:135
+#: includes/class-sofreh-phone-accounts.php:161
 msgid "Track your order"
 msgstr "پیگیری سفارش"
 
-#: includes/class-sofreh-phone-accounts.php:196
+#: includes/class-sofreh-phone-accounts.php:222
 msgid "Please enter a valid mobile number, for example 09121234567. It becomes your username for signing in."
 msgstr "لطفاً شماره موبایل معتبر وارد کنید، مثلاً 09121234567. این شماره نام کاربری شما برای ورود خواهد بود."
 
-#: includes/class-sofreh-phone-accounts.php:227
-#: includes/class-sofreh-phone-accounts.php:249
-#: includes/class-sofreh-phone-accounts.php:687
-#: includes/class-sofreh-phone-accounts.php:806
+#: includes/class-sofreh-phone-accounts.php:253
+#: includes/class-sofreh-phone-accounts.php:275
+#: includes/class-sofreh-phone-accounts.php:938
+#: includes/class-sofreh-phone-accounts.php:1057
 msgid "Mobile number"
 msgstr "شماره موبایل"
 
-#: includes/class-sofreh-phone-accounts.php:230
-msgid "Your account is created with this number; you will see your password after placing the order."
-msgstr "حساب کاربری شما با همین شماره ساخته می‌شود؛ رمز عبور را پس از ثبت سفارش می‌بینید."
+#: includes/class-sofreh-phone-accounts.php:256
+msgid "Once your payment is confirmed, your account is created with this number and your password is shown on the confirmation page."
+msgstr "پس از تأیید پرداخت، حساب کاربری شما با همین شماره ساخته می‌شود و رمز عبورتان در صفحهٔ تأیید سفارش نمایش داده می‌شود."
 
-#: includes/class-sofreh-phone-accounts.php:391
-msgid "Customer account created automatically from the mobile number."
-msgstr "حساب کاربری مشتری به‌صورت خودکار با شماره موبایل ساخته شد."
+#: includes/class-sofreh-phone-accounts.php:486
+msgid "Payment confirmed: customer account created automatically from the mobile number."
+msgstr "پرداخت تأیید شد: حساب مشتری به‌صورت خودکار با شماره موبایل ساخته شد."
 
-#: includes/class-sofreh-phone-accounts.php:489
+#: includes/class-sofreh-phone-accounts.php:646
 msgid "Your order tracking code"
 msgstr "کد پیگیری سفارش شما"
 
 #. translators: %s: link to the order tracking page.
-#: includes/class-sofreh-phone-accounts.php:495
+#: includes/class-sofreh-phone-accounts.php:652
 #, php-format
 msgid "Use it with your mobile number on the <a href=\"%s\">order tracking page</a>."
 msgstr "با این کد و شماره موبایلتان در <a href=\"%s\">صفحهٔ پیگیری سفارش</a> وضعیت سفارش را ببینید."
 
-#: includes/class-sofreh-phone-accounts.php:499
+#: includes/class-sofreh-phone-accounts.php:656
 msgid "Keep it to follow up on your order."
 msgstr "این کد را برای پیگیری سفارش نگه دارید."
 
-#: includes/class-sofreh-phone-accounts.php:504
+#: includes/class-sofreh-phone-accounts.php:661
 msgid "Copy tracking code"
 msgstr "کپی کد پیگیری"
 
-#: includes/class-sofreh-phone-accounts.php:509
+#: includes/class-sofreh-phone-accounts.php:666
+#: includes/class-sofreh-phone-accounts.php:694
 msgid "Your account has been created"
 msgstr "حساب کاربری شما ساخته شد"
 
-#: includes/class-sofreh-phone-accounts.php:510
-msgid "You are signed in. Use these details to sign in next time, then complete your account information whenever you like."
-msgstr "اکنون وارد حساب خود شده‌اید. دفعهٔ بعد با این اطلاعات وارد شوید و هر زمان خواستید اطلاعات حسابتان را کامل کنید."
+#: includes/class-sofreh-phone-accounts.php:667
+msgid "Your payment was confirmed and you are signed in. Use these details to sign in next time, then complete your account information whenever you like."
+msgstr "پرداخت شما تأیید شد و اکنون وارد حساب خود شده‌اید. دفعهٔ بعد با این اطلاعات وارد شوید و هر زمان خواستید اطلاعات حسابتان را کامل کنید."
 
-#: includes/class-sofreh-phone-accounts.php:513
+#: includes/class-sofreh-phone-accounts.php:670
 msgid "Username (your mobile number)"
 msgstr "نام کاربری (شماره موبایل شما)"
 
-#: includes/class-sofreh-phone-accounts.php:514
+#: includes/class-sofreh-phone-accounts.php:671
 msgid "Copy username"
 msgstr "کپی نام کاربری"
 
-#: includes/class-sofreh-phone-accounts.php:517
+#: includes/class-sofreh-phone-accounts.php:674
 msgid "Password"
 msgstr "رمز عبور"
 
-#: includes/class-sofreh-phone-accounts.php:518
+#: includes/class-sofreh-phone-accounts.php:675
 msgid "Copy password"
 msgstr "کپی رمز عبور"
 
 #. translators: %s: number of minutes.
-#: includes/class-sofreh-phone-accounts.php:525
+#: includes/class-sofreh-phone-accounts.php:682
 #, php-format
 msgid "Write the password down or save it now: for your security it is shown only on this page, for %s minutes, and is never sent by email or text message."
 msgstr "همین حالا رمز عبور را یادداشت یا ذخیره کنید: برای امنیت شما فقط در همین صفحه و تا %s دقیقه نمایش داده می‌شود و هرگز با ایمیل یا پیامک فرستاده نمی‌شود."
 
-#: includes/class-sofreh-phone-accounts.php:531
+#: includes/class-sofreh-phone-accounts.php:688
 msgid "Complete your account"
 msgstr "تکمیل اطلاعات حساب"
 
-#: includes/class-sofreh-phone-accounts.php:532
+#: includes/class-sofreh-phone-accounts.php:689
+#: includes/class-sofreh-phone-accounts.php:705
 msgid "Go to my account"
 msgstr "رفتن به حساب من"
 
+#. translators: %s: the customer's mobile number (username).
+#: includes/class-sofreh-phone-accounts.php:699
+#, php-format
+msgid "This order is saved in your account. Sign in with %s and your password."
+msgstr "این سفارش در حساب کاربری شما ثبت شده است. با %s و رمز عبورتان وارد شوید."
+
+#: includes/class-sofreh-phone-accounts.php:710
+msgid "You already have an account"
+msgstr "شما از قبل حساب کاربری دارید"
+
 #. translators: %s: link to the account page.
-#: includes/class-sofreh-phone-accounts.php:541
+#: includes/class-sofreh-phone-accounts.php:715
 #, php-format
 msgid "If you already have an account with this mobile number, <a href=\"%s\">sign in</a> to see your orders there."
 msgstr "اگر از قبل با این شماره موبایل حساب کاربری دارید، برای دیدن سفارش‌هایتان <a href=\"%s\">وارد شوید</a>."
 
-#: includes/class-sofreh-phone-accounts.php:564
+#: includes/class-sofreh-phone-accounts.php:723
+msgid "Your account is created after payment"
+msgstr "حساب کاربری پس از پرداخت ساخته می‌شود"
+
+#: includes/class-sofreh-phone-accounts.php:724
+msgid "As soon as your payment is confirmed, an account is created with your mobile number. Open this page again in this browser to see your login details."
+msgstr "به‌محض تأیید پرداخت، حساب کاربری شما با شماره موبایلتان ساخته می‌شود. برای دیدن اطلاعات ورود، این صفحه را دوباره در همین مرورگر باز کنید."
+
+#: includes/class-sofreh-phone-accounts.php:743
 msgid "Copy"
 msgstr "کپی"
 
-#: includes/class-sofreh-phone-accounts.php:565
+#: includes/class-sofreh-phone-accounts.php:744
 msgid "Copied"
 msgstr "کپی شد"
 
-#: includes/class-sofreh-phone-accounts.php:590
+#: includes/class-sofreh-phone-accounts.php:769
 msgid "Copied to clipboard"
 msgstr "در کلیپ‌بورد کپی شد"
 
-#: includes/class-sofreh-phone-accounts.php:625
+#: includes/class-sofreh-phone-accounts.php:804
 msgid "Mobile number or email"
 msgstr "شماره موبایل یا ایمیل"
 
-#: includes/class-sofreh-phone-accounts.php:634
+#: includes/class-sofreh-phone-accounts.php:808
+#: includes/class-sofreh-phone-accounts.php:904
+msgid "Create account"
+msgstr "ساخت حساب"
+
+#: includes/class-sofreh-phone-accounts.php:817
 msgid "Bought with your mobile number? Sign in with that number and the password shown after your purchase."
 msgstr "با شماره موبایل خرید کرده‌اید؟ با همان شماره و رمز عبوری که پس از خرید نمایش داده شد وارد شوید."
 
-#: includes/class-sofreh-phone-accounts.php:646
+#: includes/class-sofreh-phone-accounts.php:829
 msgid "Your account was created with your mobile number. Add your name and email and choose your own password."
 msgstr "حساب شما با شماره موبایلتان ساخته شده است. نام و ایمیل خود را اضافه کنید و رمز عبور دلخواهتان را انتخاب کنید."
 
-#: includes/class-sofreh-phone-accounts.php:648
+#: includes/class-sofreh-phone-accounts.php:831
 msgid "Complete account"
 msgstr "تکمیل حساب"
 
-#: includes/class-sofreh-phone-accounts.php:687
+#. translators: %s: "Create account" link.
+#: includes/class-sofreh-phone-accounts.php:908
+#, php-format
+msgid "No account yet? %s first, or simply place your order: once your payment is confirmed, an account is created for you with your mobile number."
+msgstr "حساب کاربری ندارید؟ اول %s، یا همین حالا سفارش دهید: پس از تأیید پرداخت، حساب شما با شماره موبایلتان خودکار ساخته می‌شود."
+
+#: includes/class-sofreh-phone-accounts.php:938
 msgid "Required"
 msgstr "الزامی"
 
-#: includes/class-sofreh-phone-accounts.php:689
+#: includes/class-sofreh-phone-accounts.php:940
 msgid "You will sign in with this number."
 msgstr "با همین شماره وارد حساب کاربری می‌شوید."
 
-#: includes/class-sofreh-phone-accounts.php:705
+#: includes/class-sofreh-phone-accounts.php:956
 msgid "An account with this mobile number already exists. Please sign in instead."
 msgstr "با این شماره موبایل قبلاً حساب کاربری ساخته شده است. لطفاً وارد شوید."
 
-#: includes/class-sofreh-phone-accounts.php:777
+#: includes/class-sofreh-phone-accounts.php:1028
 msgid "The form has expired. Please try again."
 msgstr "اعتبار فرم تمام شده است. لطفاً دوباره تلاش کنید."
 
-#: includes/class-sofreh-phone-accounts.php:791
+#: includes/class-sofreh-phone-accounts.php:1042
 msgid "No order matches this tracking code and mobile number."
 msgstr "سفارشی با این کد پیگیری و شماره موبایل پیدا نشد."
 
-#: includes/class-sofreh-phone-accounts.php:800
+#: includes/class-sofreh-phone-accounts.php:1051
 msgid "Enter the tracking code shown after your purchase and the mobile number you ordered with."
 msgstr "کد پیگیری‌ای را که پس از خرید دریافت کردید و شماره موبایلی را که با آن سفارش دادید وارد کنید."
 
-#: includes/class-sofreh-phone-accounts.php:802
+#: includes/class-sofreh-phone-accounts.php:1053
 msgid "Tracking code"
 msgstr "کد پیگیری"
 
-#: includes/class-sofreh-phone-accounts.php:810
+#: includes/class-sofreh-phone-accounts.php:1061
 msgid "Track order"
 msgstr "پیگیری سفارش"
 
 #. translators: %s: order number.
-#: includes/class-sofreh-phone-accounts.php:822
+#: includes/class-sofreh-phone-accounts.php:1073
 #, php-format
 msgid "Order %s"
 msgstr "سفارش %s"
 
-#: includes/class-sofreh-phone-accounts.php:826
+#: includes/class-sofreh-phone-accounts.php:1077
 msgid "Status"
 msgstr "وضعیت"
 
-#: includes/class-sofreh-phone-accounts.php:827
+#: includes/class-sofreh-phone-accounts.php:1078
 msgid "Date"
 msgstr "تاریخ"
 
-#: includes/class-sofreh-phone-accounts.php:828
+#: includes/class-sofreh-phone-accounts.php:1079
 msgid "Total"
 msgstr "مبلغ کل"
 
-#: includes/class-sofreh-phone-accounts.php:836
+#: includes/class-sofreh-phone-accounts.php:1087
 msgid "View full order"
 msgstr "مشاهدهٔ کامل سفارش"
 ```

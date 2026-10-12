@@ -11,13 +11,13 @@ Scope: every customer-facing surface of the theme: home, shop/category listings,
 
 ## Direction contract
 
-THESIS: The familiar Iranian marketplace storefront, built to Digikala-grade craft for a phone-first home and kitchen shop. Convention is the commitment: no concept layouts, no decorative world; precision in spacing, hierarchy, states and speed is where quality shows.
+THESIS: The familiar Iranian marketplace storefront, built to Digikala-grade craft for a phone-first home and kitchen shop, in its own Persian jewel colours so it never reads as Digikala. Convention is the commitment for layout: no concept layouts; precision in spacing, hierarchy, states and speed is where quality shows; identity lives in the palette and a few signature details.
 
-OWN-WORLD: white surfaces on a cool light-grey ground; one confident coral-red accent for primary actions, discount badges and sale prices (not Digikala's red); deep ink text, muted grey secondary; 1px hairline dividers; 8–12px radii; Vazirmatn (FD digits) only; 1.8px line icons; a teal reserved for banner art.
+OWN-WORLD (refined 2026-10-12, v2.1, user request: distinct from Digikala; beautiful, elegant, premium, lively): white surfaces on a warm porcelain ground; lapis for primary actions, links and current state; saffron only for offers (discount tags with ink type, cart count, the section-title star); plum as the deep jewel partner; red for errors only; indigo-tinted ink, muted secondary; 1px hairline dividers; 6–16px radii; Vazirmatn (FD digits) only; 1.6px line icons; a fine khatam (8-point star) line pattern on the banner and the lapis-to-plum offers band; a thin saffron-plum-lapis line atop the header.
 
-STORY: the shopper sees what is on offer, reaches any category in one tap, reads price and discount at a glance, adds to cart without leaving the page, and checks out with only a mobile number, receiving tracking code and login.
+STORY: the shopper sees what is on offer, reaches any category in one tap, reads price and discount at a glance, adds to cart without leaving the page, and either creates an account first («ساخت حساب») or checks out with only a mobile number, receiving the tracking code with the account confirmation and login beside it once the payment succeeds.
 
-FIRST VIEWPORT (phone): compact header (menu, store name, account, cart with count) over a full-width search field; swipeable banner; a row of round category icons; the coral "deals" strip with horizontally scrolling product cards each carrying add to cart; a fixed bottom tab bar (home, categories, cart, account). Desktop: search-led header with category menu, wide banner, category row, deals strip.
+FIRST VIEWPORT (phone): compact header (menu, store name, account, cart with count) over a full-width search field; swipeable banner; a row of round category icons; the lapis-to-plum "deals" band with horizontally scrolling product cards each carrying add to cart; a fixed bottom tab bar (home, categories, cart, account). Desktop: search-led header with category menu, wide banner, category row, deals strip.
 
 FORM: the category standard (canon), taken by the user over the dealt directions; benchmark Digikala; signature interaction: the added product's image flies into the cart badge, which bumps; banners swipe. seed: none (unavailable)
 

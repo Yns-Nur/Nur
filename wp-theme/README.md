@@ -4,8 +4,8 @@ Two installable packages:
 
 | Folder | What it is |
 |---|---|
-| [`sofreh/`](sofreh) | The theme (v2.0.0): a classic (PHP) WordPress theme with `theme.json`, RTL-first and phone-first, fully Persian, integrated with WooCommerce through hooks only. |
-| [`sofreh-phone-accounts/`](sofreh-phone-accounts) | Companion plugin (v1.1.0): buy with a mobile number; the account is created automatically; credentials and tracking code appear on the order confirmation page; manual sign-up with the mobile number as the username; tracking by code + mobile. |
+| [`sofreh/`](sofreh) | The theme (v2.1.0): a classic (PHP) WordPress theme with `theme.json`, RTL-first and phone-first, fully Persian, integrated with WooCommerce through hooks only. |
+| [`sofreh-phone-accounts/`](sofreh-phone-accounts) | Companion plugin (v1.2.0): «ساخت حساب» (create an account) before ordering, with the mobile number as the username; or buy as a guest with just a mobile number, and once the payment succeeds an account is created automatically; the order confirmation shows the tracking code with the account confirmation and login details beside it; tracking by code + mobile. |
 
 Account creation is store *functionality*, so it lives in a plugin. If it were
 in the theme, switching themes would silently break checkout and logins, and
@@ -91,7 +91,7 @@ branding). The direction is recorded in `.impeccable/surfaces/sofreh.md`.
 - *Convention as the commitment.* Iranian shoppers already know the marketplace
   layout, so the theme uses it rather than inventing one: search-first header,
   category mega menu (desktop) and drawer (phone), a swipeable banner, round
-  category shortcuts, a red special-offers strip, a newest shelf, a numbered
+  category shortcuts, a special-offers band, a newest shelf, a numbered
   best-seller list, a product page with gallery | details | sticky buy box, and
   a bottom tab bar on phones. Quality shows in spacing, hierarchy, states and
   speed, not in decoration.
@@ -99,11 +99,20 @@ branding). The direction is recorded in `.impeccable/surfaces/sofreh.md`.
   thumb; the product page has a buy bar above it that appears once the buy box
   scrolls away; listings use a sort *select* + filters drawer on phones and sort
   links + a filter column on desktop.
-- *Minimal palette.* White surfaces on a cool light-grey ground, hairline
-  dividers, 8–12 px radii; one coral red (`#D1352F`, deliberately not
-  Digikala's red) for primary actions, discount badges and the deals strip;
-  text links use the deeper red `#B32A25` (≥ 4.5:1 on white *and* on the grey
-  ground); teal only for banner art. All text pairs pass WCAG AA.
+- *Its own colours (v2.1).* The first version's red-on-grey read too much like
+  Digikala, so the layout stayed and the identity moved to a Persian jewel
+  palette: **lapis** (لاجوردی, `#2D48C0`) for actions, links, the wordmark and
+  every "current" state; **saffron** (زعفرانی, `#FAAB35`) only for offers:
+  discount tags, the cart count, the small star before section titles;
+  **plum** (`#67237A`) as the deep partner in the banner and the offers band;
+  all on a warm porcelain ground (`#F7F4EF`) with indigo-tinted ink. Red is now
+  used for errors only. White on lapis is 7.5:1, ink on saffron 8.6:1, lapis
+  links 6.8:1 on the ground: every text pair passes WCAG AA.
+- *Signature details.* A fine khatam (8-point star) line pattern from Persian
+  tilework under the banner and the lapis→plum offers band; a saffron khatam
+  star before each section title; a thin saffron–plum–lapis line along the top
+  of the header; discount tags in saffron with dark type, squared at one end
+  like a price tag. Small, consistent, and nothing like a red marketplace.
 - *Type.* **Vazirmatn** only (OFL, bundled and self-hosted, no third-party
   requests), body line height 1.8, never letter-spaced. Its "FD" cut draws ASCII
   digits as Persian through its `ss01` set, which the theme switches on
@@ -169,7 +178,8 @@ wp-theme/
 
 The only genuine dependency is **WooCommerce** (for the store). The theme works
 as a Persian blog theme without it. The phone-accounts plugin is optional but is
-what provides phone checkout, automatic accounts and mobile-number sign-up.
+what provides phone checkout, automatic accounts after payment and
+mobile-number sign-up.
 
 1. **Persian first.** Settings → General → *Site Language: فارسی*, then
    Dashboard → Updates → *Update translations*. This downloads the official
@@ -192,9 +202,32 @@ what provides phone checkout, automatic accounts and mobile-number sign-up.
      (accounts are created automatically instead, never by redirecting to a
      registration page);
    - makes the phone field required (labelled "mobile number");
-   - turns on sign-up on the My Account page, with the username generated (it
-     becomes the mobile number) and the password chosen by the customer;
+   - turns on «ساخت حساب» on the My Account page, with the username generated
+     (it becomes the mobile number) and the password chosen by the customer;
    - creates a *Track your order* page (`[sofreh_order_tracking]`).
+
+   **How accounts are made.** Customers can create an account first: My Account
+   shows «ورود» and «ساخت حساب» tabs, the header reads «ورود | ساخت حساب», and
+   checkout offers «ساخت حساب» with a link that returns to the checkout after
+   sign-up. Or they buy as a guest: the order is remembered in their browser
+   session, and **only when the order is paid** is an account created with the
+   mobile number, the order attached, the customer signed in, and the login
+   details shown beside the tracking code on the confirmation page. "Paid" is
+   WooCommerce's own definition: the gateway reports payment complete, or the
+   order reaches *Processing*/*Completed*.
+   - Bank gateways that send the customer back after paying: the account is
+     created on that return, then shown on the confirmation page.
+   - Cash on delivery: WooCommerce marks the order *Processing* at checkout, so
+     the account is created then.
+   - Bank transfer (*On hold*): no account yet; the confirmation says it will be
+     created once the payment is confirmed. When you mark the order
+     *Processing*, the account is created, and the customer sees their login
+     details the next time they open the confirmation page in the browser they
+     ordered from (a fresh password is set at that moment, since nobody has
+     seen one yet).
+   - Failed or cancelled payments never create accounts.
+   - A mobile number that already has an account: the order is not attached to
+     it, and the confirmation suggests signing in.
 
    The classic checkout (`[woocommerce_checkout]`) makes email optional; the
    Checkout block always asks for an email (a WooCommerce limitation). Manual
@@ -205,8 +238,8 @@ what provides phone checkout, automatic accounts and mobile-number sign-up.
    relabelled «شماره موبایل یا ایمیل».
 
 5. **Customize.** Appearance → Customize → *Sofreh theme*:
-   - *Banner 1–3*: heading, text, button label, link, background tone (teal,
-     ink, red) and image. A slide shows only when it has a heading; with one
+   - *Banner 1–3*: heading, text, button label, link, background (lapis, plum
+     or saffron) and image. A slide shows only when it has a heading; with one
      slide there are no carousel controls.
    - *Home page*: which sections show (categories, special offers, newest, best
      sellers, promises) and how many products per strip.
@@ -236,7 +269,8 @@ what provides phone checkout, automatic accounts and mobile-number sign-up.
 **Test environment:** WordPress 7.1.3 + WooCommerce 11.2.1 (built from its
 GitHub source, including the Blocks bundle) on PHP 8.3, SQLite database
 integration, Chromium via Playwright at 1366, 820 and 390 px wide. All results
-below are from the **final v2 code** (re-run after the redesign).
+below are from the **final v2.1 code** (theme 2.1.0, plugin 1.2.0; everything
+re-run after the palette and account changes).
 
 **Limitations of that environment.** These are the reasons some items are still
 listed as needing a live site:
@@ -254,7 +288,12 @@ listed as needing a live site:
 - WooCommerce was built from source. Two missing build artefacts (admin
   `feature-config.php`, the `wc-sanitize` script) were generated for the test
   site; WooCommerce's admin UI JavaScript was not built.
-- No mail server, no real payment gateway (cash on delivery was used).
+- No mail server and no real bank. Payments were tested with cash on delivery,
+  WooCommerce's bank transfer (on hold, then marked paid), and a **test-only
+  mock bank gateway** that behaves like an Iranian redirect gateway: checkout
+  sends the buyer to a bank page with Pay / Cancel, which returns to the order
+  confirmation, plus a cookie-less server-to-server "payment confirmed"
+  callback. The mock gateway lives only in the test site and is not delivered.
 
 ### Verified by automated tests (all passing on the final code)
 
@@ -264,7 +303,8 @@ listed as needing a live site:
 | Install | **Theme Check** (official plugin) | ✅ no errors or warnings; only optional block-theme "recommended" notes |
 | Code | **PHPCS**: WordPress Coding Standards + PHP 7.4+ compatibility, theme and plugin | ✅ 0 errors, 0 warnings |
 | Code | `php -l` on every PHP file; `node --check` on every JS file | ✅ |
-| Design | impeccable design detector on all changed CSS/PHP/JS | ✅ 0 findings (2 false positives from a CSS-border triangle fixed by switching to `clip-path`) |
+| Design | impeccable design detector on all changed CSS/PHP/JS | ✅ 0 findings |
+| Design | New palette: every text pair computed against WCAG (lapis on white 7.5:1, on ground 6.8:1; white on lapis 7.5:1; ink on saffron 8.6:1; muted on ground 5.5:1; error on white 6.6:1); banner in all three tones (lapis, plum, saffron) checked by screenshot | ✅ |
 | Design | Independent finish review from screenshots (fresh reviewer, no build context) | ✅ its 8 material fixes applied: price reading order (WooCommerce's `<bdi>` was being stripped by `wp_kses_post`), "From" price unit, no default store promises, compact phone cart, one panel level on store pages, notice focus ring and select2 arrow, SVG stars and remove icon, account icon in the phone header. One declined, see Setup step 4 (sign-up email). |
 | RTL | `<html dir="rtl" lang="fa-IR">`; layout mirrors (gallery/details/buy box order, drawers from the right, chevrons, badges, carousel direction incl. RTL scroll offsets) | ✅ (screenshots reviewed) |
 | Persian | All theme and plugin UI strings translated (0 missing); Persian digits in prices including struck-through prices; Latin digits kept in SKU/email/password | ✅ |
@@ -277,8 +317,13 @@ listed as needing a live site:
 | Cart (block) | Renders, items listed, counts refresh after block changes | ✅ |
 | Checkout (classic) | Order placed with phone and postcode typed in **Persian digits**; stored as ASCII | ✅ |
 | Checkout (block) | Same with the Checkout block | ✅ |
-| Account | **Manual sign-up** with the mobile typed in Persian digits → username = mobile (ASCII), dashboard shown; sign out → sign in with the Persian-digit mobile; a taken mobile and an invalid mobile are rejected with Persian errors; edit address with Persian digits; orders list | ✅ |
-| Phone accounts | Guest is **not redirected** to registration; phone required; account auto-created; order attached; customer signed in; confirmation page shows tracking code + username (mobile) + password with working copy buttons; still shown after reload | ✅ classic (no email) and block (with email) |
+| Account | **«ساخت حساب»**: My Account opens on «ورود», the «ساخت حساب» tab shows the sign-up form (button «ساخت حساب»), mobile typed in Persian digits → username = mobile (ASCII), signed in; sign out → sign in with the Persian-digit mobile; a taken mobile and an invalid mobile are rejected with Persian errors; edit address with Persian digits; orders list | ✅ |
+| Account | **«ساخت حساب» from checkout**: the checkout note links to the sign-up tab, and after signing up the customer is back on the checkout, signed in, with the mobile pre-filled | ✅ |
+| Paid-only accounts | **Bank gateway, paid**: after checkout (order *Pending*) no account exists; after paying at the bank, the account is created, the order attached, the buyer signed in, and the confirmation shows the tracking code and the account confirmation side by side; the shown password signs in | ✅ |
+| Paid-only accounts | **Bank gateway, payment failed**: order *Failed*, no account, no account block | ✅ |
+| Paid-only accounts | **Bank transfer**: order *On hold*, no account, confirmation says the account is created after payment; store marks it *Processing* → account created; buyer reloads the confirmation → login details shown, and they sign in | ✅ |
+| Paid-only accounts | **Server-to-server confirmation** (no browser cookies) → account created; buyer opens the confirmation → login details shown; the same link opened in another browser shows no password | ✅ |
+| Phone accounts | Cash on delivery: guest is **not redirected** to registration; phone required; account created when the order becomes *Processing*; order attached; customer signed in; confirmation shows tracking code + username (mobile) + password with working copy buttons; still shown after reload | ✅ classic (no email) and block (with email) |
 | Phone accounts | Sign out → sign in with the mobile in **Persian digits** + generated password; "complete your account" prompt; order in My Account | ✅ |
 | Phone accounts | Guest order with a mobile that already has an account: order placed, **not** attached to that account, tracking code shown with a sign-in suggestion | ✅ |
 | Phone accounts | Tracking page: finds order with Persian-digit code and `+98 …` phone; wrong phone gives a generic error and discloses nothing | ✅ |
@@ -288,9 +333,13 @@ listed as needing a live site:
 - [ ] Real fa_IR language packs: every WooCommerce/WordPress string in Persian,
       including the Cart/Checkout **block** strings.
 - [ ] MySQL/MariaDB with stock reservation enabled.
-- [ ] Your payment gateway(s): redirect and return to the confirmation page; the
-      credentials card must still appear (it relies on the WooCommerce session
-      surviving the gateway round trip).
+- [ ] Your real bank gateway plugin: it must mark the order paid through
+      WooCommerce (`payment_complete()` or a *Processing* status), as standard
+      gateways do. Then check the return to the confirmation page shows the
+      login details (this relies on the WooCommerce session cookie surviving
+      the bank round trip; the mock gateway proved the flow, a real bank must
+      still be tried). Gateways that only confirm later by callback are covered
+      by the "shown on next visit" path.
 - [ ] Order emails, including WooCommerce's "new account" email for
       auto-created accounts that have an email address.
 - [ ] Page caching / CDN: exclude cart, checkout, my-account and the

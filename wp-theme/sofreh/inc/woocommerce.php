@@ -346,7 +346,7 @@ function sofreh_wc_sale_flash( $html, $post, $product ) {
 		'<span class="onsale"><span aria-hidden="true">%1$s</span><span class="screen-reader-text">%2$s</span></span>',
 		esc_html(
 			/* translators: %s: discount percentage, e.g. 20. Shown in a small badge. */
-			sprintf( _x( '%s%%', 'discount badge', 'sofreh' ), number_format_i18n( $percent ) )
+			sprintf( __( '%s%%', 'sofreh' ), number_format_i18n( $percent ) )
 		),
 		esc_html(
 			/* translators: %s: discount percentage, e.g. 20. */
@@ -594,7 +594,7 @@ function sofreh_wc_cart_fragment( $fragments ) {
 add_filter( 'woocommerce_add_to_cart_fragments', 'sofreh_wc_cart_fragment' );
 
 /**
- * Header account link: "Log in | Sign up" for visitors, "My account" after.
+ * Header account link: "Log in | Create account" for visitors, "My account" after.
  */
 function sofreh_account_link() {
 	if ( is_user_logged_in() ) {
@@ -610,6 +610,75 @@ function sofreh_account_link() {
 		'<a class="header-action header-account header-account--guest" href="%1$s">%2$s<span class="header-action__label">%3$s</span></a>',
 		esc_url( wc_get_page_permalink( 'myaccount' ) ),
 		sofreh_get_icon( 'user' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Fixed SVG string.
-		esc_html__( 'Log in | Sign up', 'sofreh' )
+		esc_html__( 'Log in | Create account', 'sofreh' )
 	);
 }
+
+/*
+ * -------------------------------------------------------------------------
+ * Log in / Create account
+ * -------------------------------------------------------------------------
+ */
+
+/**
+ * Is sign-up offered on the My Account page?
+ *
+ * @return bool
+ */
+function sofreh_wc_registration_open() {
+	return 'yes' === get_option( 'woocommerce_enable_myaccount_registration' );
+}
+
+/**
+ * Tabs over WooCommerce's own login and sign-up forms: «ورود» and
+ * «ساخت حساب». The script moves them into the panel and shows one form at a
+ * time; without it both forms stay visible side by side.
+ */
+function sofreh_wc_auth_tabs() {
+	if ( ! sofreh_wc_registration_open() || is_checkout() ) {
+		return;
+	}
+	// phpcs:disable WordPress.Security.NonceVerification -- Only chooses which tab opens first.
+	$initial = ( isset( $_POST['register'] ) || ( isset( $_GET['action'] ) && 'register' === $_GET['action'] ) ) ? 'register' : 'login';
+	// phpcs:enable
+	?>
+	<div class="auth-tabs" role="tablist" aria-label="<?php esc_attr_e( 'Your account', 'sofreh' ); ?>" data-sofreh-auth-tabs data-initial="<?php echo esc_attr( $initial ); ?>" hidden>
+		<button type="button" class="auth-tabs__tab" role="tab" id="auth-tab-login" data-tab="login"><?php esc_html_e( 'Log in', 'sofreh' ); ?></button>
+		<button type="button" class="auth-tabs__tab" role="tab" id="auth-tab-register" data-tab="register"><?php esc_html_e( 'Create account', 'sofreh' ); ?></button>
+	</div>
+	<?php
+}
+add_action( 'woocommerce_before_customer_login_form', 'sofreh_wc_auth_tabs' );
+
+/**
+ * "No account yet? Create account" under the login form, and the way back
+ * under the sign-up form.
+ */
+function sofreh_wc_auth_switch_to_register() {
+	if ( ! sofreh_wc_registration_open() || is_checkout() ) {
+		return;
+	}
+	printf(
+		'<p class="auth-switch">%1$s <a href="%2$s" data-sofreh-auth-switch="register">%3$s</a></p>',
+		esc_html__( 'No account yet?', 'sofreh' ),
+		esc_url( add_query_arg( 'action', 'register' ) ),
+		esc_html__( 'Create account', 'sofreh' )
+	);
+}
+add_action( 'woocommerce_login_form_end', 'sofreh_wc_auth_switch_to_register', 20 );
+
+/**
+ * "Already have an account? Log in" under the sign-up form.
+ */
+function sofreh_wc_auth_switch_to_login() {
+	if ( is_checkout() ) {
+		return;
+	}
+	printf(
+		'<p class="auth-switch">%1$s <a href="%2$s" data-sofreh-auth-switch="login">%3$s</a></p>',
+		esc_html__( 'Already have an account?', 'sofreh' ),
+		esc_url( remove_query_arg( 'action' ) ),
+		esc_html__( 'Log in', 'sofreh' )
+	);
+}
+add_action( 'woocommerce_register_form_end', 'sofreh_wc_auth_switch_to_login', 20 );

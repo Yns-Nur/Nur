@@ -2,14 +2,14 @@
 # This file is distributed under the GPL-2.0-or-later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Sofreh Phone Accounts 1.1.0\n"
+"Project-Id-Version: Sofreh Phone Accounts 1.2.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/sofreh-phone-accounts\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"POT-Creation-Date: 2026-10-12T17:30:23+00:00\n"
+"POT-Creation-Date: 2026-10-12T18:18:52+00:00\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: sofreh-phone-accounts\n"
@@ -26,7 +26,7 @@ msgstr ""
 
 #. Description of the plugin
 #: sofreh-phone-accounts.php:5
-msgid "Customers buy with just their mobile number. A customer account is created automatically when the order is placed, and the order confirmation page shows the order tracking code together with the login details (mobile number as username, plus a generated password). Adds an order-tracking form that works with order number and mobile number. Companion to the Sofreh theme, but works with any theme."
+msgid "Customers buy with just their mobile number, or create an account first. When a signed-out customer's order is paid, a customer account is created automatically, and the order confirmation page shows the order tracking code with the account confirmation and login details beside it (mobile number as username, plus a generated password). Adds an order-tracking form that works with order number and mobile number. Companion to the Sofreh theme, but works with any theme."
 msgstr ""
 
 #. Author of the plugin
@@ -34,169 +34,200 @@ msgstr ""
 msgid "Younes Nur"
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:135
+#: includes/class-sofreh-phone-accounts.php:161
 msgid "Track your order"
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:196
+#: includes/class-sofreh-phone-accounts.php:222
 msgid "Please enter a valid mobile number, for example 09121234567. It becomes your username for signing in."
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:227
-#: includes/class-sofreh-phone-accounts.php:249
-#: includes/class-sofreh-phone-accounts.php:687
-#: includes/class-sofreh-phone-accounts.php:806
+#: includes/class-sofreh-phone-accounts.php:253
+#: includes/class-sofreh-phone-accounts.php:275
+#: includes/class-sofreh-phone-accounts.php:938
+#: includes/class-sofreh-phone-accounts.php:1057
 msgid "Mobile number"
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:230
-msgid "Your account is created with this number; you will see your password after placing the order."
+#: includes/class-sofreh-phone-accounts.php:256
+msgid "Once your payment is confirmed, your account is created with this number and your password is shown on the confirmation page."
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:391
-msgid "Customer account created automatically from the mobile number."
+#: includes/class-sofreh-phone-accounts.php:486
+msgid "Payment confirmed: customer account created automatically from the mobile number."
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:489
+#: includes/class-sofreh-phone-accounts.php:646
 msgid "Your order tracking code"
 msgstr ""
 
 #. translators: %s: link to the order tracking page.
-#: includes/class-sofreh-phone-accounts.php:495
+#: includes/class-sofreh-phone-accounts.php:652
 #, php-format
 msgid "Use it with your mobile number on the <a href=\"%s\">order tracking page</a>."
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:499
+#: includes/class-sofreh-phone-accounts.php:656
 msgid "Keep it to follow up on your order."
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:504
+#: includes/class-sofreh-phone-accounts.php:661
 msgid "Copy tracking code"
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:509
+#: includes/class-sofreh-phone-accounts.php:666
+#: includes/class-sofreh-phone-accounts.php:694
 msgid "Your account has been created"
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:510
-msgid "You are signed in. Use these details to sign in next time, then complete your account information whenever you like."
+#: includes/class-sofreh-phone-accounts.php:667
+msgid "Your payment was confirmed and you are signed in. Use these details to sign in next time, then complete your account information whenever you like."
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:513
+#: includes/class-sofreh-phone-accounts.php:670
 msgid "Username (your mobile number)"
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:514
+#: includes/class-sofreh-phone-accounts.php:671
 msgid "Copy username"
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:517
+#: includes/class-sofreh-phone-accounts.php:674
 msgid "Password"
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:518
+#: includes/class-sofreh-phone-accounts.php:675
 msgid "Copy password"
 msgstr ""
 
 #. translators: %s: number of minutes.
-#: includes/class-sofreh-phone-accounts.php:525
+#: includes/class-sofreh-phone-accounts.php:682
 #, php-format
 msgid "Write the password down or save it now: for your security it is shown only on this page, for %s minutes, and is never sent by email or text message."
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:531
+#: includes/class-sofreh-phone-accounts.php:688
 msgid "Complete your account"
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:532
+#: includes/class-sofreh-phone-accounts.php:689
+#: includes/class-sofreh-phone-accounts.php:705
 msgid "Go to my account"
 msgstr ""
 
+#. translators: %s: the customer's mobile number (username).
+#: includes/class-sofreh-phone-accounts.php:699
+#, php-format
+msgid "This order is saved in your account. Sign in with %s and your password."
+msgstr ""
+
+#: includes/class-sofreh-phone-accounts.php:710
+msgid "You already have an account"
+msgstr ""
+
 #. translators: %s: link to the account page.
-#: includes/class-sofreh-phone-accounts.php:541
+#: includes/class-sofreh-phone-accounts.php:715
 #, php-format
 msgid "If you already have an account with this mobile number, <a href=\"%s\">sign in</a> to see your orders there."
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:564
+#: includes/class-sofreh-phone-accounts.php:723
+msgid "Your account is created after payment"
+msgstr ""
+
+#: includes/class-sofreh-phone-accounts.php:724
+msgid "As soon as your payment is confirmed, an account is created with your mobile number. Open this page again in this browser to see your login details."
+msgstr ""
+
+#: includes/class-sofreh-phone-accounts.php:743
 msgid "Copy"
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:565
+#: includes/class-sofreh-phone-accounts.php:744
 msgid "Copied"
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:590
+#: includes/class-sofreh-phone-accounts.php:769
 msgid "Copied to clipboard"
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:625
+#: includes/class-sofreh-phone-accounts.php:804
 msgid "Mobile number or email"
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:634
+#: includes/class-sofreh-phone-accounts.php:808
+#: includes/class-sofreh-phone-accounts.php:904
+msgid "Create account"
+msgstr ""
+
+#: includes/class-sofreh-phone-accounts.php:817
 msgid "Bought with your mobile number? Sign in with that number and the password shown after your purchase."
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:646
+#: includes/class-sofreh-phone-accounts.php:829
 msgid "Your account was created with your mobile number. Add your name and email and choose your own password."
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:648
+#: includes/class-sofreh-phone-accounts.php:831
 msgid "Complete account"
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:687
+#. translators: %s: "Create account" link.
+#: includes/class-sofreh-phone-accounts.php:908
+#, php-format
+msgid "No account yet? %s first, or simply place your order: once your payment is confirmed, an account is created for you with your mobile number."
+msgstr ""
+
+#: includes/class-sofreh-phone-accounts.php:938
 msgid "Required"
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:689
+#: includes/class-sofreh-phone-accounts.php:940
 msgid "You will sign in with this number."
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:705
+#: includes/class-sofreh-phone-accounts.php:956
 msgid "An account with this mobile number already exists. Please sign in instead."
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:777
+#: includes/class-sofreh-phone-accounts.php:1028
 msgid "The form has expired. Please try again."
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:791
+#: includes/class-sofreh-phone-accounts.php:1042
 msgid "No order matches this tracking code and mobile number."
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:800
+#: includes/class-sofreh-phone-accounts.php:1051
 msgid "Enter the tracking code shown after your purchase and the mobile number you ordered with."
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:802
+#: includes/class-sofreh-phone-accounts.php:1053
 msgid "Tracking code"
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:810
+#: includes/class-sofreh-phone-accounts.php:1061
 msgid "Track order"
 msgstr ""
 
 #. translators: %s: order number.
-#: includes/class-sofreh-phone-accounts.php:822
+#: includes/class-sofreh-phone-accounts.php:1073
 #, php-format
 msgid "Order %s"
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:826
+#: includes/class-sofreh-phone-accounts.php:1077
 msgid "Status"
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:827
+#: includes/class-sofreh-phone-accounts.php:1078
 msgid "Date"
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:828
+#: includes/class-sofreh-phone-accounts.php:1079
 msgid "Total"
 msgstr ""
 
-#: includes/class-sofreh-phone-accounts.php:836
+#: includes/class-sofreh-phone-accounts.php:1087
 msgid "View full order"
 msgstr ""

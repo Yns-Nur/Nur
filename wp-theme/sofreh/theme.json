@@ -16,8 +16,8 @@
 			"palette": [
 				{
 					"slug": "ground",
-					"name": "Ground",
-					"color": "#F3F4F6"
+					"name": "Porcelain",
+					"color": "#F7F4EF"
 				},
 				{
 					"slug": "surface",
@@ -27,37 +27,42 @@
 				{
 					"slug": "line",
 					"name": "Line",
-					"color": "#E6E8EB"
+					"color": "#EAE6DF"
 				},
 				{
 					"slug": "ink",
 					"name": "Ink",
-					"color": "#1F2328"
+					"color": "#191D34"
 				},
 				{
 					"slug": "muted",
 					"name": "Muted",
-					"color": "#62666D"
+					"color": "#5E6275"
 				},
 				{
 					"slug": "accent",
-					"name": "Accent",
-					"color": "#D1352F"
+					"name": "Lapis",
+					"color": "#2D48C0"
 				},
 				{
 					"slug": "accent-deep",
-					"name": "Accent deep",
-					"color": "#B32A25"
+					"name": "Lapis deep",
+					"color": "#1E339B"
 				},
 				{
 					"slug": "accent-soft",
-					"name": "Accent soft",
-					"color": "#FDECEA"
+					"name": "Lapis soft",
+					"color": "#E9F0FF"
 				},
 				{
-					"slug": "teal",
-					"name": "Teal",
-					"color": "#1F6F6A"
+					"slug": "saffron",
+					"name": "Saffron",
+					"color": "#FAAB35"
+				},
+				{
+					"slug": "plum",
+					"name": "Plum",
+					"color": "#67237A"
 				},
 				{
 					"slug": "success",

@@ -4,7 +4,7 @@ Requires at least: 6.7
 Tested up to: 7.1
 Requires PHP: 7.4
 Requires Plugins: woocommerce
-Stable tag: 1.1.0
+Stable tag: 1.2.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -17,21 +17,30 @@ login details are shown on the order confirmation page.
   buy straight away.
 * The mobile number is required and becomes the username. Persian/Arabic digits,
   spaces and +98 / 0098 prefixes are accepted and stored as 09XXXXXXXXX.
-* When the order is placed, a customer account is created with a generated
-  password, the order is attached to it, the checkout addresses are saved to it
-  and the customer is signed in (as WooCommerce does for its own checkout
-  sign-up).
-* The order confirmation page shows the order tracking code, the username and
-  the password, with copy buttons, and links to complete the account.
+* Only when the order is paid (the gateway reports payment complete, or the
+  order reaches Processing/Completed) is a customer account created with a
+  generated password; the order is attached to it, the checkout addresses are
+  saved to it and the customer is signed in (as WooCommerce does for its own
+  checkout sign-up). Unpaid, failed and cancelled orders never create accounts.
+* The order confirmation page shows the order tracking code with the account
+  confirmation beside it: the username and the password, with copy buttons, and
+  links to complete the account. While a payment is still awaited (for example
+  a bank transfer on hold) it says the account is created once the payment is
+  confirmed.
+* If the payment is confirmed while the buyer is away (a server callback, or
+  the store marking a bank transfer as paid), the account is created then, and
+  its password is set and shown the next time the buyer opens the confirmation
+  page in the browser they ordered from.
 * The password is kept only in that customer's session for 30 minutes. It is
   never stored with the order, never written to a log and never sent by email
   or SMS; WordPress stores only its hash.
 * If an account with the number already exists, the order is NOT attached to it
   (placing an order never grants access to someone else's account); the page
   suggests signing in, and the order can still be tracked with its code.
-* Manual sign-up stays available on the My Account page: the form asks for the
-  mobile number (it becomes the username), an email address (WooCommerce
-  requires one for sign-up) and a password the customer chooses.
+* "Create account" (ساخت حساب) sits beside "Log in" on the My Account page and
+  is offered at checkout, returning to the checkout afterwards. The form asks
+  for the mobile number (it becomes the username), an email address
+  (WooCommerce requires one for sign-up) and a password the customer chooses.
 * Customers sign in later with the mobile number (any digit form) and the
   password, and are reminded on their dashboard to complete their account. The
   login field is labelled "Mobile number or email".
@@ -54,6 +63,12 @@ there); on the classic checkout the email becomes optional.
 3. Add the tracking page to a menu if you like.
 
 == Changelog ==
+
+= 1.2.0 =
+* Accounts for guest orders are created only once the order is paid, and shown
+  beside the tracking code on the confirmation page.
+* "Create account" offered at checkout, with a return to the checkout.
+* The sign-up form's heading and button read "Create account".
 
 = 1.1.0 =
 * Manual sign-up on My Account with the mobile number as the username.

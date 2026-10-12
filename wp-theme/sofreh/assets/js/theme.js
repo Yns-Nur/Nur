@@ -618,4 +618,73 @@
 	}
 	document.body.addEventListener( 'wc-blocks_added_to_cart', refreshFragments );
 	document.body.addEventListener( 'wc-blocks_removed_from_cart', refreshFragments );
+
+	/* ------------------------------------------------------------------ */
+	/* 9. My account: «ورود» / «ساخت حساب» tabs                            */
+	/* ------------------------------------------------------------------ */
+
+	// WooCommerce prints the login and sign-up forms side by side; the tabs
+	// show one at a time inside a single panel. Without this script both
+	// forms simply stay visible.
+	var authTabs = document.querySelector( '[data-sofreh-auth-tabs]' );
+	var authBox = document.getElementById( 'customer_login' );
+	if ( authTabs && authBox ) {
+		var panels = {
+			login: authBox.querySelector( '.u-column1' ),
+			register: authBox.querySelector( '.u-column2' ),
+		};
+		if ( panels.login && panels.register ) {
+			var tabs = {
+				login: authTabs.querySelector( '[data-tab="login"]' ),
+				register: authTabs.querySelector( '[data-tab="register"]' ),
+			};
+			[ 'login', 'register' ].forEach( function ( name ) {
+				panels[ name ].id = panels[ name ].id || 'auth-panel-' + name;
+				panels[ name ].setAttribute( 'role', 'tabpanel' );
+				panels[ name ].setAttribute( 'aria-labelledby', tabs[ name ].id );
+				tabs[ name ].setAttribute( 'aria-controls', panels[ name ].id );
+			} );
+
+			var showTab = function ( name, focusTab ) {
+				[ 'login', 'register' ].forEach( function ( other ) {
+					var on = other === name;
+					tabs[ other ].setAttribute( 'aria-selected', on ? 'true' : 'false' );
+					tabs[ other ].tabIndex = on ? 0 : -1;
+					panels[ other ].hidden = ! on;
+				} );
+				if ( focusTab ) {
+					tabs[ name ].focus();
+				}
+			};
+
+			authBox.insertBefore( authTabs, authBox.firstChild );
+			authTabs.hidden = false;
+			authBox.classList.add( 'has-tabs' );
+			showTab( authTabs.getAttribute( 'data-initial' ) === 'register' ? 'register' : 'login' );
+
+			authTabs.addEventListener( 'click', function ( event ) {
+				var tab = event.target.closest( '[data-tab]' );
+				if ( tab ) {
+					showTab( tab.getAttribute( 'data-tab' ) );
+				}
+			} );
+			// Arrow keys move between the two tabs, whatever the direction.
+			authTabs.addEventListener( 'keydown', function ( event ) {
+				if ( [ 'ArrowLeft', 'ArrowRight', 'Home', 'End' ].indexOf( event.key ) === -1 ) {
+					return;
+				}
+				event.preventDefault();
+				var current = tabs.login.getAttribute( 'aria-selected' ) === 'true' ? 'login' : 'register';
+				var next = event.key === 'Home' ? 'login' : event.key === 'End' ? 'register' : ( current === 'login' ? 'register' : 'login' );
+				showTab( next, true );
+			} );
+			authBox.addEventListener( 'click', function ( event ) {
+				var link = event.target.closest( '[data-sofreh-auth-switch]' );
+				if ( link ) {
+					event.preventDefault();
+					showTab( link.getAttribute( 'data-sofreh-auth-switch' ), true );
+				}
+			} );
+		}
+	}
 }() );

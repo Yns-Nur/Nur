@@ -2,7 +2,7 @@
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Sofreh Phone Accounts 1.1.0\n"
+"Project-Id-Version: Sofreh Phone Accounts 1.2.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/sofreh-phone-accounts\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Persian\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"POT-Creation-Date: 2026-10-12T17:30:23+00:00\n"
+"POT-Creation-Date: 2026-10-12T18:18:52+00:00\n"
 "PO-Revision-Date: 2026-10-12 12:00+0330\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: sofreh-phone-accounts\n"
@@ -28,177 +28,208 @@ msgstr "https://github.com/yns-nur/nur/tree/main/wp-theme/sofreh-phone-accounts"
 
 #. Description of the plugin
 #: sofreh-phone-accounts.php:5
-msgid "Customers buy with just their mobile number. A customer account is created automatically when the order is placed, and the order confirmation page shows the order tracking code together with the login details (mobile number as username, plus a generated password). Adds an order-tracking form that works with order number and mobile number. Companion to the Sofreh theme, but works with any theme."
-msgstr "مشتری فقط با شماره موبایل خرید می‌کند. هنگام ثبت سفارش حساب کاربری به‌صورت خودکار ساخته می‌شود و صفحهٔ تأیید سفارش، کد پیگیری را همراه با اطلاعات ورود (شماره موبایل به‌عنوان نام کاربری و یک رمز عبور ساخته‌شده) نشان می‌دهد. فرم پیگیری سفارش با کد پیگیری و شماره موبایل نیز اضافه می‌شود. همراه پوستهٔ سفره، اما با هر پوسته‌ای کار می‌کند."
+msgid "Customers buy with just their mobile number, or create an account first. When a signed-out customer's order is paid, a customer account is created automatically, and the order confirmation page shows the order tracking code with the account confirmation and login details beside it (mobile number as username, plus a generated password). Adds an order-tracking form that works with order number and mobile number. Companion to the Sofreh theme, but works with any theme."
+msgstr "مشتری فقط با شماره موبایل خرید می‌کند یا پیش از خرید حساب می‌سازد. وقتی سفارشِ مشتریِ واردنشده پرداخت شد، حساب کاربری به‌صورت خودکار ساخته می‌شود و صفحهٔ تأیید سفارش، کد پیگیری را همراه با تأیید ساخت حساب و اطلاعات ورود (شماره موبایل به‌عنوان نام کاربری و یک رمز عبور ساخته‌شده) در کنار هم نشان می‌دهد. فرم پیگیری سفارش با کد پیگیری و شماره موبایل نیز اضافه می‌شود. همراه پوستهٔ سفره، اما با هر پوسته‌ای کار می‌کند."
 
 #. Author of the plugin
 #: sofreh-phone-accounts.php:12
 msgid "Younes Nur"
 msgstr "یونس نور"
 
-#: includes/class-sofreh-phone-accounts.php:135
+#: includes/class-sofreh-phone-accounts.php:161
 msgid "Track your order"
 msgstr "پیگیری سفارش"
 
-#: includes/class-sofreh-phone-accounts.php:196
+#: includes/class-sofreh-phone-accounts.php:222
 msgid "Please enter a valid mobile number, for example 09121234567. It becomes your username for signing in."
 msgstr "لطفاً شماره موبایل معتبر وارد کنید، مثلاً 09121234567. این شماره نام کاربری شما برای ورود خواهد بود."
 
-#: includes/class-sofreh-phone-accounts.php:227
-#: includes/class-sofreh-phone-accounts.php:249
-#: includes/class-sofreh-phone-accounts.php:687
-#: includes/class-sofreh-phone-accounts.php:806
+#: includes/class-sofreh-phone-accounts.php:253
+#: includes/class-sofreh-phone-accounts.php:275
+#: includes/class-sofreh-phone-accounts.php:938
+#: includes/class-sofreh-phone-accounts.php:1057
 msgid "Mobile number"
 msgstr "شماره موبایل"
 
-#: includes/class-sofreh-phone-accounts.php:230
-msgid "Your account is created with this number; you will see your password after placing the order."
-msgstr "حساب کاربری شما با همین شماره ساخته می‌شود؛ رمز عبور را پس از ثبت سفارش می‌بینید."
+#: includes/class-sofreh-phone-accounts.php:256
+msgid "Once your payment is confirmed, your account is created with this number and your password is shown on the confirmation page."
+msgstr "پس از تأیید پرداخت، حساب کاربری شما با همین شماره ساخته می‌شود و رمز عبورتان در صفحهٔ تأیید سفارش نمایش داده می‌شود."
 
-#: includes/class-sofreh-phone-accounts.php:391
-msgid "Customer account created automatically from the mobile number."
-msgstr "حساب کاربری مشتری به‌صورت خودکار با شماره موبایل ساخته شد."
+#: includes/class-sofreh-phone-accounts.php:486
+msgid "Payment confirmed: customer account created automatically from the mobile number."
+msgstr "پرداخت تأیید شد: حساب مشتری به‌صورت خودکار با شماره موبایل ساخته شد."
 
-#: includes/class-sofreh-phone-accounts.php:489
+#: includes/class-sofreh-phone-accounts.php:646
 msgid "Your order tracking code"
 msgstr "کد پیگیری سفارش شما"
 
 #. translators: %s: link to the order tracking page.
-#: includes/class-sofreh-phone-accounts.php:495
+#: includes/class-sofreh-phone-accounts.php:652
 #, php-format
 msgid "Use it with your mobile number on the <a href=\"%s\">order tracking page</a>."
 msgstr "با این کد و شماره موبایلتان در <a href=\"%s\">صفحهٔ پیگیری سفارش</a> وضعیت سفارش را ببینید."
 
-#: includes/class-sofreh-phone-accounts.php:499
+#: includes/class-sofreh-phone-accounts.php:656
 msgid "Keep it to follow up on your order."
 msgstr "این کد را برای پیگیری سفارش نگه دارید."
 
-#: includes/class-sofreh-phone-accounts.php:504
+#: includes/class-sofreh-phone-accounts.php:661
 msgid "Copy tracking code"
 msgstr "کپی کد پیگیری"
 
-#: includes/class-sofreh-phone-accounts.php:509
+#: includes/class-sofreh-phone-accounts.php:666
+#: includes/class-sofreh-phone-accounts.php:694
 msgid "Your account has been created"
 msgstr "حساب کاربری شما ساخته شد"
 
-#: includes/class-sofreh-phone-accounts.php:510
-msgid "You are signed in. Use these details to sign in next time, then complete your account information whenever you like."
-msgstr "اکنون وارد حساب خود شده‌اید. دفعهٔ بعد با این اطلاعات وارد شوید و هر زمان خواستید اطلاعات حسابتان را کامل کنید."
+#: includes/class-sofreh-phone-accounts.php:667
+msgid "Your payment was confirmed and you are signed in. Use these details to sign in next time, then complete your account information whenever you like."
+msgstr "پرداخت شما تأیید شد و اکنون وارد حساب خود شده‌اید. دفعهٔ بعد با این اطلاعات وارد شوید و هر زمان خواستید اطلاعات حسابتان را کامل کنید."
 
-#: includes/class-sofreh-phone-accounts.php:513
+#: includes/class-sofreh-phone-accounts.php:670
 msgid "Username (your mobile number)"
 msgstr "نام کاربری (شماره موبایل شما)"
 
-#: includes/class-sofreh-phone-accounts.php:514
+#: includes/class-sofreh-phone-accounts.php:671
 msgid "Copy username"
 msgstr "کپی نام کاربری"
 
-#: includes/class-sofreh-phone-accounts.php:517
+#: includes/class-sofreh-phone-accounts.php:674
 msgid "Password"
 msgstr "رمز عبور"
 
-#: includes/class-sofreh-phone-accounts.php:518
+#: includes/class-sofreh-phone-accounts.php:675
 msgid "Copy password"
 msgstr "کپی رمز عبور"
 
 #. translators: %s: number of minutes.
-#: includes/class-sofreh-phone-accounts.php:525
+#: includes/class-sofreh-phone-accounts.php:682
 #, php-format
 msgid "Write the password down or save it now: for your security it is shown only on this page, for %s minutes, and is never sent by email or text message."
 msgstr "همین حالا رمز عبور را یادداشت یا ذخیره کنید: برای امنیت شما فقط در همین صفحه و تا %s دقیقه نمایش داده می‌شود و هرگز با ایمیل یا پیامک فرستاده نمی‌شود."
 
-#: includes/class-sofreh-phone-accounts.php:531
+#: includes/class-sofreh-phone-accounts.php:688
 msgid "Complete your account"
 msgstr "تکمیل اطلاعات حساب"
 
-#: includes/class-sofreh-phone-accounts.php:532
+#: includes/class-sofreh-phone-accounts.php:689
+#: includes/class-sofreh-phone-accounts.php:705
 msgid "Go to my account"
 msgstr "رفتن به حساب من"
 
+#. translators: %s: the customer's mobile number (username).
+#: includes/class-sofreh-phone-accounts.php:699
+#, php-format
+msgid "This order is saved in your account. Sign in with %s and your password."
+msgstr "این سفارش در حساب کاربری شما ثبت شده است. با %s و رمز عبورتان وارد شوید."
+
+#: includes/class-sofreh-phone-accounts.php:710
+msgid "You already have an account"
+msgstr "شما از قبل حساب کاربری دارید"
+
 #. translators: %s: link to the account page.
-#: includes/class-sofreh-phone-accounts.php:541
+#: includes/class-sofreh-phone-accounts.php:715
 #, php-format
 msgid "If you already have an account with this mobile number, <a href=\"%s\">sign in</a> to see your orders there."
 msgstr "اگر از قبل با این شماره موبایل حساب کاربری دارید، برای دیدن سفارش‌هایتان <a href=\"%s\">وارد شوید</a>."
 
-#: includes/class-sofreh-phone-accounts.php:564
+#: includes/class-sofreh-phone-accounts.php:723
+msgid "Your account is created after payment"
+msgstr "حساب کاربری پس از پرداخت ساخته می‌شود"
+
+#: includes/class-sofreh-phone-accounts.php:724
+msgid "As soon as your payment is confirmed, an account is created with your mobile number. Open this page again in this browser to see your login details."
+msgstr "به‌محض تأیید پرداخت، حساب کاربری شما با شماره موبایلتان ساخته می‌شود. برای دیدن اطلاعات ورود، این صفحه را دوباره در همین مرورگر باز کنید."
+
+#: includes/class-sofreh-phone-accounts.php:743
 msgid "Copy"
 msgstr "کپی"
 
-#: includes/class-sofreh-phone-accounts.php:565
+#: includes/class-sofreh-phone-accounts.php:744
 msgid "Copied"
 msgstr "کپی شد"
 
-#: includes/class-sofreh-phone-accounts.php:590
+#: includes/class-sofreh-phone-accounts.php:769
 msgid "Copied to clipboard"
 msgstr "در کلیپ‌بورد کپی شد"
 
-#: includes/class-sofreh-phone-accounts.php:625
+#: includes/class-sofreh-phone-accounts.php:804
 msgid "Mobile number or email"
 msgstr "شماره موبایل یا ایمیل"
 
-#: includes/class-sofreh-phone-accounts.php:634
+#: includes/class-sofreh-phone-accounts.php:808
+#: includes/class-sofreh-phone-accounts.php:904
+msgid "Create account"
+msgstr "ساخت حساب"
+
+#: includes/class-sofreh-phone-accounts.php:817
 msgid "Bought with your mobile number? Sign in with that number and the password shown after your purchase."
 msgstr "با شماره موبایل خرید کرده‌اید؟ با همان شماره و رمز عبوری که پس از خرید نمایش داده شد وارد شوید."
 
-#: includes/class-sofreh-phone-accounts.php:646
+#: includes/class-sofreh-phone-accounts.php:829
 msgid "Your account was created with your mobile number. Add your name and email and choose your own password."
 msgstr "حساب شما با شماره موبایلتان ساخته شده است. نام و ایمیل خود را اضافه کنید و رمز عبور دلخواهتان را انتخاب کنید."
 
-#: includes/class-sofreh-phone-accounts.php:648
+#: includes/class-sofreh-phone-accounts.php:831
 msgid "Complete account"
 msgstr "تکمیل حساب"
 
-#: includes/class-sofreh-phone-accounts.php:687
+#. translators: %s: "Create account" link.
+#: includes/class-sofreh-phone-accounts.php:908
+#, php-format
+msgid "No account yet? %s first, or simply place your order: once your payment is confirmed, an account is created for you with your mobile number."
+msgstr "حساب کاربری ندارید؟ اول %s، یا همین حالا سفارش دهید: پس از تأیید پرداخت، حساب شما با شماره موبایلتان خودکار ساخته می‌شود."
+
+#: includes/class-sofreh-phone-accounts.php:938
 msgid "Required"
 msgstr "الزامی"
 
-#: includes/class-sofreh-phone-accounts.php:689
+#: includes/class-sofreh-phone-accounts.php:940
 msgid "You will sign in with this number."
 msgstr "با همین شماره وارد حساب کاربری می‌شوید."
 
-#: includes/class-sofreh-phone-accounts.php:705
+#: includes/class-sofreh-phone-accounts.php:956
 msgid "An account with this mobile number already exists. Please sign in instead."
 msgstr "با این شماره موبایل قبلاً حساب کاربری ساخته شده است. لطفاً وارد شوید."
 
-#: includes/class-sofreh-phone-accounts.php:777
+#: includes/class-sofreh-phone-accounts.php:1028
 msgid "The form has expired. Please try again."
 msgstr "اعتبار فرم تمام شده است. لطفاً دوباره تلاش کنید."
 
-#: includes/class-sofreh-phone-accounts.php:791
+#: includes/class-sofreh-phone-accounts.php:1042
 msgid "No order matches this tracking code and mobile number."
 msgstr "سفارشی با این کد پیگیری و شماره موبایل پیدا نشد."
 
-#: includes/class-sofreh-phone-accounts.php:800
+#: includes/class-sofreh-phone-accounts.php:1051
 msgid "Enter the tracking code shown after your purchase and the mobile number you ordered with."
 msgstr "کد پیگیری‌ای را که پس از خرید دریافت کردید و شماره موبایلی را که با آن سفارش دادید وارد کنید."
 
-#: includes/class-sofreh-phone-accounts.php:802
+#: includes/class-sofreh-phone-accounts.php:1053
 msgid "Tracking code"
 msgstr "کد پیگیری"
 
-#: includes/class-sofreh-phone-accounts.php:810
+#: includes/class-sofreh-phone-accounts.php:1061
 msgid "Track order"
 msgstr "پیگیری سفارش"
 
 #. translators: %s: order number.
-#: includes/class-sofreh-phone-accounts.php:822
+#: includes/class-sofreh-phone-accounts.php:1073
 #, php-format
 msgid "Order %s"
 msgstr "سفارش %s"
 
-#: includes/class-sofreh-phone-accounts.php:826
+#: includes/class-sofreh-phone-accounts.php:1077
 msgid "Status"
 msgstr "وضعیت"
 
-#: includes/class-sofreh-phone-accounts.php:827
+#: includes/class-sofreh-phone-accounts.php:1078
 msgid "Date"
 msgstr "تاریخ"
 
-#: includes/class-sofreh-phone-accounts.php:828
+#: includes/class-sofreh-phone-accounts.php:1079
 msgid "Total"
 msgstr "مبلغ کل"
 
-#: includes/class-sofreh-phone-accounts.php:836
+#: includes/class-sofreh-phone-accounts.php:1087
 msgid "View full order"
 msgstr "مشاهدهٔ کامل سفارش"

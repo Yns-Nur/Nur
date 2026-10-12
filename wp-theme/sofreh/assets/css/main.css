@@ -1,9 +1,12 @@
 /*
  * Sofreh — base styles.
  *
- * Direction: the familiar Iranian marketplace storefront, made with care.
- * White surfaces on a cool grey ground, one coral-red accent for actions and
- * discounts, hairline dividers, Vazirmatn throughout. Phone first.
+ * Direction: the familiar Iranian marketplace storefront, made with care,
+ * in the store's own colours: lapis (لاجوردی) for actions and the brand,
+ * saffron (زعفرانی) for offers, plum as the deep jewel partner, on a warm
+ * porcelain ground. A fine 8-point-star (khatam) line pattern marks the
+ * banner and the offers band. Hairline dividers, Vazirmatn throughout.
+ * Phone first.
  *
  * Logical properties (inline-start/end) keep one stylesheet correct in RTL
  * (Persian) and LTR.
@@ -21,23 +24,41 @@
 /* ------------------------------------------------------------------ */
 
 :root {
-	--c-ground: #f3f4f6;
+	/* Neutrals: warm porcelain ground, indigo-tinted ink. */
+	--c-ground: #f7f4ef;
 	--c-surface: #ffffff;
-	--c-line: #e6e8eb;
-	--c-line-strong: #d3d6db;
-	--c-ink: #1f2328;
-	--c-muted: #62666d;
-	--c-accent: #d1352f;
-	--c-accent-deep: #b32a25;
-	--c-accent-soft: #fdecea;
-	--c-teal: #1f6f6a;
+	--c-line: #eae6df;
+	--c-line-strong: #d6d0c7;
+	--c-ink: #191d34;
+	--c-muted: #5e6275;
+
+	/* Lapis: actions, links, current state, the wordmark (white on it 7.5:1). */
+	--c-accent: #2d48c0;
+	--c-accent-deep: #1e339b;
+	--c-accent-soft: #e9f0ff;
+
+	/* Saffron: offers only — discount tags, the cart count, the section star (ink on it 8.6:1). */
+	--c-saffron: #faab35;
+	--c-saffron-soft: #fff0d0;
+
+	/* Plum: the deep partner in the banner and the offers band. */
+	--c-plum: #67237a;
+
+	/* Status. Red now means errors and nothing else. */
+	--c-error: #b32228;
+	--c-error-soft: #ffece9;
 	--c-success: #1a7f45;
 	--c-success-soft: #e7f5ec;
 	--c-warning-soft: #fff4e0;
 	--c-warning-ink: #7a4d00;
-	--c-info-soft: #eaf1fb;
-	--c-star: #f0a62b;
-	--c-focus: #1f6fd1;
+	--c-info-soft: #e9f0ff;
+	--c-star: #faab35;
+	--c-focus: #1e339b;
+
+	/* Signature: khatam line pattern (light on colour, dark on light) and the solid star mark. */
+	--pattern-light: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cpath d='M32.0 12.0L37.2 19.5L46.1 17.9L44.5 26.8L52.0 32.0L44.5 37.2L46.1 46.1L37.2 44.5L32.0 52.0L26.8 44.5L17.9 46.1L19.5 37.2L12.0 32.0L19.5 26.8L17.9 17.9L26.8 19.5Z M0.0 -20.0L5.2 -12.5L14.1 -14.1L12.5 -5.2L20.0 0.0L12.5 5.2L14.1 14.1L5.2 12.5L0.0 20.0L-5.2 12.5L-14.1 14.1L-12.5 5.2L-20.0 0.0L-12.5 -5.2L-14.1 -14.1L-5.2 -12.5Z M64.0 -20.0L69.2 -12.5L78.1 -14.1L76.5 -5.2L84.0 0.0L76.5 5.2L78.1 14.1L69.2 12.5L64.0 20.0L58.8 12.5L49.9 14.1L51.5 5.2L44.0 0.0L51.5 -5.2L49.9 -14.1L58.8 -12.5Z M0.0 44.0L5.2 51.5L14.1 49.9L12.5 58.8L20.0 64.0L12.5 69.2L14.1 78.1L5.2 76.5L0.0 84.0L-5.2 76.5L-14.1 78.1L-12.5 69.2L-20.0 64.0L-12.5 58.8L-14.1 49.9L-5.2 51.5Z M64.0 44.0L69.2 51.5L78.1 49.9L76.5 58.8L84.0 64.0L76.5 69.2L78.1 78.1L69.2 76.5L64.0 84.0L58.8 76.5L49.9 78.1L51.5 69.2L44.0 64.0L51.5 58.8L49.9 49.9L58.8 51.5Z' fill='none' stroke='%23fff' stroke-opacity='0.13' stroke-width='1'/%3E%3C/svg%3E");
+	--pattern-dark: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cpath d='M32.0 12.0L37.2 19.5L46.1 17.9L44.5 26.8L52.0 32.0L44.5 37.2L46.1 46.1L37.2 44.5L32.0 52.0L26.8 44.5L17.9 46.1L19.5 37.2L12.0 32.0L19.5 26.8L17.9 17.9L26.8 19.5Z M0.0 -20.0L5.2 -12.5L14.1 -14.1L12.5 -5.2L20.0 0.0L12.5 5.2L14.1 14.1L5.2 12.5L0.0 20.0L-5.2 12.5L-14.1 14.1L-12.5 5.2L-20.0 0.0L-12.5 -5.2L-14.1 -14.1L-5.2 -12.5Z M64.0 -20.0L69.2 -12.5L78.1 -14.1L76.5 -5.2L84.0 0.0L76.5 5.2L78.1 14.1L69.2 12.5L64.0 20.0L58.8 12.5L49.9 14.1L51.5 5.2L44.0 0.0L51.5 -5.2L49.9 -14.1L58.8 -12.5Z M0.0 44.0L5.2 51.5L14.1 49.9L12.5 58.8L20.0 64.0L12.5 69.2L14.1 78.1L5.2 76.5L0.0 84.0L-5.2 76.5L-14.1 78.1L-12.5 69.2L-20.0 64.0L-12.5 58.8L-14.1 49.9L-5.2 51.5Z M64.0 44.0L69.2 51.5L78.1 49.9L76.5 58.8L84.0 64.0L76.5 69.2L78.1 78.1L69.2 76.5L64.0 84.0L58.8 76.5L49.9 78.1L51.5 69.2L44.0 64.0L51.5 58.8L49.9 49.9L58.8 51.5Z' fill='none' stroke='%23191d34' stroke-opacity='0.09' stroke-width='1'/%3E%3C/svg%3E");
+	--mark-star: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='M12.0 1.0L14.4 6.3L19.8 4.2L17.7 9.6L23.0 12.0L17.7 14.4L19.8 19.8L14.4 17.7L12.0 23.0L9.6 17.7L4.2 19.8L6.3 14.4L1.0 12.0L6.3 9.6L4.2 4.2L9.6 6.3Z'/%3E%3C/svg%3E");
 
 	--font: "Vazirmatn FD", Tahoma, "Segoe UI", sans-serif;
 	--font-latin-digits: "Vazirmatn", Tahoma, "Segoe UI", sans-serif;
@@ -45,8 +66,8 @@
 	--r-s: 6px;
 	--r: 10px;
 	--r-l: 16px;
-	--shadow-s: 0 1px 2px rgb(31 35 40 / 6%);
-	--shadow: 0 2px 6px rgb(31 35 40 / 6%), 0 12px 32px -12px rgb(31 35 40 / 18%);
+	--shadow-s: 0 1px 2px rgb(25 29 52 / 6%);
+	--shadow: 0 2px 6px rgb(25 29 52 / 6%), 0 12px 32px -12px rgb(25 29 52 / 18%);
 
 	--container: 1336px;
 	--gutter: clamp(12px, 3vw, 24px);
@@ -147,13 +168,13 @@ ol {
 
 /* Text links use the deeper red: 4.5:1 or better on both white and the grey ground. */
 a {
-	color: var(--c-accent-deep);
+	color: var(--c-accent);
 	text-decoration-thickness: 1px;
 	text-underline-offset: 0.3em;
 }
 
 a:hover {
-	color: var(--c-ink);
+	color: var(--c-accent-deep);
 }
 
 hr {
@@ -487,7 +508,7 @@ select:focus,
 textarea:focus {
 	outline: none;
 	border-color: var(--c-focus);
-	box-shadow: 0 0 0 3px rgb(31 111 209 / 18%);
+	box-shadow: 0 0 0 3px rgb(45 72 192 / 20%);
 }
 
 input[type="email"],
@@ -612,8 +633,16 @@ input[type="search"]::-webkit-search-cancel-button {
 	}
 }
 
+/* Signature: a thin lapis–plum–saffron line along the top of the header. */
+.site-header::before {
+	content: "";
+	display: block;
+	height: 3px;
+	background: linear-gradient(90deg, var(--c-saffron), var(--c-plum) 45%, var(--c-accent));
+}
+
 .site-header.is-scrolled {
-	box-shadow: 0 1px 0 var(--c-line), 0 8px 20px -16px rgb(31 35 40 / 40%);
+	box-shadow: 0 1px 0 var(--c-line), 0 8px 20px -16px rgb(25 29 52 / 40%);
 }
 
 .hdr {
@@ -701,8 +730,8 @@ input[type="search"]::-webkit-search-cancel-button {
 	height: 18px;
 	padding-inline: 4px;
 	border-radius: 9px;
-	background: var(--c-accent);
-	color: #fff;
+	background: var(--c-saffron);
+	color: var(--c-ink);
 	font-size: 0.75rem;
 	font-weight: 700;
 	line-height: 1;
@@ -761,7 +790,7 @@ input[type="search"]::-webkit-search-cancel-button {
 	z-index: 60;
 	background: var(--c-surface);
 	border-top: 1px solid var(--c-line);
-	box-shadow: 0 24px 40px -24px rgb(31 35 40 / 35%);
+	box-shadow: 0 24px 40px -24px rgb(25 29 52 / 35%);
 	padding-block: 24px 28px;
 	animation: sofreh-drop 0.22s var(--ease-out);
 }
@@ -1080,7 +1109,7 @@ html:not([dir="rtl"]) .site-drawer {
 		height: calc(var(--tabbar-h) + env(safe-area-inset-bottom, 0px));
 		padding-bottom: env(safe-area-inset-bottom, 0px);
 		background: var(--c-surface);
-		box-shadow: 0 -1px 0 var(--c-line), 0 -8px 24px -18px rgb(31 35 40 / 40%);
+		box-shadow: 0 -1px 0 var(--c-line), 0 -8px 24px -18px rgb(25 29 52 / 40%);
 	}
 
 	.tabbar__item {
@@ -1109,10 +1138,10 @@ html:not([dir="rtl"]) .site-drawer {
 		content: "";
 		position: absolute;
 		top: 0;
-		width: 28px;
-		height: 3px;
-		border-radius: 0 0 3px 3px;
-		background: var(--c-accent);
+		width: 24px;
+		height: 4px;
+		border-radius: 0 0 4px 4px;
+		background: var(--c-saffron);
 	}
 
 	.tabbar__icon {
@@ -1182,9 +1211,38 @@ html:not([dir="rtl"]) .site-drawer {
 	color: #fff;
 }
 
-.banner__slide.tone-teal { background: var(--c-teal); }
-.banner__slide.tone-ink { background: #2a2f37; }
-.banner__slide.tone-accent { background: var(--c-accent); }
+/* Banner tones: jewel colours under the khatam line pattern. */
+.banner__slide.tone-lapis {
+	background:
+		var(--pattern-light) 0 0 / 64px,
+		radial-gradient(120% 140% at 100% 0%, #4562dc 0%, var(--c-accent) 42%, var(--c-accent-deep) 100%);
+}
+
+.banner__slide.tone-plum {
+	background:
+		var(--pattern-light) 0 0 / 64px,
+		radial-gradient(120% 140% at 100% 0%, #8a3aa0 0%, var(--c-plum) 50%, #4a1859 100%);
+}
+
+.banner__slide.tone-saffron {
+	color: var(--c-ink);
+	background:
+		var(--pattern-dark) 0 0 / 64px,
+		radial-gradient(120% 140% at 100% 0%, #ffc56a 0%, var(--c-saffron) 55%, #f29a1f 100%);
+}
+
+.banner__slide.tone-saffron .banner__title {
+	color: var(--c-ink);
+}
+
+.banner__slide.tone-saffron .banner__text {
+	color: rgb(25 29 52 / 82%);
+}
+
+.banner__slide.tone-saffron .banner__button {
+	background: var(--c-ink);
+	color: #fff;
+}
 
 .banner__title {
 	margin: 0 0 6px;
@@ -1488,8 +1546,22 @@ html:not([dir="rtl"]) .site-drawer {
 }
 
 .strip__title {
+	display: flex;
+	align-items: center;
+	gap: 8px;
 	margin: 0;
 	font-size: clamp(1rem, 0.9rem + 0.4vw, 1.2rem);
+}
+
+/* Signature: a small saffron khatam star before each section title. */
+.strip__title::before {
+	content: "";
+	flex: none;
+	width: 14px;
+	height: 14px;
+	background: var(--c-saffron);
+	-webkit-mask: var(--mark-star) center / contain no-repeat;
+	mask: var(--mark-star) center / contain no-repeat;
 }
 
 .strip__more {
@@ -1514,9 +1586,16 @@ html:not([dir="rtl"]) .strip__more:hover .icon {
 	transform: scaleX(-1) translateX(-3px);
 }
 
-/* Special offers: the red strip */
+/* Special offers: lapis into plum under the khatam pattern. */
 .strip--deals .strip__frame {
-	background: var(--c-accent);
+	background:
+		var(--pattern-light) 0 0 / 64px,
+		linear-gradient(110deg, var(--c-accent) 0%, #4a37b0 48%, var(--c-plum) 100%);
+}
+
+.strip--deals :focus-visible,
+.banner__slide:not(.tone-saffron) :focus-visible {
+	outline-color: #fff;
 }
 
 .strip--deals .strip__title,

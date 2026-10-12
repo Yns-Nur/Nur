@@ -3,7 +3,7 @@ Contributors: yns-nur
 Requires at least: 6.7
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 2.0.0
+Stable tag: 2.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Tags: e-commerce, rtl-language-support, translation-ready, custom-logo, custom-menu, featured-images, footer-widgets, right-sidebar, theme-options, threaded-comments, wide-blocks, block-styles
@@ -20,7 +20,7 @@ shoppers already know from the big marketplaces, so nothing has to be learned:
   category mega menu on desktop and a category drawer on phones; a fixed bottom
   tab bar on phones (home, categories, cart, account).
 * Home page: a swipeable banner (up to three slides, set in the Customizer), round
-  category shortcuts, a red "special offers" strip of products that are really
+  category shortcuts, a lapis-and-plum "special offers" band of products that are really
   on sale, a newest-products shelf and a numbered best-seller list. Every section
   is built from the store's own data and only appears when it has content.
 * Listings: sort links, category chips, a filters panel (a drawer on phones),
@@ -36,6 +36,8 @@ shoppers already know from the big marketplaces, so nothing has to be learned:
   data stays in ASCII digits. Phone numbers and postcodes typed on a Persian
   keyboard are accepted on the classic checkout, the Checkout block and the
   account address form.
+* Its own palette: lapis for actions, saffron for offers, plum and a fine
+  khatam (8-point star) pattern on the banner and the offers band.
 * Restrained motion (banner swipe, add-to-cart flight to the cart, cart count
   bump, drawers and menus) that switches off under "reduce motion".
 * Keyboard-accessible menus and drawers; WCAG 2.1 AA colour contrast.
@@ -67,6 +69,13 @@ WooCommerce is active.
 The theme uses WordPress's date functions, so a Jalali date plugin works with it.
 
 == Changelog ==
+
+= 2.1.0 =
+* Own colour identity: lapis, saffron and plum on a warm porcelain ground, red
+  for errors only; khatam pattern on the banner and offers band, saffron star
+  before section titles, jewel line on the header, saffron discount tags.
+* My Account: «ورود» / «ساخت حساب» tabs; header link «ورود | ساخت حساب».
+* Order confirmation: tracking code and account confirmation side by side.
 
 = 2.0.0 =
 * Redesign from scratch: phone-first marketplace layout (search-first header,
