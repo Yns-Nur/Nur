@@ -3,12 +3,12 @@
  * the block editor; this only matches the front-end reading measure.
  */
 .editor-styles-wrapper {
-	line-height: 1.85;
+	line-height: 1.8;
 	font-feature-settings: "ss01"; /* Persian digits, see main.css. */
 }
 
 .editor-styles-wrapper blockquote {
-	border-inline-start: 3px solid #9a5226;
-	padding-inline-start: 1.25em;
-	color: #62594f;
+	border-inline-start: 2px solid var(--wp--preset--color--line);
+	padding-inline-start: 1.2em;
+	color: var(--wp--preset--color--muted);
 }

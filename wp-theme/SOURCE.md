@@ -1252,14 +1252,14 @@ which WordPress requires; it is intentionally not enqueued.
  * the block editor; this only matches the front-end reading measure.
  */
 .editor-styles-wrapper {
-	line-height: 1.85;
+	line-height: 1.8;
 	font-feature-settings: "ss01"; /* Persian digits, see main.css. */
 }
 
 .editor-styles-wrapper blockquote {
-	border-inline-start: 3px solid #9a5226;
-	padding-inline-start: 1.25em;
-	color: #62594f;
+	border-inline-start: 2px solid var(--wp--preset--color--line);
+	padding-inline-start: 1.2em;
+	color: var(--wp--preset--color--muted);
 }
 ```
 
@@ -2049,8 +2049,6 @@ input[type="search"]::-webkit-search-cancel-button {
 	align-items: center;
 	gap: 4px;
 	margin-bottom: 6px;
-	padding-inline-start: 10px;
-	border-inline-start: 2px solid var(--c-accent);
 	color: var(--c-ink);
 	font-weight: 700;
 	font-size: 0.9375rem;
@@ -2460,7 +2458,7 @@ html:not([dir="rtl"]) .site-drawer {
 	margin: 0 0 6px;
 	color: #fff;
 	font-size: clamp(1.35rem, 1rem + 1.8vw, 2.4rem);
-	font-weight: 800;
+	font-weight: 700;
 	line-height: 1.4;
 }
 
@@ -2825,7 +2823,7 @@ html:not([dir="rtl"]) .strip__more:hover .icon {
 	width: 28px;
 	color: var(--c-ink);
 	font-size: 1.75rem;
-	font-weight: 800;
+	font-weight: 700;
 	line-height: 1;
 	text-align: center;
 }
@@ -2972,8 +2970,15 @@ html:not([dir="rtl"]) .strip__more:hover .icon {
 }
 
 .sticky .post-card__title::before {
-	content: "★ ";
-	color: var(--c-star);
+	content: "";
+	display: inline-block;
+	width: 0.9em;
+	height: 0.9em;
+	margin-inline-end: 6px;
+	vertical-align: -0.05em;
+	background: var(--c-star);
+	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m12 2.8 2.8 5.7 6.3.9-4.6 4.4 1.1 6.3L12 17.1l-5.6 3 1.1-6.3-4.6-4.4 6.3-.9z'/%3E%3C/svg%3E") center / contain no-repeat;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m12 2.8 2.8 5.7 6.3.9-4.6 4.4 1.1 6.3L12 17.1l-5.6 3 1.1-6.3-4.6-4.4 6.3-.9z'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 
 .entry-tags span {
@@ -3132,7 +3137,7 @@ html:not([dir="rtl"]) .strip__more:hover .icon {
 	margin: 0;
 	color: #8b9098; /* Large text: 3.2:1 on white. */
 	font-size: clamp(3.5rem, 10vw, 6rem);
-	font-weight: 800;
+	font-weight: 700;
 	line-height: 1;
 }
 
@@ -3916,7 +3921,15 @@ ul.products li.product .button.loading::after {
 }
 
 .button.added::after {
-	content: " ✓";
+	content: "";
+	display: inline-block;
+	vertical-align: -0.2em;
+	width: 16px;
+	height: 16px;
+	margin-inline-start: 6px;
+	background: currentColor;
+	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12.5 4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / contain no-repeat;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m5 12.5 4.5 4.5L19 7.5'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 
 @keyframes sofreh-spin {
@@ -4484,7 +4497,7 @@ div.product > section {
 }
 
 .stock.out-of-stock {
-	color: var(--c-accent);
+	color: var(--c-accent-deep);
 }
 
 form.cart {
@@ -4623,6 +4636,22 @@ table.variations label {
 	line-height: 1;
 	cursor: pointer;
 	transition: background-color 0.15s ease;
+}
+
+.qty-step::before {
+	content: "";
+	display: block;
+	width: 18px;
+	height: 18px;
+	margin: auto;
+	background: currentColor;
+	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 5v14M5 12h14'/%3E%3C/svg%3E") center / contain no-repeat;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 5v14M5 12h14'/%3E%3C/svg%3E") center / contain no-repeat;
+}
+
+.qty-step--minus::before {
+	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14'/%3E%3C/svg%3E") center / contain no-repeat;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M5 12h14'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 
 .qty-step:hover {
@@ -5078,8 +5107,8 @@ a.remove::before {
 	width: 18px;
 	height: 18px;
 	background: currentColor;
-	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round'%3E%3Cpath d='M6 6l12 12M18 6 6 18'/%3E%3C/svg%3E") center / contain no-repeat;
-	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round'%3E%3Cpath d='M6 6l12 12M18 6 6 18'/%3E%3C/svg%3E") center / contain no-repeat;
+	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M6 6l12 12M18 6 6 18'/%3E%3C/svg%3E") center / contain no-repeat;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round'%3E%3Cpath d='M6 6l12 12M18 6 6 18'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 
 a.remove:hover {
@@ -5588,8 +5617,8 @@ a.remove:hover {
 	position: absolute;
 	inset: 0;
 	background: var(--c-muted);
-	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center / 18px no-repeat;
-	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center / 18px no-repeat;
+	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center / 18px no-repeat;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center / 18px no-repeat;
 }
 
 .select2-container--focus .select2-selection--single,
@@ -5894,13 +5923,9 @@ ul.order_details li strong {
 }
 
 .woocommerce-MyAccount-navigation .is-active a {
-	color: var(--c-accent);
+	background: var(--c-accent-soft);
+	color: var(--c-accent-deep);
 	font-weight: 700;
-	box-shadow: inset -3px 0 0 var(--c-accent);
-}
-
-html:not([dir="rtl"]) .woocommerce-MyAccount-navigation .is-active a {
-	box-shadow: inset 3px 0 0 var(--c-accent);
 }
 
 .woocommerce-MyAccount-navigation-link--customer-logout a {
@@ -6019,8 +6044,8 @@ html:not([dir="rtl"]) .woocommerce-MyAccount-navigation .is-active a {
 		border-top: 0;
 	}
 
-	.woocommerce-MyAccount-navigation .is-active a,
-	html:not([dir="rtl"]) .woocommerce-MyAccount-navigation .is-active a {
+	.woocommerce-MyAccount-navigation .is-active a {
+		background: none;
 		box-shadow: inset 0 -2px 0 var(--c-accent);
 		border-radius: 0;
 	}
@@ -6105,7 +6130,15 @@ html[dir="rtl"] .widget_price_filter .ui-slider .ui-slider-handle {
 }
 
 .widget_layered_nav_filters li a::before {
-	content: "× ";
+	content: "";
+	display: inline-block;
+	width: 14px;
+	height: 14px;
+	margin-inline-end: 4px;
+	vertical-align: -0.15em;
+	background: currentColor;
+	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 6 12 12M18 6 6 18'/%3E%3C/svg%3E") center / contain no-repeat;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 6 12 12M18 6 6 18'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 
 .widget_product_search .woocommerce-product-search {
@@ -6933,7 +6966,6 @@ html[dir="rtl"] .widget_price_filter .ui-slider .ui-slider-handle {
 		b.className = 'qty-step qty-step--' + kind;
 		b.setAttribute( 'aria-label', label );
 		b.setAttribute( 'data-qty-step', kind );
-		b.textContent = kind === 'plus' ? '+' : '−';
 		return b;
 	}
 

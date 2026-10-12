@@ -478,7 +478,6 @@
 		b.className = 'qty-step qty-step--' + kind;
 		b.setAttribute( 'aria-label', label );
 		b.setAttribute( 'data-qty-step', kind );
-		b.textContent = kind === 'plus' ? '+' : '−';
 		return b;
 	}
 

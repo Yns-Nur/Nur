@@ -1,0 +1,735 @@
+{
+  "schemaVersion": 2,
+  "generatedAt": "2026-10-12T17:53:23+00:00",
+  "title": "Design System: Sofreh",
+  "extensions": {
+    "colorMeta": {
+      "accent": {
+        "role": "primary",
+        "displayName": "Offer Red",
+        "canonical": "oklch(56.9% 0.194 27.5)",
+        "tonalRamp": [
+          "#1e0001",
+          "#4b0002",
+          "#7c0207",
+          "#b10510",
+          "#dc4038",
+          "#ff7265",
+          "#ffb5ab",
+          "#fee9e6"
+        ],
+        "cssVar": "--c-accent"
+      },
+      "accent-deep": {
+        "role": "primary",
+        "displayName": "Deep Offer Red",
+        "canonical": "oklch(50.5% 0.174 27.6)",
+        "tonalRamp": [
+          "#1f0001",
+          "#4b0103",
+          "#7c0107",
+          "#aa201d",
+          "#d44b41",
+          "#fe7366",
+          "#feb5ac",
+          "#ffe9e6"
+        ],
+        "cssVar": "--c-accent-deep"
+      },
+      "accent-soft": {
+        "role": "primary",
+        "displayName": "Blush Wash",
+        "canonical": "oklch(95.6% 0.019 25.6)",
+        "tonalRamp": [
+          "#120807",
+          "#2d211f",
+          "#493c3b",
+          "#685a58",
+          "#8b7c7a",
+          "#b0a09f",
+          "#d7c6c4",
+          "#fbeae8"
+        ],
+        "cssVar": "--c-accent-soft"
+      },
+      "teal": {
+        "role": "tertiary",
+        "displayName": "Banner Teal",
+        "canonical": "oklch(49.4% 0.075 188.9)",
+        "tonalRamp": [
+          "#000e0d",
+          "#022b28",
+          "#024a46",
+          "#196b66",
+          "#448f89",
+          "#6ab4ae",
+          "#90dbd4",
+          "#b7fff8"
+        ],
+        "cssVar": "--c-teal"
+      },
+      "banner-ink": {
+        "role": "tertiary",
+        "displayName": "Banner Charcoal",
+        "canonical": "oklch(30.4% 0.016 259.8)",
+        "tonalRamp": [
+          "#070b12",
+          "#1f242c",
+          "#3b4048",
+          "#585e67",
+          "#7b818a",
+          "#9fa5af",
+          "#c4cbd5",
+          "#e8effa"
+        ],
+        "cssVar": "none (literal value in the stylesheet)"
+      },
+      "ground": {
+        "role": "neutral",
+        "displayName": "Cool Shelf Grey",
+        "canonical": "oklch(96.7% 0.003 264.5)",
+        "tonalRamp": [
+          "#0b0b0c",
+          "#232425",
+          "#3f4041",
+          "#5d5e5f",
+          "#7f8082",
+          "#a4a4a6",
+          "#c9cacc",
+          "#edeef0"
+        ],
+        "cssVar": "--c-ground"
+      },
+      "surface": {
+        "role": "neutral",
+        "displayName": "Panel White",
+        "canonical": "oklch(100.0% 0.000 89.9)",
+        "tonalRamp": [
+          "#0b0b0b",
+          "#242424",
+          "#404040",
+          "#5d5d5d",
+          "#808080",
+          "#a4a4a4",
+          "#cacaca",
+          "#eeeeee"
+        ],
+        "cssVar": "--c-surface"
+      },
+      "line": {
+        "role": "neutral",
+        "displayName": "Hairline",
+        "canonical": "oklch(93.0% 0.005 258.3)",
+        "tonalRamp": [
+          "#0a0b0d",
+          "#232426",
+          "#3e4042",
+          "#5c5e60",
+          "#7e8083",
+          "#a3a5a7",
+          "#c9cbcd",
+          "#edeff2"
+        ],
+        "cssVar": "--c-line"
+      },
+      "line-strong": {
+        "role": "neutral",
+        "displayName": "Control Rule",
+        "canonical": "oklch(87.5% 0.008 260.7)",
+        "tonalRamp": [
+          "#090b0e",
+          "#222428",
+          "#3d4044",
+          "#5b5e62",
+          "#7e8085",
+          "#a2a5a9",
+          "#c8cbd0",
+          "#eceff4"
+        ],
+        "cssVar": "--c-line-strong"
+      },
+      "ink": {
+        "role": "neutral",
+        "displayName": "Ink",
+        "canonical": "oklch(25.4% 0.011 254.0)",
+        "tonalRamp": [
+          "#080b10",
+          "#202429",
+          "#3c4046",
+          "#595e64",
+          "#7c8187",
+          "#a0a5ac",
+          "#c6cbd2",
+          "#e9eff6"
+        ],
+        "cssVar": "--c-ink"
+      },
+      "muted": {
+        "role": "neutral",
+        "displayName": "Quiet Grey",
+        "canonical": "oklch(50.9% 0.012 261.8)",
+        "tonalRamp": [
+          "#080b10",
+          "#21242a",
+          "#3c4046",
+          "#5a5e65",
+          "#7c8088",
+          "#a0a5ac",
+          "#c6cbd3",
+          "#eaeff7"
+        ],
+        "cssVar": "--c-muted"
+      },
+      "placeholder": {
+        "role": "neutral",
+        "displayName": "Placeholder Grey",
+        "canonical": "oklch(55.4% 0.012 261.8)",
+        "tonalRamp": [
+          "#080b10",
+          "#21242a",
+          "#3c4046",
+          "#5a5e65",
+          "#7c8088",
+          "#a0a5ac",
+          "#c6cbd2",
+          "#eaeff7"
+        ],
+        "cssVar": "none (literal value in the stylesheet)"
+      },
+      "success": {
+        "role": "functional",
+        "displayName": "In-Stock Green",
+        "canonical": "oklch(52.7% 0.127 152.5)",
+        "tonalRamp": [
+          "#001004",
+          "#012d13",
+          "#024d26",
+          "#007139",
+          "#37955a",
+          "#60bb7d",
+          "#86e3a2",
+          "#c6ffd5"
+        ],
+        "cssVar": "--c-success"
+      },
+      "success-soft": {
+        "role": "functional",
+        "displayName": "Mint Wash",
+        "canonical": "oklch(95.7% 0.019 157.9)",
+        "tonalRamp": [
+          "#050e08",
+          "#1c2720",
+          "#38433c",
+          "#556159",
+          "#77847c",
+          "#9ba8a0",
+          "#c1cec6",
+          "#e5f3ea"
+        ],
+        "cssVar": "--c-success-soft"
+      },
+      "success-ink": {
+        "role": "functional",
+        "displayName": "Deep Green Ink",
+        "canonical": "oklch(42.1% 0.095 153.8)",
+        "tonalRamp": [
+          "#000f05",
+          "#002d14",
+          "#014d27",
+          "#2a6d44",
+          "#4f9165",
+          "#73b689",
+          "#99ddae",
+          "#c6ffd6"
+        ],
+        "cssVar": "none (literal value in the stylesheet)"
+      },
+      "info-soft": {
+        "role": "functional",
+        "displayName": "Info Wash",
+        "canonical": "oklch(95.6% 0.015 257.2)",
+        "tonalRamp": [
+          "#070b12",
+          "#1f242c",
+          "#3b4048",
+          "#585e66",
+          "#7a818a",
+          "#9fa5ae",
+          "#c4cbd5",
+          "#e8eff9"
+        ],
+        "cssVar": "--c-info-soft"
+      },
+      "info-ink": {
+        "role": "functional",
+        "displayName": "Info Navy",
+        "canonical": "oklch(36.6% 0.086 255.9)",
+        "tonalRamp": [
+          "#000a1f",
+          "#01234c",
+          "#1e406c",
+          "#3c5f8d",
+          "#5d82b3",
+          "#81a7da",
+          "#a9cdff",
+          "#e4f0ff"
+        ],
+        "cssVar": "none (literal value in the stylesheet)"
+      },
+      "error-ink": {
+        "role": "functional",
+        "displayName": "Error Maroon",
+        "canonical": "oklch(42.4% 0.143 27.4)",
+        "tonalRamp": [
+          "#1e0001",
+          "#4b0103",
+          "#7a0a0c",
+          "#9f342d",
+          "#c7594f",
+          "#f17e72",
+          "#ffb5ac",
+          "#fee9e6"
+        ],
+        "cssVar": "none (literal value in the stylesheet)"
+      },
+      "warning-soft": {
+        "role": "functional",
+        "displayName": "Caution Wash",
+        "canonical": "oklch(97.0% 0.029 82.6)",
+        "tonalRamp": [
+          "#110a01",
+          "#2b2313",
+          "#473f2e",
+          "#665c4b",
+          "#897f6d",
+          "#aea391",
+          "#d4c9b6",
+          "#f8edd9"
+        ],
+        "cssVar": "--c-warning-soft"
+      },
+      "warning-ink": {
+        "role": "functional",
+        "displayName": "Caution Brown",
+        "canonical": "oklch(46.0% 0.099 71.2)",
+        "tonalRamp": [
+          "#130900",
+          "#341f01",
+          "#593701",
+          "#80530b",
+          "#a57537",
+          "#cc9a5c",
+          "#f3c081",
+          "#ffebd4"
+        ],
+        "cssVar": "--c-warning-ink"
+      },
+      "star": {
+        "role": "functional",
+        "displayName": "Rating Amber",
+        "canonical": "oklch(77.8% 0.153 74.1)",
+        "tonalRamp": [
+          "#130900",
+          "#331f01",
+          "#573802",
+          "#7f5301",
+          "#ac7300",
+          "#dc9408",
+          "#ffbd5d",
+          "#ffebd2"
+        ],
+        "cssVar": "--c-star"
+      },
+      "focus": {
+        "role": "functional",
+        "displayName": "Focus Blue",
+        "canonical": "oklch(54.9% 0.169 256.3)",
+        "tonalRamp": [
+          "#000a20",
+          "#00224e",
+          "#013d81",
+          "#025ab8",
+          "#317fe2",
+          "#64a6ff",
+          "#a9cdfe",
+          "#e5f0fe"
+        ],
+        "cssVar": "--c-focus"
+      }
+    },
+    "typographyMeta": {
+      "display": {
+        "displayName": "Display",
+        "purpose": "Banner headlines only. Declared 800 in the stylesheet; renders Bold 700, the heaviest face shipped."
+      },
+      "headline": {
+        "displayName": "Headline",
+        "purpose": "Page titles (h1); product titles use a close step, clamp(1.1rem, 0.95rem + 0.7vw, 1.45rem) at 1.6."
+      },
+      "title": {
+        "displayName": "Title",
+        "purpose": "Shelf, ranking and archive section titles."
+      },
+      "body": {
+        "displayName": "Body",
+        "purpose": "All running text; Persian digits via ss01."
+      },
+      "body-small": {
+        "displayName": "Body small",
+        "purpose": "Descriptions, meta, menu and footer text."
+      },
+      "product-name": {
+        "displayName": "Product name",
+        "purpose": "Product cell names, clamped to exactly two lines (3.5em)."
+      },
+      "price": {
+        "displayName": "Price",
+        "purpose": "Card prices, always ink, tabular figures; currency name muted at 0.78em Regular."
+      },
+      "price-lead": {
+        "displayName": "Price lead",
+        "purpose": "The buy-box price on the product page."
+      },
+      "button": {
+        "displayName": "Button",
+        "purpose": "Every solid and ghost button."
+      },
+      "label": {
+        "displayName": "Label",
+        "purpose": "Category-circle names, sort links, breadcrumbs, promise lines, chips."
+      },
+      "badge": {
+        "displayName": "Badge",
+        "purpose": "Discount, sold-out and cart-count pills."
+      },
+      "tab-label": {
+        "displayName": "Tab label",
+        "purpose": "Bottom tab bar captions."
+      },
+      "latin-data": {
+        "displayName": "Latin data",
+        "purpose": "Email, URL, password, SKU, tracking codes and credentials: plain Vazirmatn, features off, LTR."
+      }
+    },
+    "shadows": [
+      {
+        "name": "shadow-s",
+        "value": "0 1px 2px rgb(31 35 40 / 6%)",
+        "purpose": "Resting panel: every white panel and frame on the ground."
+      },
+      {
+        "name": "shadow",
+        "value": "0 2px 6px rgb(31 35 40 / 6%), 0 12px 32px -12px rgb(31 35 40 / 18%)",
+        "purpose": "Floating: drawers, sub-menus, shelf arrows, skip link, flying cart image."
+      },
+      {
+        "name": "cell-hairlines",
+        "value": "1px 0 0 #e6e8eb, 0 1px 0 #e6e8eb",
+        "purpose": "Hairlines between product cells, drawn as shadows so the outer panel edge stays clean."
+      },
+      {
+        "name": "cell-lift",
+        "value": "0 0 0 1px #e6e8eb, 0 12px 32px -14px rgb(31 35 40 / 28%)",
+        "purpose": "Product cell under the pointer."
+      },
+      {
+        "name": "mega-drop",
+        "value": "0 24px 40px -24px rgb(31 35 40 / 35%)",
+        "purpose": "Full-width category panel under the header."
+      },
+      {
+        "name": "header-scrolled",
+        "value": "0 1px 0 #e6e8eb, 0 8px 20px -16px rgb(31 35 40 / 40%)",
+        "purpose": "Sticky header once the page scrolls."
+      },
+      {
+        "name": "tabbar-edge",
+        "value": "0 -1px 0 #e6e8eb, 0 -8px 24px -18px rgb(31 35 40 / 40%)",
+        "purpose": "Bottom tab bar over scrolling content (buy bar uses -10px 24px -18px at 45%)."
+      },
+      {
+        "name": "field-focus",
+        "value": "0 0 0 3px rgb(31 111 209 / 18%)",
+        "purpose": "Soft ring around a focused field, with a Focus Blue border."
+      },
+      {
+        "name": "count-knockout",
+        "value": "0 0 0 2px #ffffff",
+        "purpose": "White ring separating the cart-count pill from the bag icon."
+      }
+    ],
+    "motion": [
+      {
+        "name": "ease-out",
+        "value": "cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Default easing for drawers, drops, rises, dots, bumps and image zoom."
+      },
+      {
+        "name": "state",
+        "value": "0.15s ease",
+        "purpose": "Colour, border and shadow changes on buttons, fields, chips, links."
+      },
+      {
+        "name": "press",
+        "value": "scale(0.98) over 0.12s",
+        "purpose": "Button press; quantity steps press to 0.94."
+      },
+      {
+        "name": "drawer",
+        "value": "transform 0.28s cubic-bezier(0.22, 1, 0.36, 1)",
+        "purpose": "Menu and filters drawers slide in from the reading edge over a 0.25s backdrop fade."
+      },
+      {
+        "name": "mega-drop",
+        "value": "0.22s, from translateY(-6px) and opacity 0",
+        "purpose": "Category mega panel entering."
+      },
+      {
+        "name": "mega-hover-intent",
+        "value": "open after 120ms, close after 160ms",
+        "purpose": "Stops the menu flashing when the pointer only crosses the toggle; a click within 600ms of a hover-open keeps it open."
+      },
+      {
+        "name": "banner-autoplay",
+        "value": "6000ms",
+        "purpose": "Slide interval; pauses on hover, focus and touch, stops with the pause button, never runs under reduced motion."
+      },
+      {
+        "name": "fly-to-cart",
+        "value": "700ms cubic-bezier(0.4, 0, 0.2, 1)",
+        "purpose": "Signature: the card image arcs (up 60px) into the visible cart, shrinking to 12% and rounding to a circle."
+      },
+      {
+        "name": "count-bump",
+        "value": "0.5s ease-out; scale 1.4 at 30%, 0.92 at 60%",
+        "purpose": "Cart count after it changes."
+      },
+      {
+        "name": "card-zoom",
+        "value": "scale(1.04) over 0.4s ease-out",
+        "purpose": "Product image on cell hover."
+      },
+      {
+        "name": "rise-in",
+        "value": "translateY(100%) to 0 over 0.3s ease-out",
+        "purpose": "Phone buy bar appearing above the tab bar."
+      },
+      {
+        "name": "fade",
+        "value": "0.3s ease",
+        "purpose": "Notices and the added-to-cart link appearing."
+      },
+      {
+        "name": "confirmation-rise",
+        "value": "translateY(12px) to 0 over 0.5s; check pops from scale 0.5 over 0.4s after 0.2s",
+        "purpose": "Phone-account confirmation card."
+      },
+      {
+        "name": "reduced-motion",
+        "value": "all animation and transition durations 0.01ms; scroll-behavior auto",
+        "purpose": "Under prefers-reduced-motion everything above is off; JS also skips flight, bump and autoplay and hides the pause button."
+      }
+    ],
+    "breakpoints": [
+      {
+        "name": "footer-single",
+        "value": "520px"
+      },
+      {
+        "name": "promises-2x2",
+        "value": "560px"
+      },
+      {
+        "name": "form-single-column",
+        "value": "600px"
+      },
+      {
+        "name": "grid-2-col / banner-phone",
+        "value": "700px"
+      },
+      {
+        "name": "product-stack / buy-bar / responsive-tables",
+        "value": "760px"
+      },
+      {
+        "name": "cart-and-account-stack",
+        "value": "860px"
+      },
+      {
+        "name": "checkout-stack / ranking-1-col",
+        "value": "900px"
+      },
+      {
+        "name": "phone-shell (tab bar, drawer, two-row header, filters drawer)",
+        "value": "960px"
+      },
+      {
+        "name": "grid-3-col",
+        "value": "1100px"
+      },
+      {
+        "name": "buy-box-beside-facts",
+        "value": "1180px"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Primary Button",
+      "kind": "button",
+      "refersTo": "button-primary",
+      "description": "Offer Red solid button for primary actions; deepens on hover, presses to 98%.",
+      "html": "<div dir=\"rtl\" lang=\"fa\"><button type=\"button\" class=\"ds-btn-primary\">افزودن به سبد خرید</button></div>",
+      "css": ".ds-btn-primary{display:inline-flex;align-items:center;justify-content:center;gap:.5em;min-height:44px;padding:.55em 1.25em;border:1px solid transparent;border-radius:6px;background:var(--c-accent, #d1352f);color:#fff;font-family:var(--font, \"Vazirmatn FD\", Tahoma, \"Segoe UI\", sans-serif);font-feature-settings:\"ss01\";font-size:.9375rem;font-weight:700;line-height:1.5;cursor:pointer;transition:background-color .15s ease,transform .12s ease;}.ds-btn-primary:hover{background:var(--c-accent-deep, #b32a25);}.ds-btn-primary:active{transform:scale(.98);}.ds-btn-primary:focus-visible{outline:2px solid var(--c-focus, #1f6fd1);outline-offset:2px;background:var(--c-accent-deep, #b32a25);}"
+    },
+    {
+      "name": "Ghost Button",
+      "kind": "button",
+      "refersTo": "button-ghost",
+      "description": "White button with a Control Rule border for secondary actions (filters, coupon, notice actions).",
+      "html": "<div dir=\"rtl\" lang=\"fa\"><button type=\"button\" class=\"ds-btn-ghost\">اعمال کد تخفیف</button></div>",
+      "css": ".ds-btn-ghost{display:inline-flex;align-items:center;justify-content:center;min-height:44px;padding:.55em 1.25em;border:1px solid var(--c-line-strong, #d3d6db);border-radius:6px;background:var(--c-surface, #ffffff);color:var(--c-ink, #1f2328);font-family:var(--font, \"Vazirmatn FD\", Tahoma, \"Segoe UI\", sans-serif);font-feature-settings:\"ss01\";font-size:.9375rem;font-weight:700;line-height:1.5;cursor:pointer;transition:border-color .15s ease,transform .12s ease;}.ds-btn-ghost:hover{border-color:var(--c-ink, #1f2328);}.ds-btn-ghost:active{transform:scale(.98);}.ds-btn-ghost:focus-visible{outline:2px solid var(--c-focus, #1f6fd1);outline-offset:2px;}"
+    },
+    {
+      "name": "Header Search",
+      "kind": "input",
+      "refersTo": "input-search",
+      "description": "The search-first header field: borderless grey well, icon at the start, white on focus.",
+      "html": "<form dir=\"rtl\" lang=\"fa\" class=\"ds-search\" role=\"search\" onsubmit=\"return false\"><label class=\"ds-sr\" for=\"ds-q\">جستجوی محصولات</label><input id=\"ds-q\" type=\"search\" class=\"ds-search__field\" placeholder=\"جستجو در محصولات…\"><button type=\"submit\" class=\"ds-search__submit\" aria-label=\"جستجو\"><svg width=\"20\" height=\"20\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"11\" cy=\"11\" r=\"7\"/><path d=\"m20 20-3.6-3.6\"/></svg></button></form>",
+      "css": ".ds-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;}.ds-search{position:relative;display:flex;align-items:center;max-width:640px;font-family:var(--font, \"Vazirmatn FD\", Tahoma, \"Segoe UI\", sans-serif);font-feature-settings:\"ss01\";}.ds-search__field{width:100%;min-height:48px;padding-inline:44px 14px;border:1px solid transparent;border-radius:10px;background:var(--c-ground, #f3f4f6);color:var(--c-ink, #1f2328);font:inherit;line-height:1.5;caret-color:var(--c-accent, #d1352f);transition:border-color .15s ease,box-shadow .15s ease,background-color .15s ease;}.ds-search__field::placeholder{color:#6f737a;opacity:1;}.ds-search__field:focus{outline:none;background:var(--c-surface, #ffffff);border-color:var(--c-focus, #1f6fd1);box-shadow:0 0 0 3px rgb(31 111 209 / 18%);}.ds-search__submit{position:absolute;inset-inline-start:4px;inset-block:4px;width:40px;display:grid;place-items:center;border:0;border-radius:6px;background:transparent;color:var(--c-muted, #62666d);cursor:pointer;}.ds-search__submit:hover{color:var(--c-ink, #1f2328);}.ds-search__submit:focus-visible{outline:2px solid var(--c-focus, #1f6fd1);outline-offset:2px;}"
+    },
+    {
+      "name": "Text Field",
+      "kind": "input",
+      "refersTo": "input",
+      "description": "Form field: white, 46px, Control Rule stroke, Focus Blue border and soft ring on focus; Latin-data fields switch to plain Vazirmatn, LTR.",
+      "html": "<div dir=\"rtl\" lang=\"fa\" class=\"ds-field\"><label for=\"ds-mobile\">شماره موبایل <span class=\"ds-field__req\" aria-hidden=\"true\">*</span></label><input id=\"ds-mobile\" type=\"tel\" class=\"ds-input\" placeholder=\"09121234567\"><label for=\"ds-email\">ایمیل</label><input id=\"ds-email\" type=\"email\" class=\"ds-input ds-input--latin\" placeholder=\"name@example.com\"></div>",
+      "css": ".ds-field{display:grid;gap:6px;max-width:360px;font-family:var(--font, \"Vazirmatn FD\", Tahoma, \"Segoe UI\", sans-serif);font-feature-settings:\"ss01\";}.ds-field label{font-size:.9375rem;font-weight:500;color:var(--c-ink, #1f2328);}.ds-field__req{color:var(--c-accent, #d1352f);}.ds-input{width:100%;min-height:46px;padding:.55em .9em;border:1px solid var(--c-line-strong, #d3d6db);border-radius:6px;background:var(--c-surface, #ffffff);color:var(--c-ink, #1f2328);font:inherit;line-height:1.5;caret-color:var(--c-accent, #d1352f);transition:border-color .15s ease,box-shadow .15s ease;}.ds-input[type=\"tel\"]{direction:ltr;}.ds-input:placeholder-shown{text-align:right;}.ds-input::placeholder{color:#6f737a;opacity:1;}.ds-input:focus{outline:none;border-color:var(--c-focus, #1f6fd1);box-shadow:0 0 0 3px rgb(31 111 209 / 18%);}.ds-input--latin{font-family:\"Vazirmatn\",Tahoma,\"Segoe UI\",sans-serif;font-feature-settings:normal;direction:ltr;text-align:left;}"
+    },
+    {
+      "name": "Category Chip",
+      "kind": "chip",
+      "refersTo": "chip",
+      "description": "White pill links with a muted count, in one sideways-scrolling row under archive titles.",
+      "html": "<nav dir=\"rtl\" lang=\"fa\" class=\"ds-chips\" aria-label=\"دسته‌ها\"><a class=\"ds-chip\" href=\"#\">آشپزخانه <span class=\"ds-chip__count\">12</span></a><a class=\"ds-chip\" href=\"#\">سرو و پذیرایی <span class=\"ds-chip__count\">8</span></a><a class=\"ds-chip\" href=\"#\">نگهداری و نظم‌دهی <span class=\"ds-chip__count\">5</span></a></nav>",
+      "css": ".ds-chips{display:flex;gap:8px;overflow-x:auto;scrollbar-width:none;font-family:var(--font, \"Vazirmatn FD\", Tahoma, \"Segoe UI\", sans-serif);font-feature-settings:\"ss01\";}.ds-chip{display:inline-flex;align-items:center;gap:6px;min-height:38px;padding:4px 14px;border:1px solid var(--c-line-strong, #d3d6db);border-radius:999px;background:var(--c-surface, #ffffff);color:var(--c-ink, #1f2328);font-size:.8125rem;text-decoration:none;white-space:nowrap;transition:border-color .15s ease;}.ds-chip:hover{border-color:var(--c-ink, #1f2328);}.ds-chip:focus-visible{outline:2px solid var(--c-focus, #1f6fd1);outline-offset:2px;}.ds-chip__count{color:var(--c-muted, #62666d);font-size:.75rem;}"
+    },
+    {
+      "name": "Product Card",
+      "kind": "card",
+      "refersTo": "product-cell",
+      "description": "Hairline-divided marketplace cell: square media, two-line name, price row (discount pill at start, price at end, old price beneath, empty line reserved), add-to-cart that fills red on hover.",
+      "html": "<ul dir=\"rtl\" lang=\"fa\" class=\"ds-cards\"><li class=\"ds-card\"><a class=\"ds-card__link\" href=\"#\"><span class=\"ds-card__media\" aria-hidden=\"true\"></span><span class=\"ds-card__name\">ماگ سرامیکی فیروزه‌ای (نمونه)</span><span class=\"ds-card__price\"><span class=\"ds-pill\" aria-hidden=\"true\">16٪</span><span class=\"ds-sr\">16% off</span><span class=\"ds-price\"><del><bdi>1,650,000&nbsp;<span class=\"ds-cur\">تومان</span></bdi></del><ins><bdi>1,390,000&nbsp;<span class=\"ds-cur\">تومان</span></bdi></ins></span></span></a><button type=\"button\" class=\"ds-card__btn\">افزودن به سبد خرید</button></li><li class=\"ds-card\"><a class=\"ds-card__link\" href=\"#\"><span class=\"ds-card__media\" aria-hidden=\"true\"></span><span class=\"ds-card__name\">سرویس چاقوی آشپزخانه ۵ پارچه (نمونه)</span><span class=\"ds-card__price is-plain\"><span class=\"ds-price\"><bdi>310,000&nbsp;<span class=\"ds-cur\">تومان</span></bdi></span></span></a><button type=\"button\" class=\"ds-card__btn\">افزودن به سبد خرید</button></li></ul>",
+      "css": ".ds-price{color:var(--c-ink, #1f2328);font-weight:700;font-variant-numeric:tabular-nums;}.ds-price del{color:var(--c-muted, #62666d);font-weight:400;font-size:.8em;}.ds-price ins{text-decoration:none;}.ds-cur{font-weight:400;font-size:.78em;margin-inline:.2em;color:var(--c-muted, #62666d);}.ds-pill{display:inline-block;padding:1px 7px;border-radius:999px;background:var(--c-accent, #d1352f);color:#fff;font-size:.75rem;font-weight:700;line-height:1.8;}.ds-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;}.ds-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin:0;padding:0;list-style:none;background:var(--c-surface, #ffffff);border-radius:16px;overflow:hidden;box-shadow:var(--shadow-s, 0 1px 2px rgb(31 35 40 / 6%));font-family:var(--font, \"Vazirmatn FD\", Tahoma, \"Segoe UI\", sans-serif);font-feature-settings:\"ss01\";}.ds-card{position:relative;display:flex;flex-direction:column;padding:14px 14px 16px;color:var(--c-ink, #1f2328);box-shadow:1px 0 0 var(--c-line, #e6e8eb),0 1px 0 var(--c-line, #e6e8eb);transition:box-shadow .2s ease;}.ds-card:hover{z-index:1;box-shadow:0 0 0 1px var(--c-line, #e6e8eb),0 12px 32px -14px rgb(31 35 40 / 28%);}.ds-card__link{display:flex;flex-direction:column;flex:1;color:inherit;text-decoration:none;}.ds-card__media{display:block;aspect-ratio:1;margin-block-end:10px;border-radius:6px;background:var(--c-ground, #f3f4f6);transition:transform .4s var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1));}.ds-card:hover .ds-card__media{transform:scale(1.04);}.ds-card__name{margin:0 0 6px;font-size:.8125rem;font-weight:500;line-height:1.75;height:3.5em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}.ds-card__price{display:flex;flex-wrap:wrap;align-items:center;gap:0 6px;margin-top:auto;font-size:.9375rem;}.ds-card__price .ds-price{display:contents;}.ds-card__price .ds-pill{order:1;}.ds-card__price ins,.ds-card__price.is-plain .ds-price>bdi{order:2;margin-inline-start:auto;white-space:nowrap;}.ds-card__price del{order:3;flex-basis:100%;line-height:1.6;text-align:end;}.ds-card__price.is-plain::after{content:\"\";order:3;flex-basis:100%;height:1.6em;font-size:.8em;}.ds-card__btn{width:100%;min-height:38px;margin-block-start:10px;padding:0 10px;border:1px solid var(--c-line-strong, #d3d6db);border-radius:6px;background:var(--c-surface, #ffffff);color:var(--c-ink, #1f2328);font:inherit;font-size:.8125rem;font-weight:700;cursor:pointer;transition:background-color .15s ease,border-color .15s ease,color .15s ease,transform .12s ease;}.ds-card__btn:hover{background:var(--c-accent, #d1352f);border-color:var(--c-accent, #d1352f);color:#fff;}.ds-card__btn:active{transform:scale(.98);}.ds-card__btn:focus-visible,.ds-card__link:focus-visible{outline:2px solid var(--c-focus, #1f6fd1);outline-offset:2px;border-radius:4px;}"
+    },
+    {
+      "name": "Special-Offers Strip",
+      "kind": "custom",
+      "refersTo": "deals-frame",
+      "description": "The one red field: an Offer Red frame with white title and View all, white cells separated by 4px red gaps, scrolling sideways.",
+      "html": "<section dir=\"rtl\" lang=\"fa\" class=\"ds-deals\" aria-labelledby=\"ds-deals-t\"><div class=\"ds-deals__head\"><h2 id=\"ds-deals-t\" class=\"ds-deals__title\">پیشنهادهای ویژه</h2><a class=\"ds-deals__more\" href=\"#\">مشاهدهٔ همه<svg width=\"16\" height=\"16\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"m15 6-6 6 6 6\"/></svg></a></div><ul class=\"ds-cards ds-deals__row\"><li class=\"ds-card\"><a class=\"ds-card__link\" href=\"#\"><span class=\"ds-card__media\" aria-hidden=\"true\"></span><span class=\"ds-card__name\">جاادویه‌ای گردان ۱۲ عددی (نمونه)</span><span class=\"ds-card__price\"><span class=\"ds-pill\" aria-hidden=\"true\">14٪</span><span class=\"ds-sr\">14% off</span><span class=\"ds-price\"><del><bdi>1,150,000&nbsp;<span class=\"ds-cur\">تومان</span></bdi></del><ins><bdi>990,000&nbsp;<span class=\"ds-cur\">تومان</span></bdi></ins></span></span></a><button type=\"button\" class=\"ds-card__btn\">افزودن به سبد خرید</button></li><li class=\"ds-card\"><a class=\"ds-card__link\" href=\"#\"><span class=\"ds-card__media\" aria-hidden=\"true\"></span><span class=\"ds-card__name\">سماور برقی ۴ لیتری (نمونه)</span><span class=\"ds-card__price\"><span class=\"ds-pill\" aria-hidden=\"true\">10٪</span><span class=\"ds-sr\">10% off</span><span class=\"ds-price\"><del><bdi>6,900,000&nbsp;<span class=\"ds-cur\">تومان</span></bdi></del><ins><bdi>6,200,000&nbsp;<span class=\"ds-cur\">تومان</span></bdi></ins></span></span></a><button type=\"button\" class=\"ds-card__btn\">افزودن به سبد خرید</button></li><li class=\"ds-card\"><a class=\"ds-card__link\" href=\"#\"><span class=\"ds-card__media\" aria-hidden=\"true\"></span><span class=\"ds-card__name\">ست حوله پنبه‌ای (نمونه)</span><span class=\"ds-card__price\"><span class=\"ds-pill\" aria-hidden=\"true\">11٪</span><span class=\"ds-sr\">11% off</span><span class=\"ds-price\"><del><bdi>1,450,000&nbsp;<span class=\"ds-cur\">تومان</span></bdi></del><ins><bdi>1,290,000&nbsp;<span class=\"ds-cur\">تومان</span></bdi></ins></span></span></a><button type=\"button\" class=\"ds-card__btn\">افزودن به سبد خرید</button></li></ul></section>",
+      "css": ".ds-price{color:var(--c-ink, #1f2328);font-weight:700;font-variant-numeric:tabular-nums;}.ds-price del{color:var(--c-muted, #62666d);font-weight:400;font-size:.8em;}.ds-price ins{text-decoration:none;}.ds-cur{font-weight:400;font-size:.78em;margin-inline:.2em;color:var(--c-muted, #62666d);}.ds-pill{display:inline-block;padding:1px 7px;border-radius:999px;background:var(--c-accent, #d1352f);color:#fff;font-size:.75rem;font-weight:700;line-height:1.8;}.ds-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;}.ds-cards{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));margin:0;padding:0;list-style:none;background:var(--c-surface, #ffffff);border-radius:16px;overflow:hidden;box-shadow:var(--shadow-s, 0 1px 2px rgb(31 35 40 / 6%));font-family:var(--font, \"Vazirmatn FD\", Tahoma, \"Segoe UI\", sans-serif);font-feature-settings:\"ss01\";}.ds-card{position:relative;display:flex;flex-direction:column;padding:14px 14px 16px;color:var(--c-ink, #1f2328);box-shadow:1px 0 0 var(--c-line, #e6e8eb),0 1px 0 var(--c-line, #e6e8eb);transition:box-shadow .2s ease;}.ds-card:hover{z-index:1;box-shadow:0 0 0 1px var(--c-line, #e6e8eb),0 12px 32px -14px rgb(31 35 40 / 28%);}.ds-card__link{display:flex;flex-direction:column;flex:1;color:inherit;text-decoration:none;}.ds-card__media{display:block;aspect-ratio:1;margin-block-end:10px;border-radius:6px;background:var(--c-ground, #f3f4f6);transition:transform .4s var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1));}.ds-card:hover .ds-card__media{transform:scale(1.04);}.ds-card__name{margin:0 0 6px;font-size:.8125rem;font-weight:500;line-height:1.75;height:3.5em;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;}.ds-card__price{display:flex;flex-wrap:wrap;align-items:center;gap:0 6px;margin-top:auto;font-size:.9375rem;}.ds-card__price .ds-price{display:contents;}.ds-card__price .ds-pill{order:1;}.ds-card__price ins,.ds-card__price.is-plain .ds-price>bdi{order:2;margin-inline-start:auto;white-space:nowrap;}.ds-card__price del{order:3;flex-basis:100%;line-height:1.6;text-align:end;}.ds-card__price.is-plain::after{content:\"\";order:3;flex-basis:100%;height:1.6em;font-size:.8em;}.ds-card__btn{width:100%;min-height:38px;margin-block-start:10px;padding:0 10px;border:1px solid var(--c-line-strong, #d3d6db);border-radius:6px;background:var(--c-surface, #ffffff);color:var(--c-ink, #1f2328);font:inherit;font-size:.8125rem;font-weight:700;cursor:pointer;transition:background-color .15s ease,border-color .15s ease,color .15s ease,transform .12s ease;}.ds-card__btn:hover{background:var(--c-accent, #d1352f);border-color:var(--c-accent, #d1352f);color:#fff;}.ds-card__btn:active{transform:scale(.98);}.ds-card__btn:focus-visible,.ds-card__link:focus-visible{outline:2px solid var(--c-focus, #1f6fd1);outline-offset:2px;border-radius:4px;}.ds-deals{padding:16px 0;border-radius:16px;background:var(--c-accent, #d1352f);box-shadow:var(--shadow-s, 0 1px 2px rgb(31 35 40 / 6%));font-family:var(--font, \"Vazirmatn FD\", Tahoma, \"Segoe UI\", sans-serif);font-feature-settings:\"ss01\";}.ds-deals__head{display:flex;align-items:center;justify-content:space-between;gap:12px;padding-inline:clamp(14px,2vw,20px);margin-bottom:10px;}.ds-deals__title{margin:0;color:#fff;font-size:clamp(1rem,.9rem + .4vw,1.2rem);font-weight:700;line-height:1.5;}.ds-deals__more{display:inline-flex;align-items:center;gap:2px;color:#fff;font-size:.8125rem;font-weight:700;text-decoration:none;}.ds-deals__more svg{transition:transform .2s var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1));}.ds-deals__more:hover svg{transform:translateX(-3px);}.ds-deals__more:focus-visible{outline:2px solid #fff;outline-offset:2px;border-radius:4px;}.ds-deals__row{display:flex;gap:4px;margin:0;padding:0 clamp(14px,2vw,20px) 4px;overflow-x:auto;scroll-snap-type:x proximity;scrollbar-width:none;background:none;border-radius:0;box-shadow:none;}.ds-deals__row .ds-card{flex:0 0 clamp(158px,42vw,200px);scroll-snap-align:start;background:var(--c-surface, #ffffff);box-shadow:none;}.ds-deals__row .ds-card:first-child{border-radius:0 10px 10px 0;}.ds-deals__row .ds-card:last-child{border-radius:10px 0 0 10px;}"
+    },
+    {
+      "name": "Bottom Tab Bar",
+      "kind": "nav",
+      "refersTo": "tabbar",
+      "description": "Phone tab bar (home, categories, cart, account); current item in Offer Red with a 3px top bar; the cart count sits on the bag.",
+      "html": "<nav dir=\"rtl\" lang=\"fa\" class=\"ds-tabbar\" aria-label=\"میان‌برها\"><a class=\"ds-tab is-current\" href=\"#\" aria-current=\"page\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M4 10.5 12 4l8 6.5V20a1 1 0 0 1-1 1h-4.5v-6h-5v6H5a1 1 0 0 1-1-1z\"/></svg><span>خانه</span></a><button type=\"button\" class=\"ds-tab\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><rect x=\"4\" y=\"4\" width=\"6.5\" height=\"6.5\" rx=\"1.5\"/><rect x=\"13.5\" y=\"4\" width=\"6.5\" height=\"6.5\" rx=\"1.5\"/><rect x=\"4\" y=\"13.5\" width=\"6.5\" height=\"6.5\" rx=\"1.5\"/><rect x=\"13.5\" y=\"13.5\" width=\"6.5\" height=\"6.5\" rx=\"1.5\"/></svg><span>دسته‌ها</span></button><a class=\"ds-tab\" href=\"#\"><span class=\"ds-tab__icon\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 8h14l-1.2 12H6.2z\"/><path d=\"M9 8V6.5a3 3 0 0 1 6 0V8\"/></svg><span class=\"ds-count is-bumped\" aria-hidden=\"true\">2</span></span><span>سبد خرید</span></a><a class=\"ds-tab\" href=\"#\"><svg width=\"24\" height=\"24\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><circle cx=\"12\" cy=\"8\" r=\"4\"/><path d=\"M4 20c1.4-3.6 4.4-5.5 8-5.5s6.6 1.9 8 5.5\"/></svg><span>ورود</span></a></nav>",
+      "css": ".ds-tabbar{display:grid;grid-template-columns:repeat(4,1fr);height:64px;max-width:420px;background:var(--c-surface, #ffffff);box-shadow:0 -1px 0 var(--c-line, #e6e8eb),0 -8px 24px -18px rgb(31 35 40 / 40%);font-family:var(--font, \"Vazirmatn FD\", Tahoma, \"Segoe UI\", sans-serif);font-feature-settings:\"ss01\";}.ds-tab{position:relative;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2px;border:0;background:none;color:var(--c-muted, #62666d);font:inherit;font-size:.6875rem;font-weight:500;text-decoration:none;cursor:pointer;transition:color .15s ease;}.ds-tab:hover{color:var(--c-ink, #1f2328);}.ds-tab.is-current{color:var(--c-accent, #d1352f);}.ds-tab.is-current::before{content:\"\";position:absolute;top:0;width:28px;height:3px;border-radius:0 0 3px 3px;background:var(--c-accent, #d1352f);}.ds-tab:focus-visible{outline:2px solid var(--c-focus, #1f6fd1);outline-offset:-2px;border-radius:4px;}.ds-tab__icon{position:relative;display:inline-grid;}.ds-count{position:absolute;inset-block-start:-5px;inset-inline-end:-13px;display:inline-grid;place-items:center;min-width:18px;height:18px;padding-inline:4px;border-radius:9px;background:var(--c-accent, #d1352f);color:#fff;font-size:.75rem;font-weight:700;line-height:1;box-shadow:0 0 0 2px var(--c-surface, #ffffff);}@keyframes ds-bump{30%{transform:scale(1.4);}60%{transform:scale(.92);}}.ds-count.is-bumped{animation:ds-bump .5s var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1));}@media (prefers-reduced-motion: reduce){.ds-count.is-bumped{animation:none;}}"
+    },
+    {
+      "name": "Category Shortcuts",
+      "kind": "nav",
+      "refersTo": "category-circle",
+      "description": "One white panel holding round category images with names beneath; rises 3px with a thin ring on hover.",
+      "html": "<ul dir=\"rtl\" lang=\"fa\" class=\"ds-circles\"><li><a class=\"ds-circle\" href=\"#\"><span class=\"ds-circle__img\" aria-hidden=\"true\"><span class=\"ds-circle__initial\">آ</span></span><span>آشپزخانه</span></a></li><li><a class=\"ds-circle\" href=\"#\"><span class=\"ds-circle__img\" aria-hidden=\"true\"><span class=\"ds-circle__initial\">ح</span></span><span>حمام و شست‌وشو</span></a></li><li><a class=\"ds-circle\" href=\"#\"><span class=\"ds-circle__img\" aria-hidden=\"true\"><span class=\"ds-circle__initial\">د</span></span><span>دکوراسیون خانه</span></a></li><li><a class=\"ds-circle\" href=\"#\"><span class=\"ds-circle__img\" aria-hidden=\"true\"><span class=\"ds-circle__initial\">س</span></span><span>سرو و پذیرایی</span></a></li></ul>",
+      "css": ".ds-circles{display:flex;gap:clamp(12px,3vw,28px);justify-content:space-around;margin:0;padding:18px 16px;list-style:none;overflow-x:auto;scrollbar-width:none;background:var(--c-surface, #ffffff);border-radius:16px;box-shadow:var(--shadow-s, 0 1px 2px rgb(31 35 40 / 6%));font-family:var(--font, \"Vazirmatn FD\", Tahoma, \"Segoe UI\", sans-serif);font-feature-settings:\"ss01\";}.ds-circle{display:flex;flex-direction:column;align-items:center;gap:8px;width:clamp(72px,18vw,104px);color:var(--c-ink, #1f2328);font-size:.8125rem;font-weight:500;line-height:1.5;text-align:center;text-decoration:none;}.ds-circle__img{display:grid;place-items:center;width:clamp(64px,16vw,92px);aspect-ratio:1;border-radius:50%;background:var(--c-ground, #f3f4f6);transition:transform .25s var(--ease-out, cubic-bezier(0.22, 1, 0.36, 1)),box-shadow .25s ease;}.ds-circle:hover .ds-circle__img{transform:translateY(-3px);box-shadow:0 0 0 2px var(--c-surface, #ffffff),0 0 0 4px var(--c-line-strong, #d3d6db);}.ds-circle:focus-visible{outline:2px solid var(--c-focus, #1f6fd1);outline-offset:2px;border-radius:4px;}.ds-circle__initial{color:var(--c-accent, #d1352f);font-size:1.6rem;font-weight:700;}@media (prefers-reduced-motion: reduce){.ds-circle__img{transition:none;}}"
+    },
+    {
+      "name": "Buy Box",
+      "kind": "custom",
+      "refersTo": "buy-box",
+      "description": "Product-page grey well: discount pill beside the price (old price first), stock, quantity stepper and the 48px add to cart.",
+      "html": "<div dir=\"rtl\" lang=\"fa\" class=\"ds-buybox\"><div class=\"ds-buybox__price\"><span class=\"ds-pill\" aria-hidden=\"true\">16٪</span><span class=\"ds-sr\">16% off</span><span class=\"ds-price\"><del><bdi>1,650,000&nbsp;<span class=\"ds-cur\">تومان</span></bdi></del><ins><bdi>1,390,000&nbsp;<span class=\"ds-cur\">تومان</span></bdi></ins></span></div><p class=\"ds-stock\">موجود در انبار</p><form class=\"ds-buybox__form\" onsubmit=\"return false\"><div class=\"ds-qty\"><button type=\"button\" class=\"ds-qty__step\" aria-label=\"افزایش\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M12 5v14M5 12h14\"/></svg></button><input class=\"ds-qty__input\" type=\"number\" value=\"1\" min=\"1\" aria-label=\"تعداد\"><button type=\"button\" class=\"ds-qty__step\" aria-label=\"کاهش\"><svg width=\"18\" height=\"18\" viewBox=\"0 0 24 24\" fill=\"none\" stroke=\"currentColor\" stroke-width=\"1.6\" stroke-linecap=\"round\" stroke-linejoin=\"round\" aria-hidden=\"true\"><path d=\"M5 12h14\"/></svg></button></div><button type=\"submit\" class=\"ds-buybox__add\">افزودن به سبد خرید</button></form></div>",
+      "css": ".ds-price{color:var(--c-ink, #1f2328);font-weight:700;font-variant-numeric:tabular-nums;}.ds-price del{color:var(--c-muted, #62666d);font-weight:400;font-size:.8em;}.ds-price ins{text-decoration:none;}.ds-cur{font-weight:400;font-size:.78em;margin-inline:.2em;color:var(--c-muted, #62666d);}.ds-pill{display:inline-block;padding:1px 7px;border-radius:999px;background:var(--c-accent, #d1352f);color:#fff;font-size:.75rem;font-weight:700;line-height:1.8;}.ds-sr{position:absolute;width:1px;height:1px;overflow:hidden;clip-path:inset(50%);white-space:nowrap;}.ds-buybox{display:flex;flex-direction:column;gap:10px;max-width:320px;padding:16px;border-radius:10px;background:var(--c-ground, #f3f4f6);color:var(--c-ink, #1f2328);font-family:var(--font, \"Vazirmatn FD\", Tahoma, \"Segoe UI\", sans-serif);font-feature-settings:\"ss01\";}.ds-buybox__price{display:flex;align-items:center;gap:10px;}.ds-buybox__price .ds-pill{flex:none;font-size:.8125rem;}.ds-buybox__price .ds-price{display:flex;flex:1;flex-wrap:wrap;align-items:baseline;justify-content:flex-end;gap:2px 10px;font-size:1.375rem;}.ds-buybox__price del{order:-1;font-size:.9375rem;}.ds-stock{margin:0;color:var(--c-success, #1a7f45);font-size:.875rem;font-weight:500;}.ds-buybox__form{display:flex;flex-wrap:wrap;gap:8px;margin:0;}.ds-qty{display:inline-flex;align-items:stretch;border:1px solid var(--c-line-strong, #d3d6db);border-radius:6px;background:var(--c-surface, #ffffff);overflow:hidden;}.ds-qty:focus-within{border-color:var(--c-focus, #1f6fd1);box-shadow:0 0 0 3px rgb(31 111 209 / 18%);}.ds-qty__input{width:3.4em;min-height:46px;padding:0 4px;border:0;text-align:center;font:inherit;font-weight:700;color:var(--c-ink, #1f2328);background:transparent;-moz-appearance:textfield;appearance:textfield;}.ds-qty__input:focus{outline:none;}.ds-qty__input::-webkit-inner-spin-button,.ds-qty__input::-webkit-outer-spin-button{-webkit-appearance:none;margin:0;}.ds-qty__step{display:grid;place-items:center;width:38px;border:0;background:transparent;color:var(--c-accent, #d1352f);cursor:pointer;transition:background-color .15s ease;}.ds-qty__step:hover{background:var(--c-accent-soft, #fdecea);}.ds-qty__step:active{transform:scale(.94);}.ds-buybox__add{flex:1 1 160px;min-height:48px;padding:.55em 1.25em;border:1px solid transparent;border-radius:6px;background:var(--c-accent, #d1352f);color:#fff;font:inherit;font-size:.9375rem;font-weight:700;cursor:pointer;transition:background-color .15s ease,transform .12s ease;}.ds-buybox__add:hover{background:var(--c-accent-deep, #b32a25);}.ds-buybox__add:active{transform:scale(.98);}.ds-buybox__add:focus-visible,.ds-qty__step:focus-visible{outline:2px solid var(--c-focus, #1f6fd1);outline-offset:2px;}"
+    }
+  ],
+  "narrative": {
+    "northStar": "The Well-Kept Marketplace",
+    "overview": "Sofreh is the Iranian online marketplace every shopper already knows, played straight: a search field up front, a swipeable banner, a row of round category shortcuts, a red strip of special offers, dense product cells with the discount beside the price, and a tab bar under the thumb. The benchmark for familiarity and finish is Digikala; the store never borrows its name, logo, exact red or assets. Convention is the commitment. Nothing here is a concept layout or a decorative world, so quality has to show in the things shoppers feel without naming: price rows that line up across a shelf, Persian digits everywhere, 44px targets, honest empty states, and speed.\n\nThe material is plain and cool: white panels laid on a light grey ground, one coral-red that means buying and saving, deep ink text with a quiet grey for everything secondary, 1px hairlines, and round-capped line icons. Density is marketplace density, not editorial air: product cells sit edge to edge, divided by hairlines, and panels are separated by a single 12–20px gap. The phone is the store (about 80% of visits): every layout is designed at 390px first, and desktop extends it with a search-led header, a category mega menu, shelf arrows, and a sticky buy box.\n\nMotion is moderate and purposeful. There is one authored moment, add to cart: the product's own image arcs into the cart and the count bumps. Around it sit a few working motions: a banner that swipes and autoplays but yields to the shopper, a hover-intent category menu, and drawers that slide in from the reading edge. Everything else is short state feedback, and all of it switches off under reduced motion.",
+    "keyCharacteristics": [
+      "Familiar marketplace structure, executed precisely; no invented layouts.",
+      "White panels on a cool grey ground, one container level deep.",
+      "One red for actions and offers; a deeper red for reading links.",
+      "Vazirmatn throughout, Persian digits through `ss01`, line-height 1.8.",
+      "Phone-first shell: two-row header, bottom tab bar, phone buy bar.",
+      "One authored motion moment (add to cart), and nothing moves under reduced motion."
+    ],
+    "rules": [
+      {
+        "name": "The Red Means Buying Rule",
+        "body": "Offer Red marks only what moves a purchase or shows where you are: actions, discounts, the offers strip, the cart count and current-state indicators. Sale prices stay ink and headings stay ink. The only large red fields are the offers strip and the merchant's optional red banner slide.",
+        "section": "colors"
+      },
+      {
+        "name": "The Deep Red for Reading Rule",
+        "body": "Offer Red is used as text only on white. Any red text that sits on the grey ground, and every running text link, uses Deep Offer Red.",
+        "section": "colors"
+      },
+      {
+        "name": "The Teal Stays in the Banner Rule",
+        "body": "Banner Teal and Banner Charcoal are banner backgrounds and nothing else. They never appear on buttons, text or interface chrome.",
+        "section": "colors"
+      },
+      {
+        "name": "The Persian Digits Rule",
+        "body": "Everything a shopper reads uses Vazirmatn FD with `ss01` switched on explicitly, so ASCII digits draw as Persian even when isolated (an old price, a badge). Stored data keeps ASCII digits. Fields and values that hold Latin data (email, URL, password, SKU, tracking code, generated credentials) switch to plain Vazirmatn with features off, set LTR and isolated. Phone and postcode fields stay in the Persian-digit face and convert typed Persian digits to ASCII.",
+        "section": "typography"
+      },
+      {
+        "name": "The No Tracking Rule",
+        "body": "Persian text never gets letter-spacing or a text transform. Emphasis comes from weight (500 or 700) or size.",
+        "section": "typography"
+      },
+      {
+        "name": "The One Container Level Rule",
+        "body": "A white panel sits on the grey ground, and that is the only level of container. Zones inside a panel are separated by hairlines or set in a Cool Shelf Grey well. A white, shadowed card never sits inside another white panel.",
+        "section": "layout"
+      },
+      {
+        "name": "The Thumb Zone Rule",
+        "body": "Below 961px the bottom 64px (plus safe area) belongs to the tab bar. Fixed elements stack above it, never over it, and touch targets stay at 44px or more (drawer rows are 48px).",
+        "section": "layout"
+      },
+      {
+        "name": "The Two Shadows Rule",
+        "body": "Anything resting on the ground gets the resting shadow, and anything floating over content gets the floating pair. Full-width bars and the mega panel use its edge variants. Shadow never stands in for emphasis.",
+        "section": "elevation"
+      }
+    ],
+    "dos": [
+      "Do set every content block as its own white panel (16px corners, resting shadow) on the Cool Shelf Grey ground, separated by the 12–20px gap.",
+      "Do keep Offer Red (#d1352f) for actions, discounts, the offers strip, the cart count and current-state indicators, and use Deep Offer Red (#b32a25) for text links and for any red text on the grey ground.",
+      "Do build the price row as discount pill at the start, current price at the end, and old price on its own line beneath, and reserve that line when there is no old price.",
+      "Do show a variable product with differing option prices as «از» plus the lowest price.",
+      "Do print product prices through `sofreh_kses_price()` so WooCommerce's `<bdi>` survives and the amount reads «۲٬۷۵۰٬۰۰۰ تومان», number then currency. Keep WooCommerce's currency position on Left or Left with space.",
+      "Do render every number a shopper reads in Vazirmatn FD with `ss01` on, and switch Latin-data fields (email, URL, password, SKU, codes) to plain Vazirmatn, LTR.",
+      "Do draw icons from the theme's inline line-icon set, or as CSS masks of the same round-capped paths.",
+      "Do keep touch targets at 44px or more and stack every fixed bottom element above the 64px tab bar on phones.",
+      "Do leave store promises and the product note empty until the merchant writes them; empty ones stay hidden.",
+      "Do switch all motion off under `prefers-reduced-motion`: no autoplay (pause button hidden), no image flight, no count bump, instant scrolling."
+    ],
+    "donts": [
+      "Don't use Digikala's name, logo, exact brand red or proprietary assets. Match its conventions and quality bar only.",
+      "Don't escape price HTML with `wp_kses_post()`, which strips `<bdi>` and moves the currency name to the wrong side, and don't switch WooCommerce's currency position to Right.",
+      "Don't put a white, shadowed card inside a white panel. Inner zones use hairlines or a Cool Shelf Grey well.",
+      "Don't put the discount badge over the product photo. It belongs in the price row (or beside the buy-box price), and only the sold-out badge sits on the image.",
+      "Don't colour sale prices, headings or large areas red. The offers strip and an optional red banner slide are the only red fields.",
+      "Don't use Banner Teal or Banner Charcoal anywhere but a banner background.",
+      "Don't use Unicode glyphs or emoji (★, ×, ✓, typed plus and minus) as icons.",
+      "Don't add letter-spacing or text transforms to Persian text.",
+      "Don't add motion beyond the set above. In particular, no scroll-triggered entrances on sections and no autoplay that ignores pointer, touch, focus or the pause button."
+    ]
+  }
+}
