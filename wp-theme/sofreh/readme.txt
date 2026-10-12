@@ -3,7 +3,7 @@ Contributors: yns-nur
 Requires at least: 6.7
 Tested up to: 7.1
 Requires PHP: 7.4
-Stable tag: 1.0.0
+Stable tag: 2.0.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 Tags: e-commerce, rtl-language-support, translation-ready, custom-logo, custom-menu, featured-images, footer-widgets, right-sidebar, theme-options, threaded-comments, wide-blocks, block-styles
@@ -12,26 +12,33 @@ A Persian, right-to-left WooCommerce theme for home and kitchen stores.
 
 == Description ==
 
-Sofreh (سفره) is a minimalist storefront theme designed right-to-left first, for
-Persian shops that sell home and kitchen goods. Categories are browsed in arched
-frames (the iwan arch is the theme's one decorative motif), product pages put
-price, stock and the add-to-cart button first, and the classic and block-based
-cart, checkout and account pages are styled to match.
+Sofreh (سفره) is a storefront theme designed right-to-left and phone-first for
+Persian shops that sell home and kitchen goods. It follows the layout Iranian
+shoppers already know from the big marketplaces, so nothing has to be learned:
 
+* Header with the product search front and centre, account and cart; a
+  category mega menu on desktop and a category drawer on phones; a fixed bottom
+  tab bar on phones (home, categories, cart, account).
+* Home page: a swipeable banner (up to three slides, set in the Customizer), round
+  category shortcuts, a red "special offers" strip of products that are really
+  on sale, a newest-products shelf and a numbered best-seller list. Every section
+  is built from the store's own data and only appears when it has content.
+* Listings: sort links, category chips, a filters panel (a drawer on phones),
+  discount-percent badges and stock badges.
+* Product page: gallery, details and a sticky buy box side by side on desktop;
+  a sticky buy bar above the tab bar on phones.
+* Classic and block-based cart, checkout and account pages styled to match.
 * WooCommerce integration through hooks only: no template overrides to fall out
   of date.
 * Persian (fa_IR) translation included; WooCommerce and WordPress strings come
   from their official language packs.
 * Persian digits everywhere via the bundled Vazirmatn FD typeface, while stored
-  data stays in ASCII digits.
-* Phone numbers and postcodes typed on a Persian keyboard are accepted on the
-  classic checkout, the Checkout block and the account address form.
-* Product categories, menus and home page sections come from the store itself;
-  nothing is hard-coded.
-* Restrained motion (scroll reveal, hover and press feedback, cart count bump)
-  that switches off under "reduce motion".
-* Keyboard-accessible drawers for the mobile menu and filters; WCAG AA colour
-  contrast.
+  data stays in ASCII digits. Phone numbers and postcodes typed on a Persian
+  keyboard are accepted on the classic checkout, the Checkout block and the
+  account address form.
+* Restrained motion (banner swipe, add-to-cart flight to the cart, cart count
+  bump, drawers and menus) that switches off under "reduce motion".
+* Keyboard-accessible menus and drawers; WCAG 2.1 AA colour contrast.
 
 For phone-number checkout with automatic account creation, install the
 companion plugin "Sofreh Phone Accounts" (shipped alongside this theme).
@@ -43,8 +50,8 @@ companion plugin "Sofreh Phone Accounts" (shipped alongside this theme).
 2. Upload the theme (Appearance → Themes → Add New → Upload) and activate it.
 3. Install and activate WooCommerce, then set currency (Toman or Rial) and the
    store address in WooCommerce → Settings.
-4. Adjust the home page, promises strip, product page note and contact details
-   in Appearance → Customize → Sofreh theme.
+4. Adjust the banner slides, home sections, promises strip, product page note
+   and contact details in Appearance → Customize → Sofreh theme.
 5. Optional: import sample-data/sample-products.csv with WooCommerce's product
    importer to preview the theme. Every sample item is marked "(نمونه)".
 
@@ -60,6 +67,12 @@ WooCommerce is active.
 The theme uses WordPress's date functions, so a Jalali date plugin works with it.
 
 == Changelog ==
+
+= 2.0.0 =
+* Redesign from scratch: phone-first marketplace layout (search-first header,
+  category mega menu and drawer, bottom tab bar, banner carousel, deals strip,
+  best-seller ranking, sticky buy box and buy bar, sort links).
+* Variable products show "From <lowest price>" instead of a two-price range.
 
 = 1.0.0 =
 * First release.

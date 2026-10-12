@@ -4,8 +4,8 @@ Two installable packages:
 
 | Folder | What it is |
 |---|---|
-| [`sofreh/`](sofreh) | The theme: a classic (PHP) WordPress theme with `theme.json`, RTL-first, fully Persian, integrated with WooCommerce through hooks only. |
-| [`sofreh-phone-accounts/`](sofreh-phone-accounts) | Companion plugin: buy with a mobile number, account created automatically, credentials and tracking code on the order confirmation page, tracking by code + mobile. |
+| [`sofreh/`](sofreh) | The theme (v2.0.0): a classic (PHP) WordPress theme with `theme.json`, RTL-first and phone-first, fully Persian, integrated with WooCommerce through hooks only. |
+| [`sofreh-phone-accounts/`](sofreh-phone-accounts) | Companion plugin (v1.1.0): buy with a mobile number; the account is created automatically; credentials and tracking code appear on the order confirmation page; manual sign-up with the mobile number as the username; tracking by code + mobile. |
 
 Account creation is store *functionality*, so it lives in a plugin. If it were
 in the theme, switching themes would silently break checkout and logins, and
@@ -13,7 +13,8 @@ WordPress/WooCommerce guidelines keep such features out of themes. The theme
 styles everything the plugin outputs.
 
 Build the zips with `./build.sh` (writes `dist/sofreh.zip` and
-`dist/sofreh-phone-accounts.zip`).
+`dist/sofreh-phone-accounts.zip`). Every source file, labelled by its path, is
+also collected in [`SOURCE.md`](SOURCE.md).
 
 ---
 
@@ -43,9 +44,9 @@ PHP minimum to 8.1 is proposed for WooCommerce 11.5.
 
 - *Integration:* WooCommerce recommends the **hook method** over `woocommerce.php`
   or template overrides ("more robust than overriding the templates"). The theme
-  ships **zero** files under `/woocommerce`: wrappers, toolbar, card media, badges,
-  breadcrumbs, filters and notes are all added with documented hooks/filters
-  (`inc/woocommerce.php`).
+  ships **zero** files under `/woocommerce`: wrappers, toolbar and sort links,
+  card media, badges, the buy box and buy bar, breadcrumbs, filters and notes are
+  all added with documented hooks/filters (`inc/woocommerce.php`).
 - *Support declaration:* `add_theme_support( 'woocommerce', … )` on
   `after_setup_theme`, with image widths and `product_grid` limits, plus the
   zoom/lightbox/slider gallery supports (all off by default for themes that
@@ -66,33 +67,59 @@ PHP minimum to 8.1 is proposed for WooCommerce 11.5.
   `false` before its filter runs), so Persian-keyboard input fails. The
   `woocommerce_validate_phone` filter (new in 11.0) and the Store API both route
   through that validation; the Checkout block also validates postcodes in the
-  browser.
+  browser. The theme normalises digits on the server and in the browser.
 - *Gotchas found in source and handled:* from WooCommerce 7.8 the cart-fragments
   script is no longer enqueued everywhere (the theme enqueues it for the header
-  cart). From 8.4, an order that belongs to an account is hidden from
+  and tab-bar cart). From 8.4, an order that belongs to an account is hidden from
   not-logged-in visitors on the confirmation page (the plugin signs the new
   customer in, exactly as WooCommerce's own checkout sign-up does). The guest →
   user session migration reloads session data from the database (the plugin
-  writes the credentials only *after* signing in).
+  writes the credentials only *after* signing in). Manual sign-up can't make the
+  email optional: `wc_create_new_customer()` rejects an empty email before any
+  filter runs, so the sign-up form asks for mobile + email + password.
 
-**Design reasoning**
+**Design process and reasoning (v2 redesign)**
 
-Minimalist and calm, so the products carry the page. Warm ivory paper, one deep
-*firuzeh* (Persian turquoise) for actions, copper for small accents and a
-pomegranate red reserved for sale prices. All text pairs pass WCAG AA (body
-6.5:1, actions 7.5:1, sale 6.9:1). The single decorative motif is the **iwan
-arch**, used for category tiles and the hero frame. Type is **Vazirmatn**
-(OFL, bundled and self-hosted, no third-party requests), set with a tall
-Persian line height and never letter-spaced. Its "FD" cut draws ASCII digits as
-Persian digits through its `ss01` set, which the theme switches on explicitly
-(left to the browser, isolated numbers such as old prices fell back to Latin
-shapes). So the store reads Persian while orders and data keep ASCII digits.
+The redesign was done with the *impeccable* design skill: a product brief
+([`PRODUCT.md`](PRODUCT.md)), three distinct concepts shown for approval, then a
+build against the approved direction, a design-pattern detector pass, and an
+independent finish review from screenshots. You chose **Concept C, "the
+marketplace standard"**, for an everyday, mid-range store with ~80% phone
+traffic, with Digikala as the craft benchmark (its familiarity, never its
+branding). The direction is recorded in `.impeccable/surfaces/sofreh.md`.
 
-Motion is deliberately limited and one-off: below-the-fold blocks rise in as
-they are scrolled to, the hero settles on load, controls give press feedback,
-cards lift on hover, the cart count bumps when it changes, and drawers slide.
-Nothing loops or autoplays, nothing is hidden without JavaScript, and everything
-is off under `prefers-reduced-motion`.
+- *Convention as the commitment.* Iranian shoppers already know the marketplace
+  layout, so the theme uses it rather than inventing one: search-first header,
+  category mega menu (desktop) and drawer (phone), a swipeable banner, round
+  category shortcuts, a red special-offers strip, a newest shelf, a numbered
+  best-seller list, a product page with gallery | details | sticky buy box, and
+  a bottom tab bar on phones. Quality shows in spacing, hierarchy, states and
+  speed, not in decoration.
+- *Phone first.* The tab bar keeps home, categories, cart and account under the
+  thumb; the product page has a buy bar above it that appears once the buy box
+  scrolls away; listings use a sort *select* + filters drawer on phones and sort
+  links + a filter column on desktop.
+- *Minimal palette.* White surfaces on a cool light-grey ground, hairline
+  dividers, 8–12 px radii; one coral red (`#D1352F`, deliberately not
+  Digikala's red) for primary actions, discount badges and the deals strip;
+  text links use the deeper red `#B32A25` (≥ 4.5:1 on white *and* on the grey
+  ground); teal only for banner art. All text pairs pass WCAG AA.
+- *Type.* **Vazirmatn** only (OFL, bundled and self-hosted, no third-party
+  requests), body line height 1.8, never letter-spaced. Its "FD" cut draws ASCII
+  digits as Persian through its `ss01` set, which the theme switches on
+  explicitly, so the store reads Persian while orders and data keep ASCII digits.
+  Fields where Latin digits are expected (email, URL, password, SKU) use plain
+  Vazirmatn.
+- *Prices.* Discount badges show the real percentage; variable products whose
+  options cost different amounts show "از <lowest price>" (From …) instead of a
+  two-price range that wraps badly in narrow cards. The chosen option's own price
+  still appears when it is picked.
+- *Motion, moderate and purposeful:* the banner swipes (and auto-advances every
+  6 s, pausing on hover, focus, touch or the pause button); a product image
+  flies to the cart on add-to-cart and the cart count bumps; the mega menu opens
+  with hover intent; drawers slide. Nothing else moves. Under
+  `prefers-reduced-motion` the banner doesn't auto-advance and the flights and
+  bumps are skipped.
 
 ---
 
@@ -100,41 +127,48 @@ is off under `prefers-reduced-motion`.
 
 ```
 wp-theme/
-├── build.sh                         builds dist/*.zip
-├── sofreh/                          THE THEME
-│   ├── style.css                    theme header (required by WordPress)
-│   ├── theme.json                   palette, fonts (Vazirmatn), sizes, buttons → also styles WooCommerce blocks
-│   ├── functions.php                bootstrap; loads inc/woocommerce.php only when WooCommerce is active
-│   ├── header.php / footer.php      sticky header, product search, account & cart links, mobile drawer
-│   ├── front-page.php               home: hero, categories, promises, product sections, page content/posts
+├── README.md · SOURCE.md · PRODUCT.md     this file · all code by path · design brief
+├── build.sh                               builds dist/*.zip
+├── .impeccable/                           design records: surface brief, review screenshots
+├── sofreh/                                THE THEME
+│   ├── style.css                          theme header (required by WordPress)
+│   ├── theme.json                         palette, fonts (Vazirmatn), sizes, buttons → also styles WooCommerce blocks
+│   ├── functions.php                      bootstrap; loads inc/woocommerce.php only when WooCommerce is active
+│   ├── header.php                         search-first header, category mega menu, phone drawer, bottom tab bar
+│   ├── footer.php                         back-to-top, footer widgets/menu, contact details
+│   ├── front-page.php                     home: banner, categories, product strips, promises, page content/posts
 │   ├── index.php page.php single.php search.php 404.php searchform.php sidebar.php comments.php
 │   ├── inc/
-│   │   ├── setup.php                theme supports, WooCommerce support, menus, widget areas
-│   │   ├── enqueue.php              assets (deferred JS, preloaded font)
-│   │   ├── woocommerce.php          all WooCommerce integration (hooks/filters only)
-│   │   ├── persian.php              Persian/Arabic → ASCII digits for phone/postcode (classic, account, Store API)
-│   │   ├── customizer.php           Appearance → Customize → Sofreh theme
-│   │   ├── template-tags.php        category queries, menu fallback, small helpers
-│   │   └── icons.php                inline SVG icon set
-│   ├── template-parts/home/         hero.php categories.php trust.php products.php
-│   ├── template-parts/content/      card.php none.php category-links.php
-│   ├── assets/css/                  main.css (base, layout, motion) · woocommerce.css · editor.css
-│   ├── assets/js/theme.js           drawers, quantity steppers, digit input, reveal, cart bump
-│   ├── assets/fonts/                Vazirmatn FD 400/500/700 + Vazirmatn 400 (woff2) + OFL.txt
-│   ├── languages/                   sofreh.pot · fa_IR.po/.mo/.l10n.php
-│   ├── sample-data/sample-products.csv   SAMPLE catalogue (every item marked «نمونه», SKUs SAMPLE-*)
-│   ├── screenshot.png · readme.txt
-└── sofreh-phone-accounts/           THE PLUGIN
-    ├── sofreh-phone-accounts.php    header, HPOS + blocks compatibility, bootstrap
+│   │   ├── setup.php                      theme supports, WooCommerce support, menus, widget areas
+│   │   ├── enqueue.php                    assets (deferred JS, preloaded font, cart fragments)
+│   │   ├── woocommerce.php                all WooCommerce integration (hooks/filters only)
+│   │   ├── persian.php                    Persian/Arabic → ASCII digits for phone/postcode (classic, account, Store API)
+│   │   ├── customizer.php                 Appearance → Customize → Sofreh theme (banner slides, sections, promises…)
+│   │   ├── template-tags.php              category queries and tree (mega menu / drawer), menu fallback, helpers
+│   │   └── icons.php                      inline SVG icon set
+│   ├── template-parts/home/               hero.php (banner carousel) categories.php products.php trust.php
+│   ├── template-parts/content/            card.php none.php category-links.php
+│   ├── assets/css/                        main.css (base, header, home, motion) · woocommerce.css · editor.css
+│   ├── assets/js/theme.js                 drawers, mega menu, carousel, shelves, fly-to-cart, buy bar, steppers, digits
+│   ├── assets/fonts/                      Vazirmatn FD 400/500/700 + Vazirmatn 400 (woff2) + OFL.txt
+│   ├── languages/                         sofreh.pot · fa_IR.po/.mo/.l10n.php
+│   ├── sample-data/sample-products.csv    SAMPLE catalogue (every item marked «نمونه», SKUs SAMPLE-*)
+│   └── screenshot.png · readme.txt
+└── sofreh-phone-accounts/                 THE PLUGIN
+    ├── sofreh-phone-accounts.php          header, HPOS + blocks compatibility, bootstrap
     ├── includes/class-sofreh-phone-accounts.php
-    ├── assets/                      copy-button JS, fallback CSS for other themes
-    ├── languages/                   .pot · fa_IR .po/.mo/.l10n.php
+    ├── assets/                            copy-button JS, fallback CSS for other themes
+    ├── languages/                         .pot · fa_IR .po/.mo/.l10n.php
     └── readme.txt
 ```
 
 ---
 
 ## 3. Setup
+
+The only genuine dependency is **WooCommerce** (for the store). The theme works
+as a Persian blog theme without it. The phone-accounts plugin is optional but is
+what provides phone checkout, automatic accounts and mobile-number sign-up.
 
 1. **Persian first.** Settings → General → *Site Language: فارسی*, then
    Dashboard → Updates → *Update translations*. This downloads the official
@@ -143,27 +177,45 @@ wp-theme/
    WooCommerce makes it create its pages (Shop, Cart, Checkout, My account) with
    Persian titles. Otherwise rename them.
 2. **Theme.** Appearance → Themes → Add New → Upload `sofreh.zip` → Activate.
-3. **WooCommerce.** Install and activate it (the only genuine dependency for the
-   store). Then in WooCommerce → Settings → General set *Currency: Iranian toman
-   (IRT)* or *Rial (IRR)*, *Number of decimals: 0*, store address and selling
-   location (Iran). A Persian thousands separator (`٬`) is optional.
-   Add shipping zones and payment methods for your store; Iranian bank gateways
-   are separate plugins and are not part of this theme.
-4. **Phone checkout (optional but intended).** Plugins → Add New → Upload
-   `sofreh-phone-accounts.zip` → Activate. Activation enables guest checkout,
-   turns off WooCommerce's own checkout sign-up and creates a *Track your order*
-   page; the phone field becomes required.
+3. **WooCommerce.** Install and activate it. In WooCommerce → Settings → General
+   set *Currency: Iranian toman (IRT)* or *Rial (IRR)*, *Number of decimals: 0*,
+   store address and selling location (Iran). A Persian thousands separator
+   (`٬`) is optional. Add shipping zones and payment methods; Iranian bank
+   gateways are separate plugins and are not part of this theme.
+4. **Phone checkout and accounts.** Plugins → Add New → Upload
+   `sofreh-phone-accounts.zip` → Activate. Activation:
+   - enables guest checkout and turns off WooCommerce's own checkout sign-up
+     (accounts are created automatically instead, never by redirecting to a
+     registration page);
+   - makes the phone field required (labelled "mobile number");
+   - turns on sign-up on the My Account page, with the username generated (it
+     becomes the mobile number) and the password chosen by the customer;
+   - creates a *Track your order* page (`[sofreh_order_tracking]`).
+
    The classic checkout (`[woocommerce_checkout]`) makes email optional; the
-   Checkout block always asks for an email (a WooCommerce limitation).
-5. **Customize.** Appearance → Customize → *Sofreh theme*: hero text and image,
-   which home sections show, the **store promises** (rewrite them to match your
-   real policies, or clear them), product-page note, footer and contact details.
-   Menus: assign a *Primary menu* (until then the top product categories are
-   shown). Widgets: *Shop filters* for listing filters (empty = category list),
-   footer columns for links or an e-Namad badge (Custom HTML widget).
+   Checkout block always asks for an email (a WooCommerce limitation). Manual
+   sign-up asks for mobile, email and password (WooCommerce requires an email to
+   sign up).
+5. **Customize.** Appearance → Customize → *Sofreh theme*:
+   - *Banner 1–3*: heading, text, button label, link, background tone (teal,
+     ink, red) and image. A slide shows only when it has a heading; with one
+     slide there are no carousel controls.
+   - *Home page*: which sections show (categories, special offers, newest, best
+     sellers, promises) and how many products per strip.
+   - *Store promises*: rewrite them to match your real policies, or clear them.
+   - Product-page note, announcement bar, footer text and contact details.
+
+   Menus: assign a *Primary menu* (shown beside the category button; until then
+   the top product categories are shown). The category mega menu and the phone
+   drawer are built from your WooCommerce categories (two levels, in
+   category order). Widgets: *Shop filters* for the listing filter panel (empty =
+   category list), footer columns for links or an e-Namad badge (Custom HTML
+   widget).
 6. **Categories and products** are entirely yours. For a preview, import
    `sofreh/sample-data/sample-products.csv` via Products → Import; delete the
-   sample items (SKU prefix `SAMPLE-`, tag «محصول نمونه») before launch.
+   sample items (SKU prefix `SAMPLE-`, tag «محصول نمونه») before launch. The
+   best-seller list appears once products have real sales; the special-offers
+   strip appears once products are on sale.
 7. Recommended: a Jalali date plugin if you want Persian-calendar dates; the
    theme uses standard WordPress date functions.
 
@@ -173,18 +225,22 @@ wp-theme/
 
 **Test environment:** WordPress 7.1.3 + WooCommerce 11.2.1 (built from its
 GitHub source, including the Blocks bundle) on PHP 8.3, SQLite database
-integration, Chromium via Playwright at 1366, 820 and 390 px wide.
+integration, Chromium via Playwright at 1366, 820 and 390 px wide. All results
+below are from the **final v2 code** (re-run after the redesign).
 
 **Limitations of that environment.** These are the reasons some items are still
 listed as needing a live site:
-- translate.wordpress.org was unreachable, so the official fa_IR packs could not
-  be installed. To render real Persian text lengths in RTL, a **test-only** stub
-  set the core text direction to RTL and translated ~100 common WooCommerce
-  storefront strings. It is not part of the deliverable. Block Cart/Checkout
-  strings (which come from JavaScript translation files) stayed English in tests.
+- translate.wordpress.org was unreachable, so the official fa_IR packs for
+  WordPress and WooCommerce could not be installed. Some WooCommerce strings
+  therefore appear in English in test screenshots ("has been added to your
+  cart", "(optional)", "Shipment", "Reviews", the privacy text, English month
+  names). They come from WooCommerce/WordPress, not the theme; the theme's and
+  plugin's own strings are all translated. A **test-only** stub set the core
+  text direction to RTL and translated common WooCommerce storefront strings; it
+  is not part of the deliverable.
 - SQLite instead of MySQL/MariaDB: WooCommerce's stock-reservation query
   (`LOCK IN SHARE MODE`) fails on SQLite, so stock holding during checkout was
-  disabled in the test site only.
+  disabled in the test site only (test-only mu-plugin, also not delivered).
 - WooCommerce was built from source. Two missing build artefacts (admin
   `feature-config.php`, the `wc-sanitize` script) were generated for the test
   site; WooCommerce's admin UI JavaScript was not built.
@@ -195,27 +251,26 @@ listed as needing a live site:
 | Area | Check | Result |
 |---|---|---|
 | Install | Theme activates with WooCommerce active; works without WooCommerce (blog fallback) | ✅ |
-| Install | **Theme Check** (official plugin) | ✅ pass; only optional block-theme "recommended" notes remain |
+| Install | **Theme Check** (official plugin) | ✅ no errors or warnings; only optional block-theme "recommended" notes |
 | Code | **PHPCS**: WordPress Coding Standards + PHP 7.4+ compatibility, theme and plugin | ✅ 0 errors, 0 warnings |
 | Code | `php -l` on every PHP file; `node --check` on every JS file | ✅ |
-| Code | PHP notices/warnings from theme or plugin in `debug.log` during all flows | ✅ none |
-| RTL | `<html dir="rtl" lang="fa-IR">`; layout mirrors (sidebar on the right, drawers from the right, breadcrumb chevrons, badges, gallery controls) | ✅ (screenshots reviewed) |
-| Persian | All theme UI strings translated (113 theme strings, 39 plugin strings, 0 missing); Persian digits in prices including struck-through prices | ✅ |
-| Responsive | 14 page types × 3 widths: **no horizontal overflow, no JS errors** (home, shop, category, sub-category, simple & variable product, product search, site search, no results, empty cart, account, tracking, post, 404) | ✅ 42/42 |
-| Accessibility | **axe-core** (WCAG 2.0/2.1 A & AA + best practice), 11 pages, desktop and mobile | ✅ 0 violations (after fixing: icon-only account link name on mobile, duplicate search landmarks, 404 numerals contrast) |
-| Accessibility | Mobile menu drawer: `aria-expanded`, focus moves in, Tab trapped, Esc closes, focus returns; filter drawer closes on backdrop tap | ✅ |
-| Categories | Home category tiles, header menu fallback, chips and sidebar all come from WooCommerce categories (13 sample categories, 2 levels) | ✅ |
-| Product | AJAX add to cart from listings updates header count; quantity −/+ steppers; variable product stays disabled until an option is chosen | ✅ |
-| Cart (classic) | Stepper enables "Update cart"; update works; header count refreshes | ✅ |
-| Cart (block) | Renders, items listed, header count refreshes after block changes | ✅ |
+| Design | impeccable design detector on all changed CSS/PHP/JS | ✅ 0 findings (2 false positives from a CSS-border triangle fixed by switching to `clip-path`) |
+| RTL | `<html dir="rtl" lang="fa-IR">`; layout mirrors (gallery/details/buy box order, drawers from the right, chevrons, badges, carousel direction incl. RTL scroll offsets) | ✅ (screenshots reviewed) |
+| Persian | All theme and plugin UI strings translated (0 missing); Persian digits in prices including struck-through prices; Latin digits kept in SKU/email/password | ✅ |
+| Responsive | 15 page types × 3 widths (1366/820/390): **no horizontal overflow, no JS errors** (home, shop, category, sub-category, simple & variable product, product search, no results, cart, checkout, account, tracking, post, 404) | ✅ 45/45 |
+| Accessibility | **axe-core** (WCAG 2.0/2.1 A & AA + best practice), 15 pages incl. filled cart and checkout, desktop and mobile | ✅ 0 violations (after fixing link contrast on the grey ground and the checkout heading order) |
+| Accessibility | Phone menu drawer: `aria-expanded`, focus moves in, Tab trapped, Esc closes, focus returns; filter drawer closes on backdrop tap | ✅ |
+| Categories | Category shortcuts, mega menu, drawer tree, chips and filter panel all come from WooCommerce categories (13 sample categories, 2 levels) | ✅ |
+| Product | AJAX add to cart from listings updates header and tab-bar counts; quantity −/+ steppers; variable product stays disabled until an option is chosen | ✅ |
+| Cart (classic) | Stepper enables "Update cart"; update works; counts refresh | ✅ |
+| Cart (block) | Renders, items listed, counts refresh after block changes | ✅ |
 | Checkout (classic) | Order placed with phone and postcode typed in **Persian digits**; stored as ASCII | ✅ |
-| Checkout (block) | Same with the Checkout block (a real bug found and fixed: the block rejected Persian-digit postcodes in the browser) | ✅ |
-| Account | Register (a bug found and fixed: with a pasted password the strength meter shifted the button and swallowed the first click), dashboard, edit address with Persian digits, orders list | ✅ |
-| Phone accounts | Guest is **not redirected** to registration, even with WooCommerce's guest-checkout setting off; phone required; account auto-created; order attached; customer signed in; confirmation page shows tracking code + username (mobile) + password with working copy buttons | ✅ classic and block |
-| Phone accounts | Sign out → sign in with the mobile typed in **Persian digits** + generated password; "complete your account" prompt; order in My Account | ✅ |
+| Checkout (block) | Same with the Checkout block | ✅ |
+| Account | **Manual sign-up** with the mobile typed in Persian digits → username = mobile (ASCII), dashboard shown; sign out → sign in with the Persian-digit mobile; a taken mobile and an invalid mobile are rejected with Persian errors; edit address with Persian digits; orders list | ✅ |
+| Phone accounts | Guest is **not redirected** to registration; phone required; account auto-created; order attached; customer signed in; confirmation page shows tracking code + username (mobile) + password with working copy buttons; still shown after reload | ✅ classic (no email) and block (with email) |
+| Phone accounts | Sign out → sign in with the mobile in **Persian digits** + generated password; "complete your account" prompt; order in My Account | ✅ |
+| Phone accounts | Guest order with a mobile that already has an account: order placed, **not** attached to that account, tracking code shown with a sign-in suggestion | ✅ |
 | Phone accounts | Tracking page: finds order with Persian-digit code and `+98 …` phone; wrong phone gives a generic error and discloses nothing | ✅ |
-| Phone accounts | Unit-level checks of normalization filters (Store API request rewrite, classic posted data, non-store REST routes untouched) | ✅ |
-| Motion | Below-the-fold content revealed after scrolling (0 left hidden); `prefers-reduced-motion`: nothing hidden, 0 animations; JavaScript off: nothing hidden; print shows everything | ✅ |
 
 ### Still to check on a live store (not verifiable here)
 
@@ -230,18 +285,26 @@ listed as needing a live site:
 - [ ] Page caching / CDN: exclude cart, checkout, my-account and the
       order-received page (standard WooCommerce advice; the credentials card is
       per-customer).
-- [ ] Safari/iOS and Firefox (tests ran in Chromium only).
+- [ ] Safari/iOS and Firefox (tests ran in Chromium only), and a real phone for
+      the banner swipe and tab bar with the iOS home indicator.
 - [ ] WooCommerce admin screens (not built in the test environment).
 - [ ] Screen-reader pass (axe is automated; a manual NVDA/VoiceOver check is
       still worth doing).
+- [ ] Your real product photos: the layout was checked with plain placeholder
+      artwork.
 
 ### Security notes on the phone-account flow
 
 - The generated password is shown once to the signed-in buyer, kept only in
   their WooCommerce session for 30 minutes, never stored on the order, never
   logged or emailed; WordPress stores only its hash.
-- An existing account with the same number is never attached to the order, and
-  the page doesn't reveal whether such an account exists.
+- An existing account with the same number is never attached to a guest's
+  order, so placing an order never grants access to someone else's account.
+  Whether a number has an account is not secret: the sign-up form says so (as
+  WooCommerce's own form does for emails), and the confirmation page suggests
+  signing in.
 - Tracking requires both the order number and the matching mobile number and
   shows no addresses. There is no rate limiting; add it at the firewall/host
   level if order numbers are sequential and guessable on your store.
+- All input is sanitised and all output escaped (checked by PHPCS's WordPress
+  security sniffs); forms use WooCommerce's own nonces.

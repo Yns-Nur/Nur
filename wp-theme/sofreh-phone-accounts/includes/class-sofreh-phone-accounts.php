@@ -14,6 +14,9 @@
  *    for a limited time, and is never stored in the order or sent by email.
  * 4. Customers can sign in later with the mobile number (Persian digits and
  *    +98 forms accepted) and complete their account details.
+ * 5. Manual sign-up stays available on the My Account page; it asks for the
+ *    mobile number too, which becomes the username, so every account signs
+ *    in the same way.
  *
  * @package SofrehPhoneAccounts
  */
@@ -86,6 +89,12 @@ final class Sofreh_Phone_Accounts {
 		add_action( 'woocommerce_account_dashboard', array( $this, 'dashboard_notice' ), 5 );
 		add_action( 'woocommerce_save_account_details', array( $this, 'mark_complete' ) );
 
+		// 5. Manual sign-up with the mobile number as username.
+		add_action( 'woocommerce_register_form_start', array( $this, 'register_mobile_field' ) );
+		add_filter( 'woocommerce_process_registration_errors', array( $this, 'register_validate' ) );
+		add_filter( 'woocommerce_new_customer_data', array( $this, 'register_username' ) );
+		add_action( 'woocommerce_created_customer', array( $this, 'register_save_phone' ) );
+
 		// Order tracking by order number + mobile.
 		add_shortcode( 'sofreh_order_tracking', array( $this, 'tracking_shortcode' ) );
 	}
@@ -105,6 +114,13 @@ final class Sofreh_Phone_Accounts {
 	public static function activate() {
 		update_option( 'woocommerce_enable_guest_checkout', 'yes' );
 		update_option( 'woocommerce_enable_signup_and_login_from_checkout', 'no' );
+		// Manual sign-up stays available on My Account; the mobile number is
+		// the username, so WooCommerce's own username field is not shown.
+		update_option( 'woocommerce_enable_myaccount_registration', 'yes' );
+		update_option( 'woocommerce_registration_generate_username', 'yes' );
+		// Customers choose their own password when they sign up, so they can
+		// sign in straight away without waiting for an email.
+		update_option( 'woocommerce_registration_generate_password', 'no' );
 
 		$page_id = (int) get_option( self::OPTION_TRACKING_PAGE );
 		if ( ! $page_id || ! get_post( $page_id ) ) {
@@ -622,6 +638,90 @@ final class Sofreh_Phone_Accounts {
 	 */
 	public function mark_complete( $user_id ) {
 		delete_user_meta( $user_id, self::META_INCOMPLETE );
+	}
+
+	/*
+	 * ---------------------------------------------------------------------
+	 * 5. Manual sign-up
+	 * ---------------------------------------------------------------------
+	 */
+
+	/**
+	 * The posted mobile number on the registration form, normalized ('' when
+	 * absent or invalid).
+	 *
+	 * @return string
+	 */
+	private function posted_register_mobile() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- WooCommerce verifies the registration nonce before these hooks run.
+		$raw = isset( $_POST['sofreh_pa_mobile'] ) ? sanitize_text_field( wp_unslash( $_POST['sofreh_pa_mobile'] ) ) : '';
+		return self::normalize_mobile( $raw );
+	}
+
+	/**
+	 * Mobile number field at the top of the registration form.
+	 */
+	public function register_mobile_field() {
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- Only re-fills the field after a failed submit.
+		$value = isset( $_POST['sofreh_pa_mobile'] ) ? sanitize_text_field( wp_unslash( $_POST['sofreh_pa_mobile'] ) ) : '';
+		?>
+		<p class="woocommerce-form-row woocommerce-form-row--wide form-row form-row-wide sofreh-pa-register-mobile">
+			<label for="reg_sofreh_pa_mobile"><?php esc_html_e( 'Mobile number', 'sofreh-phone-accounts' ); ?>&nbsp;<span class="required" aria-hidden="true">*</span><span class="screen-reader-text"><?php esc_html_e( 'Required', 'sofreh-phone-accounts' ); ?></span></label>
+			<input type="tel" class="woocommerce-Input woocommerce-Input--text input-text" name="sofreh_pa_mobile" id="reg_sofreh_pa_mobile" autocomplete="tel" inputmode="tel" placeholder="09121234567" value="<?php echo esc_attr( $value ); ?>" required aria-required="true" aria-describedby="reg_sofreh_pa_mobile_desc">
+			<span class="description" id="reg_sofreh_pa_mobile_desc"><?php esc_html_e( 'You will sign in with this number.', 'sofreh-phone-accounts' ); ?></span>
+		</p>
+		<?php
+	}
+
+	/**
+	 * Validate the mobile number on registration.
+	 *
+	 * @param WP_Error $errors Errors.
+	 * @return WP_Error
+	 */
+	public function register_validate( $errors ) {
+		$mobile = $this->posted_register_mobile();
+		if ( '' === $mobile ) {
+			$errors->add( 'sofreh_pa_mobile', $this->invalid_mobile_message() );
+		} elseif ( username_exists( $mobile ) ) {
+			$errors->add( 'sofreh_pa_mobile_taken', __( 'An account with this mobile number already exists. Please sign in instead.', 'sofreh-phone-accounts' ) );
+		}
+		return $errors;
+	}
+
+	/**
+	 * Use the mobile number as the username for accounts created on the
+	 * registration form.
+	 *
+	 * @param array $data New customer data.
+	 * @return array
+	 */
+	public function register_username( $data ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- WooCommerce verified the registration nonce.
+		if ( empty( $_POST['register'] ) ) {
+			return $data;
+		}
+		$mobile = $this->posted_register_mobile();
+		if ( '' !== $mobile && ! username_exists( $mobile ) ) {
+			$data['user_login'] = $mobile;
+		}
+		return $data;
+	}
+
+	/**
+	 * Save the mobile number to the new account's billing phone.
+	 *
+	 * @param int $user_id User ID.
+	 */
+	public function register_save_phone( $user_id ) {
+		// phpcs:ignore WordPress.Security.NonceVerification.Missing -- WooCommerce verified the registration nonce.
+		if ( empty( $_POST['register'] ) ) {
+			return;
+		}
+		$mobile = $this->posted_register_mobile();
+		if ( '' !== $mobile ) {
+			update_user_meta( $user_id, 'billing_phone', $mobile );
+		}
 	}
 
 	/*

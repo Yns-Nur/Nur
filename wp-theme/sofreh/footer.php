@@ -15,6 +15,9 @@ $sofreh_about   = sofreh_option( 'footer_about' );
 	</div><!-- #content -->
 
 	<footer id="colophon" class="site-footer">
+		<div class="container site-footer__top">
+			<a class="back-to-top" href="#page"><?php esc_html_e( 'Back to top', 'sofreh' ); ?><?php sofreh_icon( 'up', 18 ); ?></a>
+		</div>
 		<div class="container site-footer__grid">
 			<section class="site-footer__about">
 				<p class="site-footer__name"><?php bloginfo( 'name' ); ?></p>

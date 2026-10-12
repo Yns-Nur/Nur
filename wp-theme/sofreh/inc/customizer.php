@@ -19,11 +19,24 @@ function sofreh_customizer_defaults() {
 	return array(
 		'announcement'      => '',
 		'hero_show'         => true,
-		'hero_eyebrow'      => __( 'Home & kitchen', 'sofreh' ),
-		'hero_title'        => __( 'Everything a warm home needs, in one place', 'sofreh' ),
-		'hero_text'         => __( 'Cookware, tableware and home goods, chosen for everyday use. Browse by category or search for exactly what you need.', 'sofreh' ),
-		'hero_button'       => __( 'Browse the shop', 'sofreh' ),
+		'hero_title'        => __( 'Refresh your kitchen', 'sofreh' ),
+		'hero_text'         => __( 'Cookware, tableware and home basics for every day.', 'sofreh' ),
+		'hero_button'       => __( 'See the products', 'sofreh' ),
 		'hero_image'        => 0,
+		'hero_link'         => '',
+		'hero_tone'         => 'teal',
+		'slide2_title'      => '',
+		'slide2_text'       => '',
+		'slide2_button'     => '',
+		'slide2_image'      => 0,
+		'slide2_link'       => '',
+		'slide2_tone'       => 'ink',
+		'slide3_title'      => '',
+		'slide3_text'       => '',
+		'slide3_button'     => '',
+		'slide3_image'      => 0,
+		'slide3_link'       => '',
+		'slide3_tone'       => 'accent',
 		'home_categories'   => true,
 		'home_new'          => true,
 		'home_sale'         => true,
@@ -72,6 +85,44 @@ function sofreh_sanitize_checkbox( $value ) {
 function sofreh_sanitize_product_count( $value ) {
 	$value = absint( $value );
 	return in_array( $value, array( 4, 8, 12, 16 ), true ) ? $value : 8;
+}
+
+/**
+ * Sanitize a banner tone.
+ *
+ * @param mixed $value Value.
+ * @return string
+ */
+function sofreh_sanitize_tone( $value ) {
+	return in_array( $value, array( 'teal', 'ink', 'accent' ), true ) ? $value : 'teal';
+}
+
+/**
+ * The home banner slides that have a title, in order.
+ *
+ * @return array[]
+ */
+function sofreh_banner_slides() {
+	$slides = array();
+	foreach ( array( 'hero', 'slide2', 'slide3' ) as $key ) {
+		$title = trim( (string) sofreh_option( $key . '_title' ) );
+		if ( '' === $title ) {
+			continue;
+		}
+		$link = (string) sofreh_option( $key . '_link' );
+		if ( '' === $link && function_exists( 'wc_get_page_permalink' ) ) {
+			$link = wc_get_page_permalink( 'shop' );
+		}
+		$slides[] = array(
+			'title'  => $title,
+			'text'   => (string) sofreh_option( $key . '_text' ),
+			'button' => (string) sofreh_option( $key . '_button' ),
+			'image'  => absint( sofreh_option( $key . '_image' ) ),
+			'link'   => $link,
+			'tone'   => sofreh_sanitize_tone( sofreh_option( $key . '_tone' ) ),
+		);
+	}
+	return $slides;
 }
 
 /**
@@ -131,31 +182,53 @@ function sofreh_customize_register( $wp_customize ) {
 
 	$add( 'announcement', 'sofreh_header', __( 'Announcement bar text (leave empty to hide)', 'sofreh' ) );
 
-	$add( 'hero_show', 'sofreh_home', __( 'Show the hero banner', 'sofreh' ), 'checkbox', 'sofreh_sanitize_checkbox' );
-	$add( 'hero_eyebrow', 'sofreh_home', __( 'Hero: small label', 'sofreh' ) );
-	$add( 'hero_title', 'sofreh_home', __( 'Hero: heading', 'sofreh' ) );
-	$add( 'hero_text', 'sofreh_home', __( 'Hero: text', 'sofreh' ), 'textarea', 'sanitize_textarea_field' );
-	$add( 'hero_button', 'sofreh_home', __( 'Hero: button label', 'sofreh' ) );
+	$add( 'hero_show', 'sofreh_home', __( 'Show the banner', 'sofreh' ), 'checkbox', 'sofreh_sanitize_checkbox' );
 
-	$wp_customize->add_setting(
-		'sofreh_hero_image',
-		array(
-			'default'           => 0,
-			'sanitize_callback' => 'absint',
-		)
+	$tones = array(
+		'teal'   => __( 'Teal', 'sofreh' ),
+		'ink'    => __( 'Dark', 'sofreh' ),
+		'accent' => __( 'Red', 'sofreh' ),
 	);
-	$wp_customize->add_control(
-		new WP_Customize_Media_Control(
-			$wp_customize,
-			'sofreh_hero_image',
+	foreach ( array(
+		'hero'   => 1,
+		'slide2' => 2,
+		'slide3' => 3,
+	) as $key => $n ) {
+		/* translators: %d: banner slide number. */
+		$prefix = sprintf( __( 'Banner %d', 'sofreh' ), $n );
+		$add(
+			$key . '_title',
+			'sofreh_home',
+			$prefix . ': ' . __( 'heading', 'sofreh' ),
+			'text',
+			'sanitize_text_field',
+			1 === $n ? array() : array( 'description' => __( 'Leave empty to hide this slide.', 'sofreh' ) )
+		);
+		$add( $key . '_text', 'sofreh_home', $prefix . ': ' . __( 'text', 'sofreh' ), 'textarea', 'sanitize_textarea_field' );
+		$add( $key . '_button', 'sofreh_home', $prefix . ': ' . __( 'button label', 'sofreh' ) );
+		$add( $key . '_link', 'sofreh_home', $prefix . ': ' . __( 'link (empty = shop page)', 'sofreh' ), 'url', 'esc_url_raw' );
+		$add( $key . '_tone', 'sofreh_home', $prefix . ': ' . __( 'background', 'sofreh' ), 'select', 'sofreh_sanitize_tone', array( 'choices' => $tones ) );
+
+		$wp_customize->add_setting(
+			'sofreh_' . $key . '_image',
 			array(
-				'label'       => __( 'Hero: image', 'sofreh' ),
-				'description' => __( 'A portrait image works best (about 900 × 1100 pixels). It is shown inside an arched frame.', 'sofreh' ),
-				'section'     => 'sofreh_home',
-				'mime_type'   => 'image',
+				'default'           => 0,
+				'sanitize_callback' => 'absint',
 			)
-		)
-	);
+		);
+		$wp_customize->add_control(
+			new WP_Customize_Media_Control(
+				$wp_customize,
+				'sofreh_' . $key . '_image',
+				array(
+					'label'       => $prefix . ': ' . __( 'image', 'sofreh' ),
+					'description' => __( 'A product photo on a plain or transparent background works best (about 800 × 800 pixels).', 'sofreh' ),
+					'section'     => 'sofreh_home',
+					'mime_type'   => 'image',
+				)
+			)
+		);
+	}
 
 	$add( 'home_categories', 'sofreh_home', __( 'Show product categories', 'sofreh' ), 'checkbox', 'sofreh_sanitize_checkbox' );
 	$add( 'home_new', 'sofreh_home', __( 'Show newest products', 'sofreh' ), 'checkbox', 'sofreh_sanitize_checkbox' );

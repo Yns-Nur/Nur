@@ -214,6 +214,50 @@ function sofreh_wc_toolbar_close() {
 add_action( 'woocommerce_before_shop_loop', 'sofreh_wc_toolbar_close', 35 );
 
 /**
+ * Sort options as a row of links on wide screens, the way marketplace
+ * listings present them. WooCommerce's own select stays for phones, where the
+ * native picker is the better control. Both use WooCommerce's orderby values.
+ */
+function sofreh_wc_sort_links() {
+	if ( ! woocommerce_products_will_display() || 1 >= (int) wc_get_loop_prop( 'total' ) ) {
+		return;
+	}
+	$show_default = wc_get_loop_prop( 'is_search' ) ? 'relevance' : 'menu_order';
+	/** This filter is documented in woocommerce/includes/wc-template-functions.php */
+	$default = apply_filters( 'woocommerce_default_catalog_orderby', get_option( 'woocommerce_default_catalog_orderby', $show_default ) );
+	// phpcs:ignore WordPress.Security.NonceVerification.Recommended -- Read-only sort parameter, same as WooCommerce's ordering form.
+	$current = isset( $_GET['orderby'] ) ? sanitize_key( wp_unslash( $_GET['orderby'] ) ) : $default;
+	$options = array(
+		'menu_order' => __( 'Default', 'sofreh' ),
+		'popularity' => __( 'Best selling', 'sofreh' ),
+		'rating'     => __( 'Top rated', 'sofreh' ),
+		'date'       => __( 'Newest', 'sofreh' ),
+		'price'      => __( 'Cheapest', 'sofreh' ),
+		'price-desc' => __( 'Most expensive', 'sofreh' ),
+	);
+	if ( wc_get_loop_prop( 'is_search' ) ) {
+		$options = array_merge( array( 'relevance' => __( 'Most relevant', 'sofreh' ) ), $options );
+		unset( $options['menu_order'] );
+	}
+	if ( ! wc_review_ratings_enabled() ) {
+		unset( $options['rating'] );
+	}
+	$base = get_pagenum_link( 1, false );
+	echo '<nav class="sort-links" aria-label="' . esc_attr__( 'Sort products', 'sofreh' ) . '">';
+	echo '<span class="sort-links__label">' . sofreh_get_icon( 'filter', 18 ) . esc_html__( 'Sort by:', 'sofreh' ) . '</span>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Fixed SVG string.
+	foreach ( $options as $id => $label ) {
+		printf(
+			'<a href="%1$s"%2$s>%3$s</a>',
+			esc_url( add_query_arg( 'orderby', $id, $base ) ),
+			$id === $current ? ' class="is-current" aria-current="true"' : '',
+			esc_html( $label )
+		);
+	}
+	echo '</nav>';
+}
+add_action( 'woocommerce_before_shop_loop', 'sofreh_wc_sort_links', 25 );
+
+/**
  * Product card: wrap image and badges in a media frame.
  */
 function sofreh_wc_card_media_open() {
@@ -240,29 +284,6 @@ function sofreh_wc_card_media_close() {
 }
 add_action( 'woocommerce_before_shop_loop_item_title', 'sofreh_wc_card_media_close', 11 );
 
-/**
- * Category label above the product name: useful when a listing mixes
- * categories (search results, home page sections).
- */
-function sofreh_wc_card_category() {
-	global $product;
-	if ( ! $product instanceof WC_Product ) {
-		return;
-	}
-	$ids     = $product->get_category_ids();
-	$default = absint( get_option( 'default_product_cat', 0 ) );
-	foreach ( $ids as $id ) {
-		if ( (int) $id === $default ) {
-			continue;
-		}
-		$term = get_term( $id, 'product_cat' );
-		if ( $term instanceof WP_Term ) {
-			echo '<span class="product-card__cat">' . esc_html( $term->name ) . '</span>';
-			return;
-		}
-	}
-}
-add_action( 'woocommerce_shop_loop_item_title', 'sofreh_wc_card_category', 5 );
 
 /**
  * Sale badge shows the discount ("20% off") when it can be computed.
@@ -303,11 +324,85 @@ function sofreh_wc_sale_flash( $html, $post, $product ) {
 }
 add_filter( 'woocommerce_sale_flash', 'sofreh_wc_sale_flash', 10, 3 );
 
+/**
+ * Variable products whose options cost different amounts show "From <lowest
+ * price>" instead of a two-price range, which wraps badly in narrow product
+ * cards and on phones. The chosen option's own price still appears as soon as
+ * the customer picks it (WooCommerce's variation price).
+ *
+ * @param string              $price   Price HTML.
+ * @param WC_Product_Variable $product Product.
+ * @return string
+ */
+function sofreh_wc_variable_price_html( $price, $product ) {
+	if ( is_admin() && ! wp_doing_ajax() ) {
+		return $price;
+	}
+	$prices = $product->get_variation_prices( true );
+	if ( empty( $prices['price'] ) ) {
+		return $price;
+	}
+	$min = current( $prices['price'] );
+	$max = end( $prices['price'] );
+	if ( $min === $max ) {
+		return $price;
+	}
+	return sprintf(
+		/* translators: %s: lowest price of the product's options. */
+		esc_html__( 'From %s', 'sofreh' ),
+		wc_price( $min )
+	) . $product->get_price_suffix();
+}
+add_filter( 'woocommerce_variable_price_html', 'sofreh_wc_variable_price_html', 10, 2 );
+
 /*
  * -------------------------------------------------------------------------
  * Single product
  * -------------------------------------------------------------------------
  */
+
+// The price moves into the buy box, next to the add-to-cart form.
+remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
+
+/**
+ * Open the buy box: price, stock, quantity and add to cart, the store note.
+ */
+function sofreh_wc_buy_box_open() {
+	echo '<div class="buy-box" id="buy-box">';
+	woocommerce_template_single_price();
+}
+add_action( 'woocommerce_single_product_summary', 'sofreh_wc_buy_box_open', 25 );
+
+/**
+ * Close the buy box.
+ */
+function sofreh_wc_buy_box_close() {
+	echo '</div>';
+}
+add_action( 'woocommerce_single_product_summary', 'sofreh_wc_buy_box_close', 36 );
+
+/**
+ * Phones: a bar fixed above the tab bar with the price and the add-to-cart
+ * action, shown once the buy box has scrolled out of view. Its button
+ * presses the real add-to-cart button (or scrolls to the options for
+ * products that need a choice first), so WooCommerce's own form handles it.
+ */
+function sofreh_wc_sticky_buy_bar() {
+	global $product;
+	if ( ! $product instanceof WC_Product || ! $product->is_purchasable() || ! $product->is_in_stock() ) {
+		return;
+	}
+	$needs_choice = $product->is_type( 'variable' ) || $product->is_type( 'grouped' );
+	?>
+	<div class="buy-bar" hidden data-sofreh-buybar>
+		<div class="buy-bar__price"><?php echo wp_kses_post( $product->get_price_html() ); ?></div>
+		<button type="button" class="button buy-bar__button" data-sofreh-buy="<?php echo $needs_choice ? 'choose' : 'add'; ?>">
+			<?php echo $needs_choice ? esc_html__( 'Choose options', 'sofreh' ) : esc_html__( 'Add to cart', 'sofreh' ); ?>
+		</button>
+	</div>
+	<?php
+}
+add_action( 'woocommerce_after_single_product', 'sofreh_wc_sticky_buy_bar' );
 
 /**
  * Store note (shipping/returns) under the add-to-cart form.
@@ -320,6 +415,16 @@ function sofreh_wc_product_note() {
 	echo '<div class="product-note">' . sofreh_get_icon( 'truck', 22 ) . '<p>' . nl2br( esc_html( $note ) ) . '</p></div>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Icon markup is a fixed string.
 }
 add_action( 'woocommerce_single_product_summary', 'sofreh_wc_product_note', 35 );
+
+/**
+ * Classic checkout: WooCommerce's section titles are h3s directly under the
+ * page's h1. A visually hidden h2 keeps the heading outline in order for
+ * screen readers without overriding the checkout template.
+ */
+function sofreh_wc_checkout_heading() {
+	echo '<h2 class="screen-reader-text">' . esc_html__( 'Your details', 'sofreh' ) . '</h2>';
+}
+add_action( 'woocommerce_checkout_before_customer_details', 'sofreh_wc_checkout_heading' );
 
 /**
  * Related products: one row of four.
@@ -382,50 +487,79 @@ function sofreh_product_search_form( $aria_label = '' ) {
 }
 
 /**
- * Header cart link markup (also returned as an AJAX fragment).
+ * Cart link markup, for the header or the mobile tab bar. Both are returned
+ * as AJAX fragments, so they update after add to cart and cart changes.
  *
+ * @param string $context 'header' or 'tabbar'.
  * @return string
  */
-function sofreh_get_cart_link() {
+function sofreh_get_cart_link( $context = 'header' ) {
 	$count = ( WC()->cart ) ? WC()->cart->get_cart_contents_count() : 0;
 	$label = sprintf(
 		/* translators: %s: number of items in the cart. */
 		_n( 'Cart, %s item', 'Cart, %s items', $count, 'sofreh' ),
 		number_format_i18n( $count )
 	);
+	$badge   = sprintf(
+		'<span class="cart-count%1$s" aria-hidden="true">%2$s</span>',
+		$count ? '' : ' is-empty',
+		esc_html( number_format_i18n( $count ) )
+	);
+	$current = is_cart() ? ' aria-current="page"' : '';
+
+	if ( 'tabbar' === $context ) {
+		return sprintf(
+			'<a class="tabbar__item tabbar-cart%1$s" href="%2$s"%3$s><span class="tabbar__icon">%4$s%5$s</span><span aria-hidden="true">%6$s</span><span class="screen-reader-text">%7$s</span></a>',
+			is_cart() ? ' is-current' : '',
+			esc_url( wc_get_cart_url() ),
+			$current,
+			sofreh_get_icon( 'bag', 24 ),
+			$badge,
+			esc_html__( 'Cart', 'sofreh' ),
+			esc_html( $label )
+		);
+	}
 
 	return sprintf(
-		'<a class="header-action header-cart" href="%1$s">%2$s<span class="header-action__label" aria-hidden="true">%3$s</span><span class="header-cart__count%4$s" aria-hidden="true">%5$s</span><span class="screen-reader-text">%6$s</span></a>',
+		'<a class="header-action header-cart" href="%1$s"%2$s>%3$s%4$s<span class="screen-reader-text">%5$s</span></a>',
 		esc_url( wc_get_cart_url() ),
+		$current,
 		sofreh_get_icon( 'bag' ),
-		esc_html__( 'Cart', 'sofreh' ),
-		$count ? '' : ' is-empty',
-		esc_html( number_format_i18n( $count ) ),
+		$badge,
 		esc_html( $label )
 	);
 }
 
 /**
- * Replace the header cart link after AJAX add-to-cart / cart updates.
+ * Replace both cart links after AJAX add-to-cart / cart updates.
  *
  * @param array $fragments Fragments.
  * @return array
  */
 function sofreh_wc_cart_fragment( $fragments ) {
-	$fragments['a.header-cart'] = sofreh_get_cart_link();
+	$fragments['a.header-cart'] = sofreh_get_cart_link( 'header' );
+	$fragments['a.tabbar-cart'] = sofreh_get_cart_link( 'tabbar' );
 	return $fragments;
 }
 add_filter( 'woocommerce_add_to_cart_fragments', 'sofreh_wc_cart_fragment' );
 
 /**
- * Header account link.
+ * Header account link: "Log in | Sign up" for visitors, "My account" after.
  */
 function sofreh_account_link() {
-	$logged_in = is_user_logged_in();
+	if ( is_user_logged_in() ) {
+		printf(
+			'<a class="header-action header-account" href="%1$s">%2$s<span class="header-action__label">%3$s</span></a>',
+			esc_url( wc_get_page_permalink( 'myaccount' ) ),
+			sofreh_get_icon( 'user' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Fixed SVG string.
+			esc_html__( 'My account', 'sofreh' )
+		);
+		return;
+	}
 	printf(
-		'<a class="header-action header-account" href="%1$s">%2$s<span class="header-action__label">%3$s</span></a>',
+		'<a class="header-action header-account header-account--guest" href="%1$s">%2$s<span class="header-action__label">%3$s</span></a>',
 		esc_url( wc_get_page_permalink( 'myaccount' ) ),
 		sofreh_get_icon( 'user' ), // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Fixed SVG string.
-		$logged_in ? esc_html__( 'My account', 'sofreh' ) : esc_html__( 'Log in', 'sofreh' )
+		esc_html__( 'Log in | Sign up', 'sofreh' )
 	);
 }

@@ -11,7 +11,7 @@
 
 defined( 'ABSPATH' ) || exit;
 
-define( 'SOFREH_VERSION', '1.0.0' );
+define( 'SOFREH_VERSION', '2.0.0' );
 define( 'SOFREH_DIR', get_template_directory() );
 define( 'SOFREH_URI', get_template_directory_uri() );
 

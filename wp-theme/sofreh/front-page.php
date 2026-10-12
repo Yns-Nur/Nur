@@ -24,10 +24,10 @@ get_header();
 		if ( sofreh_option( 'home_categories' ) ) {
 			get_template_part( 'template-parts/home/categories' );
 		}
+		get_template_part( 'template-parts/home/products' );
 		if ( sofreh_option( 'trust_show' ) ) {
 			get_template_part( 'template-parts/home/trust' );
 		}
-		get_template_part( 'template-parts/home/products' );
 	}
 
 	if ( 'page' === get_option( 'show_on_front' ) ) {
@@ -47,16 +47,21 @@ get_header();
 		?>
 		<section class="home-section" aria-labelledby="home-posts-title">
 			<div class="container">
-				<h2 id="home-posts-title" class="section-title"><?php esc_html_e( 'From the blog', 'sofreh' ); ?></h2>
-				<div class="post-grid">
-					<?php
-					while ( have_posts() ) {
-						the_post();
-						get_template_part( 'template-parts/content/card' );
-					}
-					?>
+				<div class="strip__frame posts-frame">
+					<div class="strip__head">
+						<h2 id="home-posts-title" class="strip__title"><?php esc_html_e( 'From the blog', 'sofreh' ); ?></h2>
+					</div>
+					<div class="post-grid">
+						<?php
+						$sofreh_n = 0;
+						while ( have_posts() && $sofreh_n < 4 ) {
+							the_post();
+							get_template_part( 'template-parts/content/card' );
+							++$sofreh_n;
+						}
+						?>
+					</div>
 				</div>
-				<?php sofreh_posts_pagination(); ?>
 			</div>
 		</section>
 		<?php

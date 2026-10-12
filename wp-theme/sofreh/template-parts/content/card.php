@@ -11,21 +11,23 @@ $sofreh_product = ( 'product' === get_post_type() && function_exists( 'wc_get_pr
 ?>
 <article id="post-<?php the_ID(); ?>" <?php post_class( 'post-card' ); ?>>
 	<a class="post-card__link" href="<?php the_permalink(); ?>">
-		<span class="post-card__media">
-			<?php
-			if ( has_post_thumbnail() ) {
-				the_post_thumbnail(
-					'medium_large',
-					array(
-						'alt'     => '',
-						'loading' => 'lazy',
-					)
-				);
-			} elseif ( $sofreh_product ) {
-				echo wc_placeholder_img( 'woocommerce_thumbnail', array( 'alt' => '' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- WooCommerce builds this image tag.
-			}
-			?>
-		</span>
+		<?php if ( has_post_thumbnail() || $sofreh_product ) : ?>
+			<span class="post-card__media">
+				<?php
+				if ( has_post_thumbnail() ) {
+					the_post_thumbnail(
+						'medium_large',
+						array(
+							'alt'     => '',
+							'loading' => 'lazy',
+						)
+					);
+				} else {
+					echo wc_placeholder_img( 'woocommerce_thumbnail', array( 'alt' => '' ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- WooCommerce builds this image tag.
+				}
+				?>
+			</span>
+		<?php endif; ?>
 		<span class="post-card__body">
 			<?php if ( $sofreh_product ) : ?>
 				<span class="post-card__type"><?php esc_html_e( 'Product', 'sofreh' ); ?></span>

@@ -129,3 +129,73 @@ function sofreh_initial( $name ) {
 	$name = trim( wp_strip_all_tags( $name ) );
 	return function_exists( 'mb_substr' ) ? mb_substr( $name, 0, 1 ) : substr( $name, 0, 1 );
 }
+
+/**
+ * Product category tree for the desktop category menu ('mega') and the
+ * mobile drawer ('drawer'). Built from the store's own categories: top
+ * level as headings, their sub-categories beneath.
+ *
+ * The drawer uses native <details> disclosure, so it works without scripts.
+ *
+ * @param string $context 'mega' or 'drawer'.
+ */
+function sofreh_category_tree( $context = 'mega' ) {
+	$parents = sofreh_get_product_categories( 0, 12 );
+	if ( empty( $parents ) ) {
+		return;
+	}
+
+	if ( 'mega' === $context ) {
+		echo '<div class="mega__grid">';
+		foreach ( $parents as $parent ) {
+			$link = get_term_link( $parent );
+			if ( is_wp_error( $link ) ) {
+				continue;
+			}
+			echo '<div class="mega__col">';
+			printf( '<a class="mega__parent" href="%1$s">%2$s %3$s</a>', esc_url( $link ), esc_html( $parent->name ), sofreh_get_icon( 'chevron', 14 ) ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Fixed SVG string.
+			$children = sofreh_get_product_categories( $parent->term_id, 8 );
+			if ( $children ) {
+				echo '<ul>';
+				foreach ( $children as $child ) {
+					$child_link = get_term_link( $child );
+					if ( ! is_wp_error( $child_link ) ) {
+						printf( '<li><a href="%1$s">%2$s</a></li>', esc_url( $child_link ), esc_html( $child->name ) );
+					}
+				}
+				echo '</ul>';
+			}
+			echo '</div>';
+		}
+		echo '</div>';
+		return;
+	}
+
+	echo '<ul class="cat-tree">';
+	foreach ( $parents as $parent ) {
+		$link = get_term_link( $parent );
+		if ( is_wp_error( $link ) ) {
+			continue;
+		}
+		$children = sofreh_get_product_categories( $parent->term_id, 12 );
+		if ( ! $children ) {
+			printf( '<li><a class="cat-tree__link" href="%1$s">%2$s</a></li>', esc_url( $link ), esc_html( $parent->name ) );
+			continue;
+		}
+		echo '<li><details class="cat-tree__group"><summary>' . esc_html( $parent->name ) . sofreh_get_icon( 'down', 18 ) . '</summary><ul>'; // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Fixed SVG string.
+		printf(
+			'<li><a class="cat-tree__all" href="%1$s">%2$s</a></li>',
+			esc_url( $link ),
+			/* translators: %s: category name. */
+			esc_html( sprintf( __( 'All of %s', 'sofreh' ), $parent->name ) )
+		);
+		foreach ( $children as $child ) {
+			$child_link = get_term_link( $child );
+			if ( ! is_wp_error( $child_link ) ) {
+				printf( '<li><a href="%1$s">%2$s</a></li>', esc_url( $child_link ), esc_html( $child->name ) );
+			}
+		}
+		echo '</ul></details></li>';
+	}
+	echo '</ul>';
+}

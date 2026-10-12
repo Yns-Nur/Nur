@@ -5,3 +5,9 @@ dist/
 .env.production
 .DS_Store
 wp-theme/dist/
+# Design-tool session files (the skill itself is installed per session, not vendored)
+.claude/
+wp-theme/.impeccable/questions/
+wp-theme/.impeccable/review/*
+!wp-theme/.impeccable/review/desktop.png
+!wp-theme/.impeccable/review/mobile.png

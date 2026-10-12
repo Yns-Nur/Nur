@@ -4,7 +4,7 @@ Requires at least: 6.7
 Tested up to: 7.1
 Requires PHP: 7.4
 Requires Plugins: woocommerce
-Stable tag: 1.0.0
+Stable tag: 1.1.0
 License: GPLv2 or later
 License URI: https://www.gnu.org/licenses/gpl-2.0.html
 
@@ -27,7 +27,11 @@ login details are shown on the order confirmation page.
   never stored with the order, never written to a log and never sent by email
   or SMS; WordPress stores only its hash.
 * If an account with the number already exists, the order is NOT attached to it
-  and nothing about it is revealed; the page simply suggests signing in.
+  (placing an order never grants access to someone else's account); the page
+  suggests signing in, and the order can still be tracked with its code.
+* Manual sign-up stays available on the My Account page: the form asks for the
+  mobile number (it becomes the username), an email address (WooCommerce
+  requires one for sign-up) and a password the customer chooses.
 * Customers sign in later with the mobile number (any digit form) and the
   password, and are reminded on their dashboard to complete their account.
 * A [sofreh_order_tracking] form (a "Track your order" page is created on
@@ -43,11 +47,15 @@ there); on the classic checkout the email becomes optional.
 1. Upload the plugin folder to wp-content/plugins/ (or the zip via Plugins → Add
    New → Upload) and activate it. WooCommerce must be active.
 2. Activation turns on guest checkout, turns off WooCommerce's own "create an
-   account" checkout option (accounts are created automatically instead) and
-   creates the "Track your order" page.
+   account" checkout option (accounts are created automatically instead), turns
+   on sign-up on the My Account page (username generated = the mobile number,
+   password chosen by the customer) and creates the "Track your order" page.
 3. Add the tracking page to a menu if you like.
 
 == Changelog ==
+
+= 1.1.0 =
+* Manual sign-up on My Account with the mobile number as the username.
 
 = 1.0.0 =
 * First release.

@@ -25,10 +25,12 @@ if ( empty( $sofreh_items ) ) {
 	return;
 }
 ?>
-<section class="trust-strip" aria-label="<?php esc_attr_e( 'Store promises', 'sofreh' ); ?>">
-	<ul class="container trust-strip__list">
+<section class="home-section trust-strip" aria-label="<?php esc_attr_e( 'Store promises', 'sofreh' ); ?>">
+	<div class="container">
+	<ul class="trust-strip__list">
 		<?php foreach ( $sofreh_items as $sofreh_item ) : ?>
 			<li><?php sofreh_icon( $sofreh_item[0], 28 ); ?><span><?php echo esc_html( $sofreh_item[1] ); ?></span></li>
 		<?php endforeach; ?>
 	</ul>
+	</div>
 </section>
