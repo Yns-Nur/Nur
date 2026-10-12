@@ -1,0 +1,501 @@
+# Persian translation for the Sofreh theme.
+# This file is distributed under the GNU General Public License v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Sofreh 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/theme/sofreh\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: Persian\n"
+"Language: fa_IR\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"POT-Creation-Date: 2026-10-12T15:55:23+00:00\n"
+"PO-Revision-Date: 2026-10-12 12:00+0330\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: sofreh\n"
+
+#. Theme Name of the theme
+#: style.css:2
+msgid "Sofreh"
+msgstr "سفره"
+
+#. Theme URI of the theme
+#: style.css:3
+msgid "https://github.com/yns-nur/nur/tree/main/wp-theme/sofreh"
+msgstr "https://github.com/yns-nur/nur/tree/main/wp-theme/sofreh"
+
+#. Description of the theme
+#: style.css:6
+msgid "A Persian, right-to-left WooCommerce theme for home and kitchen stores. Warm, calm and legible: category browsing in arched frames, a clear product page, and styled classic and block-based cart, checkout and account pages. Ships with the Vazirmatn typeface and a full Persian (fa_IR) translation."
+msgstr "پوسته‌ای فارسی و راست‌چین برای فروشگاه‌های لوازم خانه و آشپزخانه بر پایهٔ ووکامرس. گرم، آرام و خوانا: مرور دسته‌ها در قاب‌های طاق‌دار، صفحهٔ محصول روشن، و سبد خرید، تسویه حساب و حساب کاربری آراسته در هر دو نسخهٔ کلاسیک و بلوکی. همراه با قلم وزیرمتن و ترجمهٔ کامل فارسی."
+
+#. Author of the theme
+#: style.css:4
+msgid "Younes Nur"
+msgstr "یونس نور"
+
+#. Author URI of the theme
+#: style.css:5
+msgid "https://github.com/yns-nur"
+msgstr "https://github.com/yns-nur"
+
+#: 404.php:15
+msgid "This page could not be found"
+msgstr "این صفحه پیدا نشد"
+
+#: 404.php:16
+msgid "The link may be broken or the page may have moved. Try a search, or start from one of the categories below."
+msgstr "ممکن است پیوند خراب باشد یا صفحه جابه‌جا شده باشد. جستجو کنید یا از یکی از دسته‌های زیر شروع کنید."
+
+#: 404.php:20
+msgid "Search the store"
+msgstr "جستجو در فروشگاه"
+
+#. translators: %s: number of comments.
+#: comments.php:21
+#, php-format
+msgid "%s comment"
+msgid_plural "%s comments"
+msgstr[0] "%s دیدگاه"
+msgstr[1] "%s دیدگاه"
+
+#: comments.php:40
+msgid "Older comments"
+msgstr "دیدگاه‌های قدیمی‌تر"
+
+#: comments.php:41
+msgid "Newer comments"
+msgstr "دیدگاه‌های تازه‌تر"
+
+#: comments.php:48
+msgid "Comments are closed."
+msgstr "امکان ثبت دیدگاه بسته شده است."
+
+#: footer.php:49
+#: inc/setup.php:53
+msgid "Footer menu"
+msgstr "فهرست پانویس"
+
+#: footer.php:50
+msgid "Quick links"
+msgstr "دسترسی سریع"
+
+#: footer.php:71
+msgid "Privacy policy"
+msgstr "حریم خصوصی"
+
+#. translators: 1: year, 2: site name.
+#: footer.php:86
+#, php-format
+msgid "© %1$s %2$s. All rights reserved."
+msgstr "© %1$s %2$s. همهٔ حقوق محفوظ است."
+
+#: front-page.php:50
+msgid "From the blog"
+msgstr "از وبلاگ"
+
+#: header.php:22
+msgid "Skip to content"
+msgstr "پرش به محتوا"
+
+#: header.php:34
+msgid "Open menu"
+msgstr "باز کردن فهرست"
+
+#: header.php:71
+msgid "Menu"
+msgstr "فهرست"
+
+#: header.php:74
+msgid "Close menu"
+msgstr "بستن فهرست"
+
+#: header.php:88
+msgid "Main menu"
+msgstr "فهرست اصلی"
+
+#: inc/customizer.php:22
+msgid "Home & kitchen"
+msgstr "خانه و آشپزخانه"
+
+#: inc/customizer.php:23
+msgid "Everything a warm home needs, in one place"
+msgstr "هر آنچه یک خانهٔ گرم نیاز دارد، یک‌جا"
+
+#: inc/customizer.php:24
+msgid "Cookware, tableware and home goods, chosen for everyday use. Browse by category or search for exactly what you need."
+msgstr "ظروف پخت‌وپز، ظروف سرو و لوازم خانه، برگزیده برای استفادهٔ هرروزه. دسته‌ها را مرور کنید یا دقیقاً همان چیزی را که لازم دارید جستجو کنید."
+
+#: inc/customizer.php:25
+msgid "Browse the shop"
+msgstr "ورود به فروشگاه"
+
+#: inc/customizer.php:33
+msgid "Delivery across the country"
+msgstr "ارسال به سراسر کشور"
+
+#: inc/customizer.php:34
+msgid "Secure online payment"
+msgstr "پرداخت امن اینترنتی"
+
+#: inc/customizer.php:35
+msgid "Seven-day returns"
+msgstr "هفت روز ضمانت بازگشت"
+
+#: inc/customizer.php:36
+msgid "Support by phone and chat"
+msgstr "پشتیبانی تلفنی و آنلاین"
+
+#: inc/customizer.php:37
+msgid "A store for home and kitchen goods."
+msgstr "فروشگاه لوازم خانه و آشپزخانه."
+
+#: inc/customizer.php:88
+msgid "Sofreh theme"
+msgstr "پوستهٔ سفره"
+
+#: inc/customizer.php:94
+msgid "Header"
+msgstr "سربرگ"
+
+#: inc/customizer.php:95
+msgid "Home page"
+msgstr "صفحهٔ اصلی"
+
+#: inc/customizer.php:96
+#: template-parts/home/trust.php:28
+msgid "Store promises"
+msgstr "تعهدهای فروشگاه"
+
+#: inc/customizer.php:97
+msgid "Product page"
+msgstr "صفحهٔ محصول"
+
+#: inc/customizer.php:98
+msgid "Footer and contact"
+msgstr "پانویس و تماس"
+
+#: inc/customizer.php:132
+msgid "Announcement bar text (leave empty to hide)"
+msgstr "متن نوار اطلاع‌رسانی (برای پنهان شدن خالی بگذارید)"
+
+#: inc/customizer.php:134
+msgid "Show the hero banner"
+msgstr "نمایش بنر اصلی"
+
+#: inc/customizer.php:135
+msgid "Hero: small label"
+msgstr "بنر اصلی: برچسب کوچک"
+
+#: inc/customizer.php:136
+msgid "Hero: heading"
+msgstr "بنر اصلی: عنوان"
+
+#: inc/customizer.php:137
+msgid "Hero: text"
+msgstr "بنر اصلی: متن"
+
+#: inc/customizer.php:138
+msgid "Hero: button label"
+msgstr "بنر اصلی: متن دکمه"
+
+#: inc/customizer.php:152
+msgid "Hero: image"
+msgstr "بنر اصلی: تصویر"
+
+#: inc/customizer.php:153
+msgid "A portrait image works best (about 900 × 1100 pixels). It is shown inside an arched frame."
+msgstr "تصویر عمودی بهترین نتیجه را دارد (حدود ۹۰۰ × ۱۱۰۰ پیکسل). تصویر درون قابی طاق‌دار نمایش داده می‌شود."
+
+#: inc/customizer.php:160
+msgid "Show product categories"
+msgstr "نمایش دسته‌بندی محصولات"
+
+#: inc/customizer.php:161
+msgid "Show newest products"
+msgstr "نمایش جدیدترین محصولات"
+
+#: inc/customizer.php:162
+msgid "Show products on sale"
+msgstr "نمایش محصولات تخفیف‌دار"
+
+#: inc/customizer.php:163
+msgid "Show best sellers"
+msgstr "نمایش پرفروش‌ترین‌ها"
+
+#: inc/customizer.php:167
+msgid "Products per home page section"
+msgstr "تعداد محصول در هر بخش صفحهٔ اصلی"
+
+#: inc/customizer.php:180
+msgid "Show the promises strip on the home page"
+msgstr "نمایش نوار تعهدها در صفحهٔ اصلی"
+
+#: inc/customizer.php:181
+msgid "Only state what your store actually offers. Leave a field empty to hide it."
+msgstr "فقط چیزی را بنویسید که فروشگاه شما واقعاً ارائه می‌دهد. برای پنهان کردن هر مورد، آن را خالی بگذارید."
+
+#: inc/customizer.php:182
+msgid "Promise 1 (delivery)"
+msgstr "تعهد ۱ (ارسال)"
+
+#: inc/customizer.php:183
+msgid "Promise 2 (payment)"
+msgstr "تعهد ۲ (پرداخت)"
+
+#: inc/customizer.php:184
+msgid "Promise 3 (returns)"
+msgstr "تعهد ۳ (بازگشت کالا)"
+
+#: inc/customizer.php:185
+msgid "Promise 4 (support)"
+msgstr "تعهد ۴ (پشتیبانی)"
+
+#: inc/customizer.php:190
+msgid "Note under the add-to-cart button"
+msgstr "یادداشت زیر دکمهٔ افزودن به سبد"
+
+#: inc/customizer.php:193
+msgid "For example your shipping time or return policy. Leave empty to hide."
+msgstr "برای نمونه زمان ارسال یا شرایط بازگشت کالا. برای پنهان شدن خالی بگذارید."
+
+#: inc/customizer.php:196
+msgid "About the store"
+msgstr "دربارهٔ فروشگاه"
+
+#: inc/customizer.php:197
+msgid "Phone"
+msgstr "تلفن"
+
+#: inc/customizer.php:198
+msgid "Email"
+msgstr "ایمیل"
+
+#: inc/customizer.php:199
+msgid "Address"
+msgstr "نشانی"
+
+#: inc/enqueue.php:48
+msgid "Increase quantity"
+msgstr "افزایش تعداد"
+
+#: inc/enqueue.php:49
+msgid "Decrease quantity"
+msgstr "کاهش تعداد"
+
+#: inc/setup.php:52
+msgid "Primary menu"
+msgstr "فهرست اصلی"
+
+#: inc/setup.php:96
+msgid "Blog sidebar"
+msgstr "ستون کناری وبلاگ"
+
+#: inc/setup.php:97
+msgid "Shown beside blog posts and archives."
+msgstr "کنار نوشته‌ها و بایگانی‌های وبلاگ نمایش داده می‌شود."
+
+#: inc/setup.php:107
+msgid "Shop filters"
+msgstr "فیلترهای فروشگاه"
+
+#: inc/setup.php:108
+msgid "Shown beside product listings (shop, categories, tags, product search). If empty, a product category list is shown instead."
+msgstr "کنار فهرست محصولات نمایش داده می‌شود (فروشگاه، دسته‌ها، برچسب‌ها، جستجوی محصول). اگر خالی باشد، فهرست دسته‌بندی محصولات نمایش داده می‌شود."
+
+#. translators: %d: footer column number.
+#: inc/setup.php:120
+#, php-format
+msgid "Footer column %d"
+msgstr "ستون پانویس %d"
+
+#: inc/setup.php:121
+msgid "Use this for links, contact details or trust badges (for example an e-Namad badge via a Custom HTML widget)."
+msgstr "برای پیوندها، اطلاعات تماس یا نمادهای اعتماد (مثلاً نماد اعتماد الکترونیکی با ابزارک «HTML سفارشی») استفاده کنید."
+
+#: inc/template-tags.php:53
+#: template-parts/home/categories.php:20
+msgid "All products"
+msgstr "همهٔ محصولات"
+
+#: inc/template-tags.php:71
+#: inc/woocommerce.php:142
+msgid "Home"
+msgstr "خانه"
+
+#: inc/template-tags.php:115
+msgid "Previous"
+msgstr "قبلی"
+
+#: inc/template-tags.php:116
+msgid "Next"
+msgstr "بعدی"
+
+#: inc/template-tags.php:117
+msgid "Posts navigation"
+msgstr "پیمایش نوشته‌ها"
+
+#: inc/woocommerce.php:92
+msgid "Filter products"
+msgstr "فیلتر محصولات"
+
+#: inc/woocommerce.php:95
+msgid "Close filters"
+msgstr "بستن فیلترها"
+
+#: inc/woocommerce.php:106
+#: template-parts/content/category-links.php:15
+msgid "Product categories"
+msgstr "دسته‌بندی محصولات"
+
+#: inc/woocommerce.php:140
+msgid "Breadcrumb"
+msgstr "مسیر صفحه"
+
+#: inc/woocommerce.php:175
+msgid "Categories"
+msgstr "دسته‌ها"
+
+#: inc/woocommerce.php:201
+msgid "Filters"
+msgstr "فیلترها"
+
+#: inc/woocommerce.php:230
+msgid "Out of stock"
+msgstr "ناموجود"
+
+#: inc/woocommerce.php:296
+msgid "Sale"
+msgstr "حراج"
+
+#. translators: %s: discount percentage, e.g. 20.
+#: inc/woocommerce.php:301
+#, php-format
+msgid "%s%% off"
+msgstr "%s٪ تخفیف"
+
+#. translators: %s: number of items in the cart.
+#: inc/woocommerce.php:393
+#, php-format
+msgid "Cart, %s item"
+msgid_plural "Cart, %s items"
+msgstr[0] "سبد خرید، %s کالا"
+msgstr[1] "سبد خرید، %s کالا"
+
+#: inc/woocommerce.php:401
+msgid "Cart"
+msgstr "سبد خرید"
+
+#: inc/woocommerce.php:429
+msgid "My account"
+msgstr "حساب من"
+
+#: inc/woocommerce.php:429
+msgid "Log in"
+msgstr "ورود"
+
+#: index.php:21
+msgid "Latest posts"
+msgstr "تازه‌ترین نوشته‌ها"
+
+#: page.php:33
+#: single.php:31
+msgid "Page"
+msgstr "صفحه"
+
+#. translators: %s: search query.
+#: search.php:20
+#, php-format
+msgid "Search results for “%s”"
+msgstr "نتایج جستجو برای «%s»"
+
+#: searchform.php:21
+msgid "Product search"
+msgstr "جستجوی محصولات"
+
+#: searchform.php:21
+msgid "Site search"
+msgstr "جستجو در سایت"
+
+#: searchform.php:25
+msgid "Search products"
+msgstr "جستجوی محصولات"
+
+#: searchform.php:25
+#: searchform.php:32
+msgid "Search"
+msgstr "جستجو"
+
+#: searchform.php:26
+msgid "Search products…"
+msgstr "جستجو در محصولات…"
+
+#: searchform.php:26
+msgid "Search…"
+msgstr "جستجو…"
+
+#: sidebar.php:14
+msgid "Sidebar"
+msgstr "ستون کناری"
+
+#: single.php:38
+msgid "Tags:"
+msgstr "برچسب‌ها:"
+
+#: single.php:44
+msgid "Previous post"
+msgstr "نوشتهٔ قبلی"
+
+#: single.php:45
+msgid "Next post"
+msgstr "نوشتهٔ بعدی"
+
+#: template-parts/content/card.php:31
+msgid "Product"
+msgstr "محصول"
+
+#: template-parts/content/none.php:11
+msgid "Nothing found"
+msgstr "چیزی پیدا نشد"
+
+#: template-parts/content/none.php:13
+msgid "Nothing matched your search. Try fewer or different words, or browse a category."
+msgstr "نتیجه‌ای با جستجوی شما مطابقت نداشت. واژه‌های کمتر یا متفاوتی را امتحان کنید، یا یکی از دسته‌ها را ببینید."
+
+#: template-parts/content/none.php:16
+msgid "There is nothing here yet."
+msgstr "هنوز چیزی اینجا نیست."
+
+#: template-parts/home/categories.php:19
+msgid "Shop by category"
+msgstr "خرید بر اساس دسته"
+
+#. translators: %s: number of products.
+#: template-parts/home/categories.php:58
+#, php-format
+msgid "%s product"
+msgid_plural "%s products"
+msgstr[0] "%s محصول"
+msgstr[1] "%s محصول"
+
+#: template-parts/home/hero.php:32
+msgid "See categories"
+msgstr "دیدن دسته‌ها"
+
+#: template-parts/home/products.php:21
+msgid "Newest products"
+msgstr "جدیدترین محصولات"
+
+#: template-parts/home/products.php:30
+msgid "On sale"
+msgstr "تخفیف‌دارها"
+
+#: template-parts/home/products.php:56
+msgid "Best sellers"
+msgstr "پرفروش‌ترین‌ها"
+
+#: template-parts/home/products.php:75
+msgid "View all"
+msgstr "مشاهدهٔ همه"

@@ -1,0 +1,63 @@
+/*
+ * Fallback styles so the confirmation card and tracking form are usable with
+ * any theme. The Sofreh theme restyles these to match its design.
+ */
+.sofreh-pa-card {
+	margin: 0 0 2em;
+	padding: 1.25em;
+	border: 1px solid rgba(0, 0, 0, 0.12);
+	border-radius: 12px;
+}
+
+.sofreh-pa-card__row + .sofreh-pa-card__row {
+	margin-top: 1.25em;
+	padding-top: 1.25em;
+	border-top: 1px solid rgba(0, 0, 0, 0.12);
+}
+
+.sofreh-pa-card__title,
+.sofreh-pa-card__subtitle {
+	margin: 0 0 0.25em;
+	font-size: 1.15em;
+}
+
+.sofreh-pa-value {
+	display: inline-flex;
+	align-items: center;
+	gap: 0.5em;
+}
+
+.sofreh-pa-value code {
+	direction: ltr;
+	unicode-bidi: isolate;
+	padding: 0.2em 0.5em;
+	border-radius: 6px;
+	background: rgba(0, 0, 0, 0.05);
+	font-size: 1.1em;
+	user-select: all;
+}
+
+.sofreh-pa-copy {
+	cursor: pointer;
+}
+
+.sofreh-pa-copy__done,
+.sofreh-pa-copy.is-copied .sofreh-pa-copy__idle {
+	display: none;
+}
+
+.sofreh-pa-copy.is-copied .sofreh-pa-copy__done {
+	display: inline;
+}
+
+.sofreh-pa-credentials {
+	margin: 1em 0;
+}
+
+.sofreh-pa-credentials dd {
+	margin: 0.25em 0 0.75em;
+}
+
+.sofreh-pa-card__warning {
+	font-size: 0.9em;
+}

@@ -1,0 +1,499 @@
+# Copyright (C) 2026 Younes Nur
+# This file is distributed under the GNU General Public License v2 or later.
+msgid ""
+msgstr ""
+"Project-Id-Version: Sofreh 1.0.0\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/theme/sofreh\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2026-10-12T15:55:23+00:00\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"X-Generator: WP-CLI 2.12.0\n"
+"X-Domain: sofreh\n"
+
+#. Theme Name of the theme
+#: style.css:2
+msgid "Sofreh"
+msgstr ""
+
+#. Theme URI of the theme
+#: style.css:3
+msgid "https://github.com/yns-nur/nur/tree/main/wp-theme/sofreh"
+msgstr ""
+
+#. Description of the theme
+#: style.css:6
+msgid "A Persian, right-to-left WooCommerce theme for home and kitchen stores. Warm, calm and legible: category browsing in arched frames, a clear product page, and styled classic and block-based cart, checkout and account pages. Ships with the Vazirmatn typeface and a full Persian (fa_IR) translation."
+msgstr ""
+
+#. Author of the theme
+#: style.css:4
+msgid "Younes Nur"
+msgstr ""
+
+#. Author URI of the theme
+#: style.css:5
+msgid "https://github.com/yns-nur"
+msgstr ""
+
+#: 404.php:15
+msgid "This page could not be found"
+msgstr ""
+
+#: 404.php:16
+msgid "The link may be broken or the page may have moved. Try a search, or start from one of the categories below."
+msgstr ""
+
+#: 404.php:20
+msgid "Search the store"
+msgstr ""
+
+#. translators: %s: number of comments.
+#: comments.php:21
+#, php-format
+msgid "%s comment"
+msgid_plural "%s comments"
+msgstr[0] ""
+msgstr[1] ""
+
+#: comments.php:40
+msgid "Older comments"
+msgstr ""
+
+#: comments.php:41
+msgid "Newer comments"
+msgstr ""
+
+#: comments.php:48
+msgid "Comments are closed."
+msgstr ""
+
+#: footer.php:49
+#: inc/setup.php:53
+msgid "Footer menu"
+msgstr ""
+
+#: footer.php:50
+msgid "Quick links"
+msgstr ""
+
+#: footer.php:71
+msgid "Privacy policy"
+msgstr ""
+
+#. translators: 1: year, 2: site name.
+#: footer.php:86
+#, php-format
+msgid "© %1$s %2$s. All rights reserved."
+msgstr ""
+
+#: front-page.php:50
+msgid "From the blog"
+msgstr ""
+
+#: header.php:22
+msgid "Skip to content"
+msgstr ""
+
+#: header.php:34
+msgid "Open menu"
+msgstr ""
+
+#: header.php:71
+msgid "Menu"
+msgstr ""
+
+#: header.php:74
+msgid "Close menu"
+msgstr ""
+
+#: header.php:88
+msgid "Main menu"
+msgstr ""
+
+#: inc/customizer.php:22
+msgid "Home & kitchen"
+msgstr ""
+
+#: inc/customizer.php:23
+msgid "Everything a warm home needs, in one place"
+msgstr ""
+
+#: inc/customizer.php:24
+msgid "Cookware, tableware and home goods, chosen for everyday use. Browse by category or search for exactly what you need."
+msgstr ""
+
+#: inc/customizer.php:25
+msgid "Browse the shop"
+msgstr ""
+
+#: inc/customizer.php:33
+msgid "Delivery across the country"
+msgstr ""
+
+#: inc/customizer.php:34
+msgid "Secure online payment"
+msgstr ""
+
+#: inc/customizer.php:35
+msgid "Seven-day returns"
+msgstr ""
+
+#: inc/customizer.php:36
+msgid "Support by phone and chat"
+msgstr ""
+
+#: inc/customizer.php:37
+msgid "A store for home and kitchen goods."
+msgstr ""
+
+#: inc/customizer.php:88
+msgid "Sofreh theme"
+msgstr ""
+
+#: inc/customizer.php:94
+msgid "Header"
+msgstr ""
+
+#: inc/customizer.php:95
+msgid "Home page"
+msgstr ""
+
+#: inc/customizer.php:96
+#: template-parts/home/trust.php:28
+msgid "Store promises"
+msgstr ""
+
+#: inc/customizer.php:97
+msgid "Product page"
+msgstr ""
+
+#: inc/customizer.php:98
+msgid "Footer and contact"
+msgstr ""
+
+#: inc/customizer.php:132
+msgid "Announcement bar text (leave empty to hide)"
+msgstr ""
+
+#: inc/customizer.php:134
+msgid "Show the hero banner"
+msgstr ""
+
+#: inc/customizer.php:135
+msgid "Hero: small label"
+msgstr ""
+
+#: inc/customizer.php:136
+msgid "Hero: heading"
+msgstr ""
+
+#: inc/customizer.php:137
+msgid "Hero: text"
+msgstr ""
+
+#: inc/customizer.php:138
+msgid "Hero: button label"
+msgstr ""
+
+#: inc/customizer.php:152
+msgid "Hero: image"
+msgstr ""
+
+#: inc/customizer.php:153
+msgid "A portrait image works best (about 900 × 1100 pixels). It is shown inside an arched frame."
+msgstr ""
+
+#: inc/customizer.php:160
+msgid "Show product categories"
+msgstr ""
+
+#: inc/customizer.php:161
+msgid "Show newest products"
+msgstr ""
+
+#: inc/customizer.php:162
+msgid "Show products on sale"
+msgstr ""
+
+#: inc/customizer.php:163
+msgid "Show best sellers"
+msgstr ""
+
+#: inc/customizer.php:167
+msgid "Products per home page section"
+msgstr ""
+
+#: inc/customizer.php:180
+msgid "Show the promises strip on the home page"
+msgstr ""
+
+#: inc/customizer.php:181
+msgid "Only state what your store actually offers. Leave a field empty to hide it."
+msgstr ""
+
+#: inc/customizer.php:182
+msgid "Promise 1 (delivery)"
+msgstr ""
+
+#: inc/customizer.php:183
+msgid "Promise 2 (payment)"
+msgstr ""
+
+#: inc/customizer.php:184
+msgid "Promise 3 (returns)"
+msgstr ""
+
+#: inc/customizer.php:185
+msgid "Promise 4 (support)"
+msgstr ""
+
+#: inc/customizer.php:190
+msgid "Note under the add-to-cart button"
+msgstr ""
+
+#: inc/customizer.php:193
+msgid "For example your shipping time or return policy. Leave empty to hide."
+msgstr ""
+
+#: inc/customizer.php:196
+msgid "About the store"
+msgstr ""
+
+#: inc/customizer.php:197
+msgid "Phone"
+msgstr ""
+
+#: inc/customizer.php:198
+msgid "Email"
+msgstr ""
+
+#: inc/customizer.php:199
+msgid "Address"
+msgstr ""
+
+#: inc/enqueue.php:48
+msgid "Increase quantity"
+msgstr ""
+
+#: inc/enqueue.php:49
+msgid "Decrease quantity"
+msgstr ""
+
+#: inc/setup.php:52
+msgid "Primary menu"
+msgstr ""
+
+#: inc/setup.php:96
+msgid "Blog sidebar"
+msgstr ""
+
+#: inc/setup.php:97
+msgid "Shown beside blog posts and archives."
+msgstr ""
+
+#: inc/setup.php:107
+msgid "Shop filters"
+msgstr ""
+
+#: inc/setup.php:108
+msgid "Shown beside product listings (shop, categories, tags, product search). If empty, a product category list is shown instead."
+msgstr ""
+
+#. translators: %d: footer column number.
+#: inc/setup.php:120
+#, php-format
+msgid "Footer column %d"
+msgstr ""
+
+#: inc/setup.php:121
+msgid "Use this for links, contact details or trust badges (for example an e-Namad badge via a Custom HTML widget)."
+msgstr ""
+
+#: inc/template-tags.php:53
+#: template-parts/home/categories.php:20
+msgid "All products"
+msgstr ""
+
+#: inc/template-tags.php:71
+#: inc/woocommerce.php:142
+msgid "Home"
+msgstr ""
+
+#: inc/template-tags.php:115
+msgid "Previous"
+msgstr ""
+
+#: inc/template-tags.php:116
+msgid "Next"
+msgstr ""
+
+#: inc/template-tags.php:117
+msgid "Posts navigation"
+msgstr ""
+
+#: inc/woocommerce.php:92
+msgid "Filter products"
+msgstr ""
+
+#: inc/woocommerce.php:95
+msgid "Close filters"
+msgstr ""
+
+#: inc/woocommerce.php:106
+#: template-parts/content/category-links.php:15
+msgid "Product categories"
+msgstr ""
+
+#: inc/woocommerce.php:140
+msgid "Breadcrumb"
+msgstr ""
+
+#: inc/woocommerce.php:175
+msgid "Categories"
+msgstr ""
+
+#: inc/woocommerce.php:201
+msgid "Filters"
+msgstr ""
+
+#: inc/woocommerce.php:230
+msgid "Out of stock"
+msgstr ""
+
+#: inc/woocommerce.php:296
+msgid "Sale"
+msgstr ""
+
+#. translators: %s: discount percentage, e.g. 20.
+#: inc/woocommerce.php:301
+#, php-format
+msgid "%s%% off"
+msgstr ""
+
+#. translators: %s: number of items in the cart.
+#: inc/woocommerce.php:393
+#, php-format
+msgid "Cart, %s item"
+msgid_plural "Cart, %s items"
+msgstr[0] ""
+msgstr[1] ""
+
+#: inc/woocommerce.php:401
+msgid "Cart"
+msgstr ""
+
+#: inc/woocommerce.php:429
+msgid "My account"
+msgstr ""
+
+#: inc/woocommerce.php:429
+msgid "Log in"
+msgstr ""
+
+#: index.php:21
+msgid "Latest posts"
+msgstr ""
+
+#: page.php:33
+#: single.php:31
+msgid "Page"
+msgstr ""
+
+#. translators: %s: search query.
+#: search.php:20
+#, php-format
+msgid "Search results for “%s”"
+msgstr ""
+
+#: searchform.php:21
+msgid "Product search"
+msgstr ""
+
+#: searchform.php:21
+msgid "Site search"
+msgstr ""
+
+#: searchform.php:25
+msgid "Search products"
+msgstr ""
+
+#: searchform.php:25
+#: searchform.php:32
+msgid "Search"
+msgstr ""
+
+#: searchform.php:26
+msgid "Search products…"
+msgstr ""
+
+#: searchform.php:26
+msgid "Search…"
+msgstr ""
+
+#: sidebar.php:14
+msgid "Sidebar"
+msgstr ""
+
+#: single.php:38
+msgid "Tags:"
+msgstr ""
+
+#: single.php:44
+msgid "Previous post"
+msgstr ""
+
+#: single.php:45
+msgid "Next post"
+msgstr ""
+
+#: template-parts/content/card.php:31
+msgid "Product"
+msgstr ""
+
+#: template-parts/content/none.php:11
+msgid "Nothing found"
+msgstr ""
+
+#: template-parts/content/none.php:13
+msgid "Nothing matched your search. Try fewer or different words, or browse a category."
+msgstr ""
+
+#: template-parts/content/none.php:16
+msgid "There is nothing here yet."
+msgstr ""
+
+#: template-parts/home/categories.php:19
+msgid "Shop by category"
+msgstr ""
+
+#. translators: %s: number of products.
+#: template-parts/home/categories.php:58
+#, php-format
+msgid "%s product"
+msgid_plural "%s products"
+msgstr[0] ""
+msgstr[1] ""
+
+#: template-parts/home/hero.php:32
+msgid "See categories"
+msgstr ""
+
+#: template-parts/home/products.php:21
+msgid "Newest products"
+msgstr ""
+
+#: template-parts/home/products.php:30
+msgid "On sale"
+msgstr ""
+
+#: template-parts/home/products.php:56
+msgid "Best sellers"
+msgstr ""
+
+#: template-parts/home/products.php:75
+msgid "View all"
+msgstr ""
