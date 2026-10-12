@@ -14,7 +14,6 @@ colors:
   line-strong: "#d6d0c7"
   ink: "#191d34"
   muted: "#5e6275"
-  placeholder: "#6f737a"
   error: "#b32228"
   error-soft: "#ffece9"
   error-ink: "#8c211d"
@@ -244,7 +243,7 @@ components:
   tabbar-item-current:
     textColor: "{colors.accent}"
   tabbar-marker:
-    backgroundColor: "{colors.saffron}"
+    backgroundColor: "{colors.accent}"
     rounded: "{rounded.xs}"
     width: "24px"
     height: "4px"
@@ -345,12 +344,12 @@ Motion is moderate and purposeful. There is one authored moment, add to cart: th
 A warm porcelain field set with Persian jewels: lapis does the work, saffron marks the savings, plum gives depth, and red is kept for errors. All contrast figures below are WCAG 2.x ratios measured on the solid colours.
 
 ### Primary
-- **Lapis** (#2d48c0): primary buttons and add to cart (including the card button's hover and loading fill), running text links, the text wordmark and the footer store name. It also marks current state: the current tab-bar item's icon and label, the current sort link, product tab, sign-in tab and filter category, and the mega-menu underline. Lapis is also used for "View all" links, the quantity steps, the price-slider range and handle, checkbox and radio fills, the category initial, the text caret, text selection, the account-created check, and names hovered in the mega menu, ranking, cart and widgets. White on Lapis is 7.50:1. As text it reads 7.50:1 on white, 6.84:1 on the porcelain ground and 6.56:1 on Lapis Wash.
+- **Lapis** (#2d48c0): primary buttons and add to cart (including the card button's hover and loading fill), running text links, the text wordmark and the footer store name. It also marks current state: the current tab-bar item's icon, bold label and 24 × 4px top marker, the current sort link, product tab, sign-in tab and filter category, and the mega-menu underline. Lapis is also used for "View all" links, the quantity steps, the price-slider range and handle, checkbox and radio fills, the category initial, the text caret, text selection, the account-created check, and names hovered in the mega menu, ranking, cart and widgets. White on Lapis is 7.50:1. As text it reads 7.50:1 on white, 6.84:1 on the porcelain ground and 6.56:1 on Lapis Wash.
 - **Deep Lapis** (#1e339b): the hover and focus fill of primary buttons, the hover colour of links and the wordmark, the current My Account menu item (9.18:1 on Lapis Wash), and the shadow end of the lapis banner tone. White on it is 10.49:1. The focus colour shares this value.
 - **Lapis Wash** (#e9f0ff): the quantity-step hover fill and the current My Account menu item on desktop. The info notice background shares this value.
 
 ### Secondary
-- **Saffron** (#faab35): offers and small marks. It fills the discount tag and the cart count, both with Indigo Ink type (8.64:1), and draws the 14px khatam star before every section title. It also forms the 24 × 4px current-tab marker, the filled rating stars and the sticky-post star (as `star`), the saffron banner tone, the saffron end of the header rule, and the "account after payment" dot. Saffron is never text. Against white it measures only 1.92:1, so it is always a fill under ink or a decorative mark.
+- **Saffron** (#faab35): offers and small marks. It fills the discount tag and the cart count, both with Indigo Ink type (8.64:1), and draws the 14px khatam star before every section title. It also forms the filled rating stars and the sticky-post star (as `star`), the saffron banner tone, the saffron end of the header rule, and the "account after payment" dot. Saffron is never text. Against white it measures only 1.92:1, so it is always a fill under ink or a decorative mark.
 - **Saffron Cream** (#fff0d0): the 5px halo around the waiting dot on the confirmation card, and nothing else.
 
 ### Tertiary
@@ -358,8 +357,8 @@ A warm porcelain field set with Persian jewels: lapis does the work, saffron mar
 
 ### Jewel Fields
 The banner tones and the offers band are gradients of the jewels under the khatam lattice. Their intermediate stops are literals in the stylesheet, not tokens.
-- **Lapis banner** (the default first slide): `radial-gradient(120% 140% at 100% 0%, #4562dc 0%, Lapis 42%, Deep Lapis 100%)` under the light lattice. The white headline is 5.21:1 at the highlight stop and 7.50:1 on Lapis. The 88%-white line beneath it is 6.20:1 on Lapis, but only 4.43:1 against the bare highlight stop in the top-right corner.
-- **Plum banner**: `radial-gradient(120% 140% at 100% 0%, #8a3aa0 0%, Plum 50%, #4a1859 100%)` under the light lattice. White is 6.58:1 at the highlight, and the 88% line is 5.47:1 there.
+- **Lapis banner** (the default first slide): `radial-gradient(120% 140% at 100% 0%, #4562dc 0%, Lapis 42%, Deep Lapis 100%)` under the light lattice. The white headline is 5.21:1 at the highlight stop and 7.50:1 on Lapis. The 95%-white line beneath it is 6.94:1 on Lapis and 4.87:1 against the bare highlight stop in the top-right corner.
+- **Plum banner**: `radial-gradient(120% 140% at 100% 0%, #8a3aa0 0%, Plum 50%, #4a1859 100%)` under the light lattice. White is 6.58:1 at the highlight, and the 95% line is 6.10:1 there.
 - **Saffron banner**: `radial-gradient(120% 140% at 100% 0%, #ffc56a 0%, Saffron 55%, #f29a1f 100%)` under the dark lattice. The headline turns Indigo Ink (7.43:1 at the darkest stop, 10.62:1 at the highlight), the line is ink at 82% (5.38:1 at the darkest stop), and the button inverts to ink with white type (16.58:1).
 - **Offers band**: `linear-gradient(110deg, Lapis 0%, #4a37b0 48%, Plum 100%)` under the light lattice. The white title and "View all" read 7.50:1 at the lapis end, 8.52:1 at the violet midpoint and 10.01:1 at the plum end.
 - **Khatam lattice**: a 64px tile holding one eight-point star (20px outer radius) at its centre and quarter stars at its corners, so the stars form a diagonal lattice. Strokes are 1px: white at 13% on lapis and plum (`--pattern-light`), and Indigo Ink at 9% on saffron (`--pattern-dark`). They are hairlines, far too faint to carry or spoil legibility.
@@ -372,7 +371,7 @@ The banner tones and the offers band are gradients of the jewels under the khata
 - **Control Rule** (#d6d0c7): the stroke on inputs, ghost buttons, chips, the quantity stepper, the card add-to-cart button, the guest header action, copy buttons, "Back to top", and the dashed code boxes. It also colours the unfilled stars and the category circle's hover ring.
 - **Indigo Ink** (#191d34): all primary text, headings, prices and ranking numerals, the current pagination page, the announcement and store-notice bars, everything written on Saffron, and the saffron banner's button. 16.58:1 on white, 15.11:1 on Porcelain.
 - **Quiet Slate** (#5e6275): secondary text such as breadcrumbs, result counts, old prices, the currency name, footer links, help text and switch lines. It also colours inactive tab-bar, product and sign-in tabs, and fills the sold-out badge (white on it 6.03:1). 6.03:1 on white, 5.50:1 on Porcelain.
-- **Placeholder Grey** (#6f737a): input placeholders only. 4.76:1 on white, 4.34:1 in the Porcelain header search at rest (the field turns white on focus).
+- **Placeholders** use Muted Slate (#5e6275): 6.03:1 on white, 5.50:1 in the Porcelain header search at rest (the field turns white on focus).
 
 ### Functional
 - **Error Red** (#b32228) with **Error Blush** (#ffece9) and **Error Maroon** (#8c211d): errors only. Error Red marks required-field asterisks, invalid-field borders and inline messages (6.61:1 on white, 6.03:1 on Porcelain), out-of-stock stock text, and the remove button's hover (a red cross on Error Blush, 5.80:1). Error Maroon on Error Blush (7.84:1) carries error notices, the weak-password meter, and failed, cancelled and refunded order statuses.
@@ -380,12 +379,12 @@ The banner tones and the offers band are gradients of the jewels under the khata
 - **Info Wash** (#e9f0ff) with **Info Navy** (#1d3f6b): info notices (9.30:1), the checkout account note and the phone-login hint.
 - **Caution Wash** (#fff4e0) with **Caution Brown** (#7a4d00): the "medium" password meter and the save-your-password warning (6.67:1).
 - **Rating Saffron** (`star`, #faab35): the filled part of star ratings and the sticky-post star. It is the Saffron value under its own name.
-- **Focus Lapis** (`focus`, #1e339b): the 2px focus outline, offset by 2px (10.49:1 on white, 9.56:1 on Porcelain, 5.47:1 on the saffron banner), and the border of a focused field, which also gets a 3px Lapis ring at 20%. Where the outline falls on a jewel field (the offers band, lapis and plum banner slides), it turns white (5.21:1 or better).
+- **Focus Lapis** (`focus`, #1e339b): the 2px focus outline, offset by 2px (10.49:1 on white, 9.56:1 on Porcelain, 5.47:1 on the saffron banner), and the border of a focused field, which also gets a 3px Lapis ring at 20%. Where the outline falls on a jewel field (the offers band's header and arrows, lapis and plum banner slides), it turns white (5.21:1 or better); inside the band's white cells it stays Focus Lapis.
 
 ### Named Rules
 **The Lapis Means Acting Rule.** Lapis marks what you can press and where you are: buttons, links, the wordmark, current tabs, sort links and filters. Sale prices and headings stay ink. The only large lapis fields are the lapis banner tone and the offers band.
 
-**The Saffron Means Saving Rule.** Saffron belongs to offers and small marks: discount tags, the cart count, the section star, the current-tab marker, rating stars and the saffron banner tone. It is always a fill or a mark, never text, and anything written on it is Indigo Ink.
+**The Saffron Means Saving Rule.** Saffron belongs to offers and small marks: discount tags, the cart count, the section star, rating stars and the saffron banner tone. It is always a fill or a mark, never text, and anything written on it is Indigo Ink.
 
 **The Red Means Error Rule.** Error Red and its washes appear only where something is wrong, unavailable or being removed: required asterisks, invalid fields, error notices, out-of-stock, failed statuses and the remove hover. No action, offer, price or ornament is red.
 
@@ -469,7 +468,7 @@ The corners are softly rounded and step up with size:
 Product cells themselves are square-cornered. The rounding belongs to the grid's panel, and cells divide it with hairlines. Strokes are 1px throughout. The only heavier lines are state indicators and the header rule:
 - a 2px underline on the current sort link, product tab, mega toggle and (on phones) account-menu item;
 - a 3px underline on the selected sign-in tab;
-- a 24 × 4px saffron marker, its lower corners rounded to 4px, on the current tab-bar item;
+- a 24 × 4px lapis marker, its lower corners rounded to 4px, and a bold label on the current tab-bar item (not hue alone);
 - the 3px jewel rule along the top of the header.
 
 The one ornament is geometric. The khatam is an eight-point star, drawn two ways: as 1px outlines repeating on a 64px lattice, and as a small solid mark (a 24-unit star drawn at 14px) before section titles. It is flat, static and never enlarged into an illustration.
@@ -529,7 +528,7 @@ The dense marketplace cell, built so a whole row scans as one line.
 
 ### Banner Carousel
 - **Frame and slides:** a full-container frame with 16px corners. Each slide is one jewel tone under the khatam lattice: Lapis (the default), Plum or Saffron. The merchant picks the tone per slide; tones saved by theme 2.0 map teal to Lapis, dark to Plum and red to Saffron.
-- **Copy:** a Display headline, a short line (40ch max) and a 42px button, with an optional square product image beside them. On Lapis and Plum the headline is white, the line is 88% white and the button is white with ink text. On Saffron the headline is ink, the line is ink at 82% and the button is ink with white text. On phones the copy sits low and the image shrinks.
+- **Copy:** a Display headline, a short line (40ch max) and a 42px button, with an optional square product image beside them. On Lapis and Plum the headline is white, the line is 95% white and the button is white with ink text. On Saffron the headline is ink, the line is ink at 82% and the button is ink with white text. On phones the copy sits low and the image shrinks.
 - **Controls:** native scroll-snap means it swipes with no script. The script adds dots in a translucent dark capsule (the current dot stretches from 8px to 22px), white round previous/next buttons (above 700px), and a pause/play button. Focus outlines on the Lapis and Plum slides are white.
 - **Autoplay:** advances every 6s. It pauses while the pointer, a touch or keyboard focus is inside, and stays paused once the shopper presses pause. Under reduced motion it never starts and the pause button is hidden.
 
@@ -596,7 +595,7 @@ The dense marketplace cell, built so a whole row scans as one line.
 ### Do:
 - **Do** set every content block as its own white panel (16px corners, resting shadow) on the Porcelain (#f7f4ef) ground, separated by the 12–20px gap.
 - **Do** keep Lapis (#2d48c0) for actions, links, the wordmark and current-state indicators, and Deep Lapis (#1e339b) for their hover and focus.
-- **Do** keep Saffron (#faab35) for discount tags, the cart count, the section star, the current-tab marker and rating stars, always with Indigo Ink (#191d34) on it.
+- **Do** keep Saffron (#faab35) for discount tags, the cart count, the section star and rating stars, always with Indigo Ink (#191d34) on it.
 - **Do** keep Error Red (#b32228) and its washes for errors only: required asterisks, invalid fields, out-of-stock, the remove hover, error notices and failed statuses.
 - **Do** lay the khatam lattice (64px tile, 1px strokes, white at 13% on lapis and plum, ink at 9% on saffron) over banner slides and the offers band, and lead every section title with the 14px saffron khatam star.
 - **Do** tint the resting, floating and edge shadows from Indigo Ink (`rgb(25 29 52 / x)`).

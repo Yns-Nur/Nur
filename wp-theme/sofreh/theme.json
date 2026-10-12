@@ -184,11 +184,11 @@
 		"elements": {
 			"link": {
 				"color": {
-					"text": "var(--wp--preset--color--accent-deep)"
+					"text": "var(--wp--preset--color--accent)"
 				},
 				":hover": {
 					"color": {
-						"text": "var(--wp--preset--color--ink)"
+						"text": "var(--wp--preset--color--accent-deep)"
 					}
 				}
 			},
@@ -207,7 +207,7 @@
 					"text": "var(--wp--preset--color--surface)"
 				},
 				"border": {
-					"radius": "8px",
+					"radius": "6px",
 					"width": "0"
 				},
 				"typography": {

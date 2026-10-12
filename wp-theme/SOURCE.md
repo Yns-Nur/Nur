@@ -1201,11 +1201,11 @@ which WordPress requires; it is intentionally not enqueued.
 		"elements": {
 			"link": {
 				"color": {
-					"text": "var(--wp--preset--color--accent-deep)"
+					"text": "var(--wp--preset--color--accent)"
 				},
 				":hover": {
 					"color": {
-						"text": "var(--wp--preset--color--ink)"
+						"text": "var(--wp--preset--color--accent-deep)"
 					}
 				}
 			},
@@ -1224,7 +1224,7 @@ which WordPress requires; it is intentionally not enqueued.
 					"text": "var(--wp--preset--color--surface)"
 				},
 				"border": {
-					"radius": "8px",
+					"radius": "6px",
 					"width": "0"
 				},
 				"typography": {
@@ -1448,7 +1448,7 @@ ol {
 	padding-inline-start: 1.4em;
 }
 
-/* Text links use the deeper red: 4.5:1 or better on both white and the grey ground. */
+/* Text links in lapis: 7.5:1 on white, 6.8:1 on the porcelain ground. */
 a {
 	color: var(--c-accent);
 	text-decoration-thickness: 1px;
@@ -1825,7 +1825,7 @@ input[type="radio"] {
 
 select {
 	appearance: none;
-	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5l5-5' fill='none' stroke='%2362666d' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E");
+	background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1.5 6 6.5l5-5' fill='none' stroke='%235e6275' stroke-width='1.6' stroke-linecap='round'/%3E%3C/svg%3E");
 	background-repeat: no-repeat;
 	background-position: left 14px center;
 	padding-inline-end: 2.4em;
@@ -1836,7 +1836,7 @@ html:not([dir="rtl"]) select {
 }
 
 ::placeholder {
-	color: #6f737a; /* 4.6:1 on white. */
+	color: var(--c-muted); /* 6:1 on white, 5.5:1 on the porcelain ground. */
 	opacity: 1;
 }
 
@@ -1915,7 +1915,7 @@ input[type="search"]::-webkit-search-cancel-button {
 	}
 }
 
-/* Signature: a thin lapis–plum–saffron line along the top of the header. */
+/* Signature: a thin line along the top of the header, lapis at the start (right in RTL) through plum to saffron. */
 .site-header::before {
 	content: "";
 	display: block;
@@ -2414,6 +2414,7 @@ html:not([dir="rtl"]) .site-drawer {
 	.tabbar__item.is-current,
 	.tabbar__item[aria-current="page"] {
 		color: var(--c-accent);
+		font-weight: 700;
 	}
 
 	.tabbar__item.is-current::before {
@@ -2423,7 +2424,7 @@ html:not([dir="rtl"]) .site-drawer {
 		width: 24px;
 		height: 4px;
 		border-radius: 0 0 4px 4px;
-		background: var(--c-saffron);
+		background: var(--c-accent);
 	}
 
 	.tabbar__icon {
@@ -2537,7 +2538,7 @@ html:not([dir="rtl"]) .site-drawer {
 .banner__text {
 	max-width: 40ch;
 	margin: 0 0 18px;
-	color: rgb(255 255 255 / 88%);
+	color: rgb(255 255 255 / 95%); /* ≥4.5:1 even on the lightest corner of the lapis banner. */
 	font-size: clamp(0.875rem, 0.8rem + 0.3vw, 1.0625rem);
 }
 
@@ -2875,7 +2876,9 @@ html:not([dir="rtl"]) .strip__more:hover .icon {
 		linear-gradient(110deg, var(--c-accent) 0%, #4a37b0 48%, var(--c-plum) 100%);
 }
 
-.strip--deals :focus-visible,
+/* White focus rings only where the band's colour is behind them, not in its white cells. */
+.strip--deals .strip__head :focus-visible,
+.strip--deals .strip__arrow:focus-visible,
 .banner__slide:not(.tone-saffron) :focus-visible {
 	outline-color: #fff;
 }
