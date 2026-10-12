@@ -33,7 +33,8 @@ login details are shown on the order confirmation page.
   mobile number (it becomes the username), an email address (WooCommerce
   requires one for sign-up) and a password the customer chooses.
 * Customers sign in later with the mobile number (any digit form) and the
-  password, and are reminded on their dashboard to complete their account.
+  password, and are reminded on their dashboard to complete their account. The
+  login field is labelled "Mobile number or email".
 * A [sofreh_order_tracking] form (a "Track your order" page is created on
   activation) shows status, date, total and items for a tracking code + mobile
   number pair. Addresses and other personal details are never shown there.
@@ -56,6 +57,7 @@ there); on the classic checkout the email becomes optional.
 
 = 1.1.0 =
 * Manual sign-up on My Account with the mobile number as the username.
+* Login field labelled "Mobile number or email".
 
 = 1.0.0 =
 * First release.

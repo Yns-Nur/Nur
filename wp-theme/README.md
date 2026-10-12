@@ -110,7 +110,8 @@ branding). The direction is recorded in `.impeccable/surfaces/sofreh.md`.
   explicitly, so the store reads Persian while orders and data keep ASCII digits.
   Fields where Latin digits are expected (email, URL, password, SKU) use plain
   Vazirmatn.
-- *Prices.* Discount badges show the real percentage; variable products whose
+- *Prices.* The discount badge («۱۶٪», read out as «۱۶٪ تخفیف») sits beside the
+  price, as on Iranian marketplaces, not over the photo. Variable products whose
   options cost different amounts show "از <lowest price>" (From …) instead of a
   two-price range that wraps badly in narrow cards. The chosen option's own price
   still appears when it is picked.
@@ -179,8 +180,11 @@ what provides phone checkout, automatic accounts and mobile-number sign-up.
 2. **Theme.** Appearance → Themes → Add New → Upload `sofreh.zip` → Activate.
 3. **WooCommerce.** Install and activate it. In WooCommerce → Settings → General
    set *Currency: Iranian toman (IRT)* or *Rial (IRR)*, *Number of decimals: 0*,
-   store address and selling location (Iran). A Persian thousands separator
-   (`٬`) is optional. Add shipping zones and payment methods; Iranian bank
+   store address and selling location (Iran). Keep *Currency position* on
+   **Left** or **Left with space** (WooCommerce's default): in right-to-left
+   text that prints «۲٬۷۵۰٬۰۰۰ تومان», while the *Right* options print the
+   currency before the number (checked in the test store). A Persian thousands
+   separator (`٬`) is optional. Add shipping zones and payment methods; Iranian bank
    gateways are separate plugins and are not part of this theme.
 4. **Phone checkout and accounts.** Plugins → Add New → Upload
    `sofreh-phone-accounts.zip` → Activate. Activation:
@@ -194,15 +198,21 @@ what provides phone checkout, automatic accounts and mobile-number sign-up.
 
    The classic checkout (`[woocommerce_checkout]`) makes email optional; the
    Checkout block always asks for an email (a WooCommerce limitation). Manual
-   sign-up asks for mobile, email and password (WooCommerce requires an email to
-   sign up).
+   sign-up asks for mobile, email and password: WooCommerce's own sign-up
+   (`wc_create_new_customer()`) rejects an empty email before any filter runs,
+   and replacing its handler would also bypass captcha/anti-spam plugins that
+   hook into it, so the email stays required there. The login field is
+   relabelled «شماره موبایل یا ایمیل».
+
 5. **Customize.** Appearance → Customize → *Sofreh theme*:
    - *Banner 1–3*: heading, text, button label, link, background tone (teal,
      ink, red) and image. A slide shows only when it has a heading; with one
      slide there are no carousel controls.
    - *Home page*: which sections show (categories, special offers, newest, best
      sellers, promises) and how many products per strip.
-   - *Store promises*: rewrite them to match your real policies, or clear them.
+   - *Store promises*: empty on a fresh install, so the store never claims a
+     policy it didn't write; the strip appears once you enter them (examples
+     are shown as placeholders).
    - Product-page note, announcement bar, footer text and contact details.
 
    Menus: assign a *Primary menu* (shown beside the category button; until then
@@ -255,6 +265,7 @@ listed as needing a live site:
 | Code | **PHPCS**: WordPress Coding Standards + PHP 7.4+ compatibility, theme and plugin | ✅ 0 errors, 0 warnings |
 | Code | `php -l` on every PHP file; `node --check` on every JS file | ✅ |
 | Design | impeccable design detector on all changed CSS/PHP/JS | ✅ 0 findings (2 false positives from a CSS-border triangle fixed by switching to `clip-path`) |
+| Design | Independent finish review from screenshots (fresh reviewer, no build context) | ✅ its 8 material fixes applied: price reading order (WooCommerce's `<bdi>` was being stripped by `wp_kses_post`), "From" price unit, no default store promises, compact phone cart, one panel level on store pages, notice focus ring and select2 arrow, SVG stars and remove icon, account icon in the phone header. One declined, see Setup step 4 (sign-up email). |
 | RTL | `<html dir="rtl" lang="fa-IR">`; layout mirrors (gallery/details/buy box order, drawers from the right, chevrons, badges, carousel direction incl. RTL scroll offsets) | ✅ (screenshots reviewed) |
 | Persian | All theme and plugin UI strings translated (0 missing); Persian digits in prices including struck-through prices; Latin digits kept in SKU/email/password | ✅ |
 | Responsive | 15 page types × 3 widths (1366/820/390): **no horizontal overflow, no JS errors** (home, shop, category, sub-category, simple & variable product, product search, no results, cart, checkout, account, tracking, post, 404) | ✅ 45/45 |
@@ -292,6 +303,9 @@ listed as needing a live site:
       still worth doing).
 - [ ] Your real product photos: the layout was checked with plain placeholder
       artwork.
+- [ ] Password recovery for phone-only accounts: an account created at checkout
+      without an email can't use "Lost password" (it sends an email). Add an SMS
+      login/OTP plugin, or reset such passwords from Users in the admin.
 
 ### Security notes on the phone-account flow
 

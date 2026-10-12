@@ -2,7 +2,7 @@
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Sofreh 1.0.0\n"
+"Project-Id-Version: Sofreh 2.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/sofreh\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Persian\n"
@@ -11,7 +11,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"POT-Creation-Date: 2026-10-12T17:10:02+00:00\n"
+"POT-Creation-Date: 2026-10-12T17:32:00+00:00\n"
 "PO-Revision-Date: 2026-10-12 12:00+0330\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: sofreh\n"
@@ -28,8 +28,8 @@ msgstr "https://github.com/yns-nur/nur/tree/main/wp-theme/sofreh"
 
 #. Description of the theme
 #: style.css:6
-msgid "A Persian, right-to-left WooCommerce theme for home and kitchen stores. Warm, calm and legible: category browsing in arched frames, a clear product page, and styled classic and block-based cart, checkout and account pages. Ships with the Vazirmatn typeface and a full Persian (fa_IR) translation."
-msgstr "پوسته‌ای فارسی و راست‌چین برای فروشگاه‌های لوازم خانه و آشپزخانه بر پایهٔ ووکامرس. گرم، آرام و خوانا: مرور دسته‌ها در قاب‌های طاق‌دار، صفحهٔ محصول روشن، و سبد خرید، تسویه حساب و حساب کاربری آراسته در هر دو نسخهٔ کلاسیک و بلوکی. همراه با قلم وزیرمتن و ترجمهٔ کامل فارسی."
+msgid "A Persian, right-to-left WooCommerce theme for home and kitchen stores, built phone-first in the familiar Iranian marketplace layout: product search up front, a category mega menu and drawer, a swipeable banner, a red special-offers strip, a numbered best-seller list, a sticky buy box and buy bar on product pages, and a bottom tab bar on phones. Styles the classic and block cart, checkout and account pages. Ships with the Vazirmatn typeface and a full Persian (fa_IR) translation."
+msgstr "پوسته‌ای فارسی و راست‌به‌چپ برای فروشگاه‌های ووکامرسی لوازم خانه و آشپزخانه، با اولویت موبایل و در چیدمان آشنای فروشگاه‌های اینترنتی ایرانی: جست‌وجوی محصول در بالای صفحه، منوی دسته‌بندی‌ها و کشوی دسته‌ها، بنر قابل کشیدن، نوار قرمز پیشنهادهای ویژه، فهرست شماره‌دار پرفروش‌ترین‌ها، جعبهٔ خرید و نوار خرید چسبان در صفحهٔ محصول و نوار پایینی در موبایل. سبد خرید، تسویه حساب و حساب کاربری (کلاسیک و بلوکی) را هماهنگ می‌کند. همراه با قلم وزیرمتن و ترجمهٔ کامل فارسی."
 
 #. Author of the theme
 #: style.css:4
@@ -144,7 +144,7 @@ msgid "Categories"
 msgstr "دسته‌ها"
 
 #: header.php:141
-#: inc/woocommerce.php:555
+#: inc/woocommerce.php:605
 msgid "My account"
 msgstr "حساب من"
 
@@ -164,174 +164,174 @@ msgstr "ظروف پخت‌وپز، سرو و لوازم ضروری خانه بر
 msgid "See the products"
 msgstr "دیدن محصولات"
 
-#: inc/customizer.php:46
-msgid "Delivery across the country"
-msgstr "ارسال به سراسر کشور"
-
-#: inc/customizer.php:47
-msgid "Secure online payment"
-msgstr "پرداخت امن اینترنتی"
-
-#: inc/customizer.php:48
-msgid "Seven-day returns"
-msgstr "هفت روز ضمانت بازگشت"
-
-#: inc/customizer.php:49
-msgid "Support by phone and chat"
-msgstr "پشتیبانی تلفنی و آنلاین"
-
-#: inc/customizer.php:50
+#: inc/customizer.php:51
 msgid "A store for home and kitchen goods."
 msgstr "فروشگاه لوازم خانه و آشپزخانه."
 
-#: inc/customizer.php:139
+#: inc/customizer.php:140
 msgid "Sofreh theme"
 msgstr "پوستهٔ سفره"
 
-#: inc/customizer.php:145
+#: inc/customizer.php:146
 msgid "Header"
 msgstr "سربرگ"
 
-#: inc/customizer.php:146
+#: inc/customizer.php:147
 msgid "Home page"
 msgstr "صفحهٔ اصلی"
 
-#: inc/customizer.php:147
+#: inc/customizer.php:148
 #: template-parts/home/trust.php:28
 msgid "Store promises"
 msgstr "تعهدهای فروشگاه"
 
-#: inc/customizer.php:148
+#: inc/customizer.php:149
 msgid "Product page"
 msgstr "صفحهٔ محصول"
 
-#: inc/customizer.php:149
+#: inc/customizer.php:150
 msgid "Footer and contact"
 msgstr "پانویس و تماس"
 
-#: inc/customizer.php:183
+#: inc/customizer.php:184
 msgid "Announcement bar text (leave empty to hide)"
 msgstr "متن نوار اطلاع‌رسانی (برای پنهان شدن خالی بگذارید)"
 
-#: inc/customizer.php:185
+#: inc/customizer.php:186
 msgid "Show the banner"
 msgstr "نمایش بنر"
 
-#: inc/customizer.php:188
+#: inc/customizer.php:189
 msgid "Teal"
 msgstr "سبزآبی"
 
-#: inc/customizer.php:189
+#: inc/customizer.php:190
 msgid "Dark"
 msgstr "تیره"
 
-#: inc/customizer.php:190
+#: inc/customizer.php:191
 msgid "Red"
 msgstr "قرمز"
 
 #. translators: %d: banner slide number.
-#: inc/customizer.php:198
+#: inc/customizer.php:199
 #, php-format
 msgid "Banner %d"
 msgstr "بنر %d"
 
-#: inc/customizer.php:202
+#: inc/customizer.php:203
 msgid "heading"
 msgstr "عنوان"
 
-#: inc/customizer.php:205
+#: inc/customizer.php:206
 msgid "Leave empty to hide this slide."
 msgstr "برای پنهان کردن این اسلاید خالی بگذارید."
 
-#: inc/customizer.php:207
+#: inc/customizer.php:208
 msgid "text"
 msgstr "متن"
 
-#: inc/customizer.php:208
+#: inc/customizer.php:209
 msgid "button label"
 msgstr "متن دکمه"
 
-#: inc/customizer.php:209
+#: inc/customizer.php:210
 msgid "link (empty = shop page)"
 msgstr "پیوند (خالی = صفحهٔ فروشگاه)"
 
-#: inc/customizer.php:210
+#: inc/customizer.php:211
 msgid "background"
 msgstr "رنگ پس‌زمینه"
 
-#: inc/customizer.php:224
+#: inc/customizer.php:225
 msgid "image"
 msgstr "تصویر"
 
-#: inc/customizer.php:225
+#: inc/customizer.php:226
 msgid "A product photo on a plain or transparent background works best (about 800 × 800 pixels)."
 msgstr "عکس محصول روی زمینهٔ ساده یا شفاف بهترین نتیجه را دارد (حدود ۸۰۰ × ۸۰۰ پیکسل)."
 
-#: inc/customizer.php:233
+#: inc/customizer.php:234
 msgid "Show product categories"
 msgstr "نمایش دسته‌بندی محصولات"
 
-#: inc/customizer.php:234
+#: inc/customizer.php:235
 msgid "Show newest products"
 msgstr "نمایش جدیدترین محصولات"
 
-#: inc/customizer.php:235
+#: inc/customizer.php:236
 msgid "Show products on sale"
 msgstr "نمایش محصولات تخفیف‌دار"
 
-#: inc/customizer.php:236
+#: inc/customizer.php:237
 msgid "Show best sellers"
 msgstr "نمایش پرفروش‌ترین‌ها"
 
-#: inc/customizer.php:240
+#: inc/customizer.php:241
 msgid "Products per home page section"
 msgstr "تعداد محصول در هر بخش صفحهٔ اصلی"
 
-#: inc/customizer.php:253
+#: inc/customizer.php:254
 msgid "Show the promises strip on the home page"
 msgstr "نمایش نوار تعهدها در صفحهٔ اصلی"
 
-#: inc/customizer.php:254
+#: inc/customizer.php:255
 msgid "Only state what your store actually offers. Leave a field empty to hide it."
 msgstr "فقط چیزی را بنویسید که فروشگاه شما واقعاً ارائه می‌دهد. برای پنهان کردن هر مورد، آن را خالی بگذارید."
 
-#: inc/customizer.php:255
+#: inc/customizer.php:257
 msgid "Promise 1 (delivery)"
 msgstr "تعهد ۱ (ارسال)"
 
-#: inc/customizer.php:256
+#: inc/customizer.php:257
+msgid "e.g. Delivery across the country"
+msgstr "مثلاً ارسال به سراسر کشور"
+
+#: inc/customizer.php:258
 msgid "Promise 2 (payment)"
 msgstr "تعهد ۲ (پرداخت)"
 
-#: inc/customizer.php:257
+#: inc/customizer.php:258
+msgid "e.g. Pay on delivery"
+msgstr "مثلاً پرداخت در محل"
+
+#: inc/customizer.php:259
 msgid "Promise 3 (returns)"
 msgstr "تعهد ۳ (بازگشت کالا)"
 
-#: inc/customizer.php:258
+#: inc/customizer.php:259
+msgid "e.g. Seven-day returns"
+msgstr "مثلاً هفت روز ضمانت بازگشت"
+
+#: inc/customizer.php:260
 msgid "Promise 4 (support)"
 msgstr "تعهد ۴ (پشتیبانی)"
 
-#: inc/customizer.php:263
+#: inc/customizer.php:260
+msgid "e.g. Support by phone"
+msgstr "مثلاً پشتیبانی تلفنی"
+
+#: inc/customizer.php:273
 msgid "Note under the add-to-cart button"
 msgstr "یادداشت زیر دکمهٔ افزودن به سبد"
 
-#: inc/customizer.php:266
+#: inc/customizer.php:276
 msgid "For example your shipping time or return policy. Leave empty to hide."
 msgstr "برای نمونه زمان ارسال یا شرایط بازگشت کالا. برای پنهان شدن خالی بگذارید."
 
-#: inc/customizer.php:269
+#: inc/customizer.php:279
 msgid "About the store"
 msgstr "دربارهٔ فروشگاه"
 
-#: inc/customizer.php:270
+#: inc/customizer.php:280
 msgid "Phone"
 msgstr "تلفن"
 
-#: inc/customizer.php:271
+#: inc/customizer.php:281
 msgid "Email"
 msgstr "ایمیل"
 
-#: inc/customizer.php:272
+#: inc/customizer.php:282
 msgid "Address"
 msgstr "نشانی"
 
@@ -451,47 +451,54 @@ msgstr "مرتب‌سازی:"
 msgid "Out of stock"
 msgstr "ناموجود"
 
-#: inc/woocommerce.php:317
+#: inc/woocommerce.php:341
 msgid "Sale"
 msgstr "حراج"
 
+#. translators: %s: discount percentage, e.g. 20. Shown in a small badge.
+#: inc/woocommerce.php:349
+#, php-format
+msgctxt "discount badge"
+msgid "%s%%"
+msgstr "%s٪"
+
 #. translators: %s: discount percentage, e.g. 20.
-#: inc/woocommerce.php:322
+#: inc/woocommerce.php:353
 #, php-format
 msgid "%s%% off"
 msgstr "%s٪ تخفیف"
 
 #. translators: %s: lowest price of the product's options.
-#: inc/woocommerce.php:352
+#: inc/woocommerce.php:399
 #, php-format
 msgid "From %s"
 msgstr "از %s"
 
-#: inc/woocommerce.php:400
+#: inc/woocommerce.php:450
 msgid "Choose options"
 msgstr "انتخاب گزینه‌ها"
 
-#: inc/woocommerce.php:400
+#: inc/woocommerce.php:450
 msgid "Add to cart"
 msgstr "افزودن به سبد خرید"
 
-#: inc/woocommerce.php:425
+#: inc/woocommerce.php:475
 msgid "Your details"
 msgstr "مشخصات شما"
 
 #. translators: %s: number of items in the cart.
-#: inc/woocommerce.php:500
+#: inc/woocommerce.php:550
 #, php-format
 msgid "Cart, %s item"
 msgid_plural "Cart, %s items"
 msgstr[0] "سبد خرید، %s کالا"
 msgstr[1] "سبد خرید، %s کالا"
 
-#: inc/woocommerce.php:518
+#: inc/woocommerce.php:568
 msgid "Cart"
 msgstr "سبد خرید"
 
-#: inc/woocommerce.php:563
+#: inc/woocommerce.php:613
 msgid "Log in | Sign up"
 msgstr "ورود | ثبت‌نام"
 

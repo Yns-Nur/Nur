@@ -43,10 +43,11 @@ function sofreh_customizer_defaults() {
 		'home_best'         => true,
 		'home_products_num' => 8,
 		'trust_show'        => true,
-		'trust_1'           => __( 'Delivery across the country', 'sofreh' ),
-		'trust_2'           => __( 'Secure online payment', 'sofreh' ),
-		'trust_3'           => __( 'Seven-day returns', 'sofreh' ),
-		'trust_4'           => __( 'Support by phone and chat', 'sofreh' ),
+		// Promises are store policy, so none are claimed until the store writes them.
+		'trust_1'           => '',
+		'trust_2'           => '',
+		'trust_3'           => '',
+		'trust_4'           => '',
 		'footer_about'      => __( 'A store for home and kitchen goods.', 'sofreh' ),
 		'contact_phone'     => '',
 		'contact_email'     => '',
@@ -251,11 +252,20 @@ function sofreh_customize_register( $wp_customize ) {
 	);
 
 	$add( 'trust_show', 'sofreh_trust', __( 'Show the promises strip on the home page', 'sofreh' ), 'checkbox', 'sofreh_sanitize_checkbox' );
-	$trust_help = array( 'description' => __( 'Only state what your store actually offers. Leave a field empty to hide it.', 'sofreh' ) );
-	$add( 'trust_1', 'sofreh_trust', __( 'Promise 1 (delivery)', 'sofreh' ), 'text', 'sanitize_text_field', $trust_help );
-	$add( 'trust_2', 'sofreh_trust', __( 'Promise 2 (payment)', 'sofreh' ) );
-	$add( 'trust_3', 'sofreh_trust', __( 'Promise 3 (returns)', 'sofreh' ) );
-	$add( 'trust_4', 'sofreh_trust', __( 'Promise 4 (support)', 'sofreh' ) );
+	$trust_help     = array( 'description' => __( 'Only state what your store actually offers. Leave a field empty to hide it.', 'sofreh' ) );
+	$trust_examples = array(
+		1 => array( __( 'Promise 1 (delivery)', 'sofreh' ), __( 'e.g. Delivery across the country', 'sofreh' ) ),
+		2 => array( __( 'Promise 2 (payment)', 'sofreh' ), __( 'e.g. Pay on delivery', 'sofreh' ) ),
+		3 => array( __( 'Promise 3 (returns)', 'sofreh' ), __( 'e.g. Seven-day returns', 'sofreh' ) ),
+		4 => array( __( 'Promise 4 (support)', 'sofreh' ), __( 'e.g. Support by phone', 'sofreh' ) ),
+	);
+	foreach ( $trust_examples as $n => $trust_example ) {
+		$extra = array( 'input_attrs' => array( 'placeholder' => $trust_example[1] ) );
+		if ( 1 === $n ) {
+			$extra += $trust_help;
+		}
+		$add( 'trust_' . $n, 'sofreh_trust', $trust_example[0], 'text', 'sanitize_text_field', $extra );
+	}
 
 	$add(
 		'product_note',

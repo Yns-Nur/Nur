@@ -1544,8 +1544,7 @@ pre {
 }
 
 .panel-surface,
-.reading-page > .site-main,
-.store-page > .site-main {
+.reading-page > .site-main {
 	background: var(--c-surface);
 	border-radius: var(--r-l);
 	padding: clamp(16px, 3vw, 32px);
@@ -2324,14 +2323,23 @@ html:not([dir="rtl"]) .site-drawer {
 		min-height: 44px;
 	}
 
-	.hdr-nav,
-	.hdr__actions .header-account {
+	.hdr-nav {
 		display: none;
 	}
 
-	.hdr__actions .header-cart {
+	.hdr__actions .header-cart,
+	.hdr__actions .header-account {
 		border: 0;
 		padding-inline: 8px;
+	}
+
+	.hdr__actions .header-account .header-action__label {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
 	}
 
 	.tabbar {
@@ -2726,9 +2734,20 @@ html:not([dir="rtl"]) .site-drawer {
 	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
 }
 
+/* Inside the frame, posts are cells, not cards: no second border or shadow. */
 .posts-frame .post-card {
 	box-shadow: none;
-	border: 1px solid var(--c-line);
+	border-radius: 0;
+	background: none;
+}
+
+.posts-frame .post-card__media {
+	border-radius: var(--r);
+	overflow: hidden;
+}
+
+.posts-frame .post-card__body {
+	padding-inline: 0;
 }
 
 /* Section frames shared by product strips and ranking */
@@ -2815,7 +2834,7 @@ html:not([dir="rtl"]) .strip__more:hover .icon {
 	order: -1;
 	flex: none;
 	width: 28px;
-	color: var(--c-teal);
+	color: var(--c-ink);
 	font-size: 1.75rem;
 	font-weight: 800;
 	line-height: 1;
@@ -3641,50 +3660,54 @@ html:not([dir="rtl"]) .icon-chevron {
 	background: var(--c-muted);
 }
 
-/* Star rating drawn with text stars, so no icon font is needed. */
+/*
+ * Star rating: five stars painted from one SVG mask (no icon font, no text
+ * glyphs). The filled layer is clipped to the rating width WooCommerce sets.
+ */
 .star-rating {
+	--star: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m12 2.8 2.8 5.7 6.3.9-4.6 4.4 1.1 6.3L12 17.1l-5.6 3 1.1-6.3-4.6-4.4 6.3-.9z'/%3E%3C/svg%3E");
 	position: relative;
 	display: inline-block;
 	overflow: hidden;
-	width: 5.4em;
-	height: 1.2em;
+	width: 5.5em;
+	height: 1.1em;
 	font-size: 0.8125rem;
-	line-height: 1.2;
-	letter-spacing: 0.08em;
-	direction: rtl;
+	line-height: 1;
+	color: transparent;
 }
 
-html:not([dir="rtl"]) .star-rating {
-	direction: ltr;
+.star-rating::before,
+.star-rating span::before {
+	content: "";
+	position: absolute;
+	inset-block: 0;
+	inset-inline-start: 0;
+	width: 5.5em;
+	-webkit-mask: var(--star) 0 0 / 1.1em 1.1em repeat-x;
+	mask: var(--star) 0 0 / 1.1em 1.1em repeat-x;
 }
 
 .star-rating::before {
-	content: "★★★★★";
-	position: absolute;
-	inset: 0;
-	color: var(--c-line-strong);
+	background: var(--c-line-strong);
 }
 
 .star-rating span {
 	position: absolute;
 	inset-block: 0;
-	right: 0;
+	inset-inline-start: 0;
 	overflow: hidden;
 	padding-top: 1.5em;
-	color: transparent;
-}
-
-html:not([dir="rtl"]) .star-rating span {
-	right: auto;
-	left: 0;
 }
 
 .star-rating span::before {
-	content: "★★★★★";
-	position: absolute;
-	top: 0;
-	inset-inline-start: 0;
-	color: var(--c-star);
+	background: var(--c-star);
+}
+
+/* The mask repeats from the left, so in RTL the filled part grows from the right. */
+[dir="rtl"] .star-rating::before,
+[dir="rtl"] .star-rating span::before {
+	-webkit-mask-position: 100% 0;
+	mask-position: 100% 0;
 }
 
 /* ------------------------------------------------------------------ */
@@ -3789,38 +3812,43 @@ ul.products li.product .star-rating {
 	margin-block-end: 4px;
 }
 
-/* Price block: discount pill and old price above, price below, aligned to the end */
-ul.products li.product .price {
-	display: grid;
-	grid-template-columns: auto 1fr;
+/*
+ * Price row: discount badge at the start, price at the end, old price under
+ * the price. The .price span dissolves into the row's grid so its parts can
+ * be placed; WooCommerce's screen-reader texts stay out of the layout.
+ */
+ul.products li.product .product-card__price {
+	display: flex;
+	flex-wrap: wrap;
 	align-items: center;
-	gap: 0 8px;
+	gap: 0 6px;
 	margin-top: auto;
 	font-size: 0.9375rem;
 }
 
-ul.products li.product .price ins {
-	grid-column: 1 / -1;
-	order: 2;
-	justify-self: end;
+ul.products li.product .product-card__price .price {
+	display: contents;
 }
 
-ul.products li.product .price del {
-	grid-column: 2;
+ul.products li.product .product-card__price .onsale {
+	position: static;
 	order: 1;
-	justify-self: end;
+	padding-inline: 7px;
 }
 
-ul.products li.product .price > .woocommerce-Price-amount {
-	grid-column: 1 / -1;
-	justify-self: end;
+/* The price keeps to the end of the row, and wraps under the badge on very narrow cards. */
+ul.products li.product .product-card__price ins,
+ul.products li.product .product-card__price .price > .woocommerce-Price-amount,
+ul.products li.product .product-card__price .price-from {
+	order: 2;
+	margin-inline-start: auto;
+	white-space: nowrap;
 }
 
-/* The sale badge sits beside the old price in cards. */
-ul.products li.product .product-card__media .onsale {
-	inset-block-start: auto;
-	inset-block-end: 8px;
-	inset-inline-start: 8px;
+ul.products li.product .product-card__price del {
+	order: 3;
+	flex-basis: 100%;
+	text-align: end;
 }
 
 ul.products li.product .button {
@@ -4084,6 +4112,18 @@ html[dir="rtl"] .strip--deals .strip__body ul.products li.product:last-child {
 	display: none;
 }
 
+/*
+ * WooCommerce moves focus to a new notice so screen readers announce it.
+ * The notice is a tabindex="-1" landing spot, not a control, so it gets no ring.
+ */
+.woocommerce-notices-wrapper:focus,
+.woocommerce-NoticeGroup:focus,
+.woocommerce-message:focus,
+.woocommerce-info:focus,
+.woocommerce-error:focus {
+	outline: none;
+}
+
 .woocommerce-message,
 .woocommerce-info,
 .woocommerce-error,
@@ -4189,10 +4229,6 @@ div.product > section {
 	grid-column: 1 / -1;
 }
 
-.store-layout--product div.product > .onsale {
-	inset-block-start: clamp(22px, 3vw, 36px);
-	inset-inline-start: clamp(22px, 3vw, 36px);
-}
 
 /* Summary: the facts beside the buy box */
 .store-layout--product .summary {
@@ -4406,8 +4442,21 @@ div.product > section {
 	border-radius: var(--r);
 }
 
-.buy-box > .price {
+.buy-box__price {
 	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.buy-box__price .onsale {
+	position: static;
+	flex: none;
+	font-size: 0.8125rem;
+}
+
+.buy-box__price .price {
+	display: flex;
+	flex: 1;
 	flex-wrap: wrap;
 	align-items: baseline;
 	justify-content: flex-end;
@@ -4416,12 +4465,12 @@ div.product > section {
 	font-size: 1.375rem;
 }
 
-.buy-box > .price del {
+.buy-box__price .price del {
 	order: -1;
 	font-size: 0.9375rem;
 }
 
-.buy-box > .price ins {
+.buy-box__price .price ins {
 	color: var(--c-ink);
 }
 
@@ -4497,6 +4546,15 @@ table.variations label {
 
 .single_variation_wrap .woocommerce-variation {
 	margin-block-end: 8px;
+}
+
+.single_variation_wrap .woocommerce-variation:not(:has(.price, p)) {
+	margin: 0;
+}
+
+/* WooCommerce hides "Clear" with visibility; take it out of the flow too. */
+.reset_variations[style*="hidden"] {
+	display: none;
 }
 
 .woocommerce-variation-price .price {
@@ -4809,33 +4867,31 @@ p.stars a {
 }
 
 p.stars a::before {
-	content: "★";
+	content: "";
 	position: absolute;
-	inset: 0;
-	display: grid;
-	place-items: center;
-	color: var(--c-line-strong);
-	font-size: 26px;
-	line-height: 1;
+	inset: 3px;
+	background: var(--c-line-strong);
+	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m12 2.8 2.8 5.7 6.3.9-4.6 4.4 1.1 6.3L12 17.1l-5.6 3 1.1-6.3-4.6-4.4 6.3-.9z'/%3E%3C/svg%3E") center / contain no-repeat;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m12 2.8 2.8 5.7 6.3.9-4.6 4.4 1.1 6.3L12 17.1l-5.6 3 1.1-6.3-4.6-4.4 6.3-.9z'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 
 p.stars.selected a::before {
-	color: var(--c-star);
+	background: var(--c-star);
 }
 
 p.stars.selected a.active ~ a::before {
-	color: var(--c-line-strong);
+	background: var(--c-line-strong);
 }
 
 p.stars:hover a::before,
 p.stars.selected:hover a::before,
 p.stars.selected:hover a.active ~ a::before {
-	color: var(--c-star);
+	background: var(--c-star);
 }
 
 p.stars:hover a:hover ~ a::before,
 p.stars.selected:hover a:hover ~ a::before {
-	color: var(--c-line-strong);
+	background: var(--c-line-strong);
 }
 
 /* Related and upsells */
@@ -4901,6 +4957,75 @@ p.stars.selected:hover a:hover ~ a::before {
 	color: var(--c-ink);
 }
 
+/*
+ * Store pages (cart, checkout, account, order received) have no outer panel:
+ * each part is its own white panel on the grey ground, never a box in a box.
+ */
+.store-panel,
+.woocommerce-cart-form,
+.cart-collaterals .cart_totals,
+form.checkout #customer_details,
+form.checkout_coupon,
+.woocommerce-checkout form.woocommerce-form-login.login,
+#customer_login > .u-column1,
+#customer_login > .u-column2,
+.woocommerce-account .woocommerce > .woocommerce-form-login,
+.woocommerce-ResetPassword,
+.woocommerce-MyAccount-navigation,
+.woocommerce-MyAccount-content,
+.woocommerce-order-details,
+.woocommerce-customer-details,
+.wc-block-cart__main,
+.wc-block-cart__sidebar,
+.wc-block-checkout__main,
+.wc-block-checkout__sidebar {
+	background: var(--c-surface);
+	border-radius: var(--r-l);
+	box-shadow: var(--shadow-s);
+}
+
+.woocommerce-cart-form,
+.woocommerce-MyAccount-navigation {
+	overflow: hidden;
+}
+
+.cart-collaterals .cart_totals,
+form.checkout #customer_details,
+form.checkout_coupon,
+.woocommerce-checkout form.woocommerce-form-login.login,
+#customer_login > .u-column1,
+#customer_login > .u-column2,
+.woocommerce-account .woocommerce > .woocommerce-form-login,
+.woocommerce-ResetPassword,
+.woocommerce-MyAccount-content,
+.woocommerce-order-details,
+.woocommerce-customer-details,
+.wc-block-cart__main,
+.wc-block-cart__sidebar,
+.wc-block-checkout__main,
+.wc-block-checkout__sidebar {
+	padding: clamp(16px, 2.5vw, 24px);
+}
+
+.woocommerce-order-details,
+.woocommerce-customer-details {
+	margin-block-end: var(--gap);
+}
+
+.woocommerce-order-details__title,
+.woocommerce-column__title {
+	margin-block-start: 0;
+	font-size: 1.05rem;
+}
+
+/* Tables inside a panel lose their own frame. */
+.woocommerce-cart-form .shop_table,
+.woocommerce-order-details .shop_table,
+.woocommerce-MyAccount-content .shop_table {
+	border: 0;
+	border-radius: 0;
+}
+
 /* Classic cart */
 .woocommerce-cart-form {
 	margin-block-end: 24px;
@@ -4936,16 +5061,26 @@ p.stars.selected:hover a:hover ~ a::before {
 	margin: 0;
 }
 
+/* Remove links: WooCommerce prints a "×" character; the theme's close icon replaces it. */
 a.remove {
 	display: inline-grid;
 	place-items: center;
-	width: 32px;
-	height: 32px;
+	width: 36px;
+	height: 36px;
 	border-radius: 50%;
 	color: var(--c-muted) !important;
-	font-size: 1.3rem;
+	font-size: 0;
 	line-height: 1;
 	text-decoration: none;
+}
+
+a.remove::before {
+	content: "";
+	width: 18px;
+	height: 18px;
+	background: currentColor;
+	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round'%3E%3Cpath d='M6 6l12 12M18 6 6 18'/%3E%3C/svg%3E") center / contain no-repeat;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round'%3E%3Cpath d='M6 6l12 12M18 6 6 18'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 
 a.remove:hover {
@@ -4988,9 +5123,6 @@ a.remove:hover {
 
 .cart-collaterals .cart_totals {
 	grid-column: 2;
-	padding: 18px;
-	background: var(--c-ground);
-	border-radius: var(--r);
 }
 
 .cart-collaterals .cross-sells {
@@ -5120,16 +5252,70 @@ a.remove:hover {
 		display: none;
 	}
 
-	.woocommerce-cart-form .product-remove {
-		justify-content: flex-end;
+	/*
+	 * Phone cart: photo at the start, name and price beside it, the remove
+	 * button at the end; quantity stepper and line total share the last row.
+	 */
+	.woocommerce-cart-form .shop_table_responsive tr.woocommerce-cart-form__cart-item {
+		display: grid;
+		grid-template-columns: 72px minmax(0, 1fr) auto;
+		grid-template-areas:
+			"thumb name remove"
+			"thumb price price"
+			"qty qty subtotal";
+		align-items: center;
+		gap: 4px 12px;
+		padding: 14px;
 	}
 
-	.woocommerce-cart-form .product-thumbnail {
-		justify-content: center;
+	.woocommerce-cart-form tr.woocommerce-cart-form__cart-item > td {
+		display: block;
+		padding: 0;
+		border: 0;
+		text-align: start;
+	}
+
+	.woocommerce-cart-form tr.woocommerce-cart-form__cart-item > td::before {
+		display: none;
+	}
+
+	.woocommerce-cart-form td.product-thumbnail {
+		grid-area: thumb;
+		align-self: start;
 	}
 
 	.woocommerce-cart-form .product-thumbnail img {
-		width: 96px;
+		width: 72px;
+	}
+
+	.woocommerce-cart-form td.product-name {
+		grid-area: name;
+		line-height: 1.7;
+	}
+
+	.woocommerce-cart-form td.product-remove {
+		grid-area: remove;
+		align-self: start;
+		margin-block-start: -6px;
+		margin-inline-end: -8px;
+	}
+
+	.woocommerce-cart-form td.product-price {
+		grid-area: price;
+		color: var(--c-muted);
+		font-size: 0.8125rem;
+	}
+
+	.woocommerce-cart-form td.product-quantity {
+		grid-area: qty;
+		margin-block-start: 8px;
+	}
+
+	.woocommerce-cart-form td.product-subtotal {
+		grid-area: subtotal;
+		margin-block-start: 8px;
+		font-weight: 700;
+		text-align: end;
 	}
 
 	.woocommerce-cart-form td.actions {
@@ -5175,6 +5361,12 @@ a.remove:hover {
 
 	.cart_totals .shop_table_responsive tr.woocommerce-shipping-totals {
 		flex-direction: column;
+	}
+
+	.cart_totals .shop_table_responsive tr.woocommerce-shipping-totals td {
+		flex-direction: column;
+		align-items: flex-start;
+		text-align: start;
 	}
 }
 
@@ -5289,6 +5481,10 @@ a.remove:hover {
 	padding-block-end: 32px;
 }
 
+.woocommerce-form-login .form-row:has(> .password-input) {
+	padding-block-end: 0;
+}
+
 .form-row:has(> .password-input) .woocommerce-password-strength {
 	position: absolute;
 	inset-inline: 0;
@@ -5379,8 +5575,22 @@ a.remove:hover {
 }
 
 .select2-container .select2-selection--single .select2-selection__arrow {
+	inset-block-start: 0;
 	height: 44px;
-	width: 32px;
+	width: 36px;
+}
+
+.select2-container .select2-selection--single .select2-selection__arrow b {
+	display: none;
+}
+
+.select2-container .select2-selection--single .select2-selection__arrow::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: var(--c-muted);
+	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center / 18px no-repeat;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center / 18px no-repeat;
 }
 
 .select2-container--focus .select2-selection--single,
@@ -5413,9 +5623,6 @@ a.remove:hover {
 form.checkout_coupon,
 .woocommerce-checkout form.woocommerce-form-login.login {
 	margin-block-end: 20px;
-	padding: 16px;
-	border: 1px dashed var(--c-line-strong);
-	border-radius: var(--r);
 }
 
 form.checkout_coupon {
@@ -5458,20 +5665,42 @@ form.checkout #customer_details {
 	grid-area: details;
 }
 
+/* Heading and review are two grid items drawn as one panel: each clips its shadow at the seam. */
 form.checkout #order_review_heading {
 	grid-area: heading;
 	margin: 0;
-	padding: 18px 18px 0;
-	background: var(--c-ground);
-	border-radius: var(--r) var(--r) 0 0;
+	padding: clamp(16px, 2.5vw, 24px) clamp(16px, 2.5vw, 24px) 0;
+	background: var(--c-surface);
+	border-radius: var(--r-l) var(--r-l) 0 0;
+	box-shadow: var(--shadow-s);
+	clip-path: inset(-4px -4px 0 -4px);
 	font-size: 1.05rem;
 }
 
 form.checkout #order_review {
 	grid-area: review;
-	padding: 8px 18px 18px;
-	background: var(--c-ground);
-	border-radius: 0 0 var(--r) var(--r);
+	padding: 8px clamp(16px, 2.5vw, 24px) clamp(16px, 2.5vw, 24px);
+	background: var(--c-surface);
+	border-radius: 0 0 var(--r-l) var(--r-l);
+	box-shadow: var(--shadow-s);
+	clip-path: inset(0 -4px -4px -4px);
+}
+
+form.checkout #customer_details {
+	margin-block-end: var(--gap);
+}
+
+form.checkout #customer_details .col-2 {
+	margin-block-end: 0;
+}
+
+/* Shipping method in the review table sits with the other values. */
+.woocommerce-checkout-review-order-table .woocommerce-shipping-totals td {
+	text-align: end;
+}
+
+.woocommerce-checkout-review-order-table .woocommerce-shipping-methods {
+	text-align: end;
 }
 
 form.checkout .col2-set .col-1,
@@ -5605,8 +5834,9 @@ ul.order_details,
 
 ul.order_details li {
 	padding: 12px 14px;
-	border: 1px solid var(--c-line);
 	border-radius: var(--r);
+	background: var(--c-surface);
+	box-shadow: var(--shadow-s);
 	color: var(--c-muted);
 	font-size: 0.8125rem;
 }
@@ -5619,9 +5849,6 @@ ul.order_details li strong {
 }
 
 .woocommerce-customer-details address {
-	padding: 14px;
-	border: 1px solid var(--c-line);
-	border-radius: var(--r);
 	font-style: normal;
 	line-height: 1.9;
 }
@@ -5648,8 +5875,6 @@ ul.order_details li strong {
 	margin: 0;
 	padding: 6px;
 	list-style: none;
-	border: 1px solid var(--c-line);
-	border-radius: var(--r);
 }
 
 .woocommerce-MyAccount-navigation li + li {
@@ -5688,9 +5913,8 @@ html:not([dir="rtl"]) .woocommerce-MyAccount-navigation .is-active a {
 }
 
 .woocommerce-Address {
-	padding: 16px;
-	border: 1px solid var(--c-line);
-	border-radius: var(--r);
+	padding-block-start: 12px;
+	border-top: 1px solid var(--c-line);
 }
 
 .woocommerce-Address-title {
@@ -5720,9 +5944,9 @@ html:not([dir="rtl"]) .woocommerce-MyAccount-navigation .is-active a {
 
 .woocommerce-EditAccountForm fieldset {
 	margin: 6px 0 14px;
-	padding: 14px 16px;
-	border: 1px solid var(--c-line);
-	border-radius: var(--r);
+	padding: 14px 0 0;
+	border: 0;
+	border-top: 1px solid var(--c-line);
 }
 
 .woocommerce-EditAccountForm legend {
@@ -5745,12 +5969,8 @@ html:not([dir="rtl"]) .woocommerce-MyAccount-navigation .is-active a {
 	gap: clamp(16px, 3vw, 32px);
 }
 
-.woocommerce-form-login,
-.woocommerce-form-register,
-.woocommerce-ResetPassword {
-	padding: clamp(16px, 2.5vw, 24px);
-	border: 1px solid var(--c-line);
-	border-radius: var(--r);
+#customer_login h2 {
+	margin-block-start: 0;
 }
 
 .woocommerce-account .woocommerce > h2,
@@ -6906,10 +7126,11 @@ function sofreh_customizer_defaults() {
 		'home_best'         => true,
 		'home_products_num' => 8,
 		'trust_show'        => true,
-		'trust_1'           => __( 'Delivery across the country', 'sofreh' ),
-		'trust_2'           => __( 'Secure online payment', 'sofreh' ),
-		'trust_3'           => __( 'Seven-day returns', 'sofreh' ),
-		'trust_4'           => __( 'Support by phone and chat', 'sofreh' ),
+		// Promises are store policy, so none are claimed until the store writes them.
+		'trust_1'           => '',
+		'trust_2'           => '',
+		'trust_3'           => '',
+		'trust_4'           => '',
 		'footer_about'      => __( 'A store for home and kitchen goods.', 'sofreh' ),
 		'contact_phone'     => '',
 		'contact_email'     => '',
@@ -7114,11 +7335,20 @@ function sofreh_customize_register( $wp_customize ) {
 	);
 
 	$add( 'trust_show', 'sofreh_trust', __( 'Show the promises strip on the home page', 'sofreh' ), 'checkbox', 'sofreh_sanitize_checkbox' );
-	$trust_help = array( 'description' => __( 'Only state what your store actually offers. Leave a field empty to hide it.', 'sofreh' ) );
-	$add( 'trust_1', 'sofreh_trust', __( 'Promise 1 (delivery)', 'sofreh' ), 'text', 'sanitize_text_field', $trust_help );
-	$add( 'trust_2', 'sofreh_trust', __( 'Promise 2 (payment)', 'sofreh' ) );
-	$add( 'trust_3', 'sofreh_trust', __( 'Promise 3 (returns)', 'sofreh' ) );
-	$add( 'trust_4', 'sofreh_trust', __( 'Promise 4 (support)', 'sofreh' ) );
+	$trust_help     = array( 'description' => __( 'Only state what your store actually offers. Leave a field empty to hide it.', 'sofreh' ) );
+	$trust_examples = array(
+		1 => array( __( 'Promise 1 (delivery)', 'sofreh' ), __( 'e.g. Delivery across the country', 'sofreh' ) ),
+		2 => array( __( 'Promise 2 (payment)', 'sofreh' ), __( 'e.g. Pay on delivery', 'sofreh' ) ),
+		3 => array( __( 'Promise 3 (returns)', 'sofreh' ), __( 'e.g. Seven-day returns', 'sofreh' ) ),
+		4 => array( __( 'Promise 4 (support)', 'sofreh' ), __( 'e.g. Support by phone', 'sofreh' ) ),
+	);
+	foreach ( $trust_examples as $n => $trust_example ) {
+		$extra = array( 'input_attrs' => array( 'placeholder' => $trust_example[1] ) );
+		if ( 1 === $n ) {
+			$extra += $trust_help;
+		}
+		$add( 'trust_' . $n, 'sofreh_trust', $trust_example[0], 'text', 'sanitize_text_field', $extra );
+	}
 
 	$add(
 		'product_note',
@@ -8081,6 +8311,30 @@ function sofreh_wc_card_media_close() {
 }
 add_action( 'woocommerce_before_shop_loop_item_title', 'sofreh_wc_card_media_close', 11 );
 
+/*
+ * The discount badge sits beside the price, as on Iranian marketplaces,
+ * instead of over the product photo: one price row of badge, price and old
+ * price, with WooCommerce's own badge and price output inside it.
+ */
+remove_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_show_product_loop_sale_flash', 10 );
+
+/**
+ * Open the card's price row and print the discount badge.
+ */
+function sofreh_wc_card_price_open() {
+	echo '<div class="product-card__price">';
+	woocommerce_show_product_loop_sale_flash();
+}
+add_action( 'woocommerce_after_shop_loop_item_title', 'sofreh_wc_card_price_open', 9 );
+
+/**
+ * Close the card's price row.
+ */
+function sofreh_wc_card_price_close() {
+	echo '</div>';
+}
+add_action( 'woocommerce_after_shop_loop_item_title', 'sofreh_wc_card_price_close', 11 );
+
 
 /**
  * Sale badge shows the discount ("20% off") when it can be computed.
@@ -8114,12 +8368,35 @@ function sofreh_wc_sale_flash( $html, $post, $product ) {
 		return '<span class="onsale">' . esc_html__( 'Sale', 'sofreh' ) . '</span>';
 	}
 
-	return '<span class="onsale">' . esc_html(
-		/* translators: %s: discount percentage, e.g. 20. */
-		sprintf( __( '%s%% off', 'sofreh' ), number_format_i18n( $percent ) )
-	) . '</span>';
+	// Short "20%" pill beside the price; screen readers hear "20% off".
+	return sprintf(
+		'<span class="onsale"><span aria-hidden="true">%1$s</span><span class="screen-reader-text">%2$s</span></span>',
+		esc_html(
+			/* translators: %s: discount percentage, e.g. 20. Shown in a small badge. */
+			sprintf( _x( '%s%%', 'discount badge', 'sofreh' ), number_format_i18n( $percent ) )
+		),
+		esc_html(
+			/* translators: %s: discount percentage, e.g. 20. */
+			sprintf( __( '%s%% off', 'sofreh' ), number_format_i18n( $percent ) )
+		)
+	);
 }
 add_filter( 'woocommerce_sale_flash', 'sofreh_wc_sale_flash', 10, 3 );
+
+/**
+ * Escape product price HTML for output while keeping WooCommerce's <bdi>
+ * wrapper. wp_kses_post() strips <bdi>; without that isolation the currency
+ * name lands on the wrong side of the amount in right-to-left text.
+ *
+ * @param string $html Price HTML from WC_Product::get_price_html().
+ * @return string
+ */
+function sofreh_kses_price( $html ) {
+	$allowed                      = wp_kses_allowed_html( 'post' );
+	$allowed['bdi']               = array();
+	$allowed['span']['translate'] = true;
+	return wp_kses( $html, $allowed );
+}
 
 /**
  * Variable products whose options cost different amounts show "From <lowest
@@ -8144,11 +8421,11 @@ function sofreh_wc_variable_price_html( $price, $product ) {
 	if ( $min === $max ) {
 		return $price;
 	}
-	return sprintf(
+	return '<span class="price-from">' . sprintf(
 		/* translators: %s: lowest price of the product's options. */
 		esc_html__( 'From %s', 'sofreh' ),
 		wc_price( $min )
-	) . $product->get_price_suffix();
+	) . '</span>' . $product->get_price_suffix();
 }
 add_filter( 'woocommerce_variable_price_html', 'sofreh_wc_variable_price_html', 10, 2 );
 
@@ -8158,15 +8435,18 @@ add_filter( 'woocommerce_variable_price_html', 'sofreh_wc_variable_price_html', 
  * -------------------------------------------------------------------------
  */
 
-// The price moves into the buy box, next to the add-to-cart form.
+// The price and discount badge move into the buy box, next to the add-to-cart form.
 remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
+remove_action( 'woocommerce_before_single_product_summary', 'woocommerce_show_product_sale_flash', 10 );
 
 /**
  * Open the buy box: price, stock, quantity and add to cart, the store note.
  */
 function sofreh_wc_buy_box_open() {
-	echo '<div class="buy-box" id="buy-box">';
+	echo '<div class="buy-box" id="buy-box"><div class="buy-box__price">';
+	woocommerce_show_product_sale_flash();
 	woocommerce_template_single_price();
+	echo '</div>';
 }
 add_action( 'woocommerce_single_product_summary', 'sofreh_wc_buy_box_open', 25 );
 
@@ -8192,7 +8472,7 @@ function sofreh_wc_sticky_buy_bar() {
 	$needs_choice = $product->is_type( 'variable' ) || $product->is_type( 'grouped' );
 	?>
 	<div class="buy-bar" hidden data-sofreh-buybar>
-		<div class="buy-bar__price"><?php echo wp_kses_post( $product->get_price_html() ); ?></div>
+		<div class="buy-bar__price"><?php echo sofreh_kses_price( $product->get_price_html() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped by sofreh_kses_price(). ?></div>
 		<button type="button" class="button buy-bar__button" data-sofreh-buy="<?php echo $needs_choice ? 'choose' : 'add'; ?>">
 			<?php echo $needs_choice ? esc_html__( 'Choose options', 'sofreh' ) : esc_html__( 'Add to cart', 'sofreh' ); ?>
 		</button>
@@ -8369,7 +8649,7 @@ function sofreh_account_link() {
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Sofreh 1.0.0\n"
+"Project-Id-Version: Sofreh 2.0.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/theme/sofreh\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Persian\n"
@@ -8378,7 +8658,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"POT-Creation-Date: 2026-10-12T17:10:02+00:00\n"
+"POT-Creation-Date: 2026-10-12T17:32:00+00:00\n"
 "PO-Revision-Date: 2026-10-12 12:00+0330\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: sofreh\n"
@@ -8395,8 +8675,8 @@ msgstr "https://github.com/yns-nur/nur/tree/main/wp-theme/sofreh"
 
 #. Description of the theme
 #: style.css:6
-msgid "A Persian, right-to-left WooCommerce theme for home and kitchen stores. Warm, calm and legible: category browsing in arched frames, a clear product page, and styled classic and block-based cart, checkout and account pages. Ships with the Vazirmatn typeface and a full Persian (fa_IR) translation."
-msgstr "پوسته‌ای فارسی و راست‌چین برای فروشگاه‌های لوازم خانه و آشپزخانه بر پایهٔ ووکامرس. گرم، آرام و خوانا: مرور دسته‌ها در قاب‌های طاق‌دار، صفحهٔ محصول روشن، و سبد خرید، تسویه حساب و حساب کاربری آراسته در هر دو نسخهٔ کلاسیک و بلوکی. همراه با قلم وزیرمتن و ترجمهٔ کامل فارسی."
+msgid "A Persian, right-to-left WooCommerce theme for home and kitchen stores, built phone-first in the familiar Iranian marketplace layout: product search up front, a category mega menu and drawer, a swipeable banner, a red special-offers strip, a numbered best-seller list, a sticky buy box and buy bar on product pages, and a bottom tab bar on phones. Styles the classic and block cart, checkout and account pages. Ships with the Vazirmatn typeface and a full Persian (fa_IR) translation."
+msgstr "پوسته‌ای فارسی و راست‌به‌چپ برای فروشگاه‌های ووکامرسی لوازم خانه و آشپزخانه، با اولویت موبایل و در چیدمان آشنای فروشگاه‌های اینترنتی ایرانی: جست‌وجوی محصول در بالای صفحه، منوی دسته‌بندی‌ها و کشوی دسته‌ها، بنر قابل کشیدن، نوار قرمز پیشنهادهای ویژه، فهرست شماره‌دار پرفروش‌ترین‌ها، جعبهٔ خرید و نوار خرید چسبان در صفحهٔ محصول و نوار پایینی در موبایل. سبد خرید، تسویه حساب و حساب کاربری (کلاسیک و بلوکی) را هماهنگ می‌کند. همراه با قلم وزیرمتن و ترجمهٔ کامل فارسی."
 
 #. Author of the theme
 #: style.css:4
@@ -8511,7 +8791,7 @@ msgid "Categories"
 msgstr "دسته‌ها"
 
 #: header.php:141
-#: inc/woocommerce.php:555
+#: inc/woocommerce.php:605
 msgid "My account"
 msgstr "حساب من"
 
@@ -8531,174 +8811,174 @@ msgstr "ظروف پخت‌وپز، سرو و لوازم ضروری خانه بر
 msgid "See the products"
 msgstr "دیدن محصولات"
 
-#: inc/customizer.php:46
-msgid "Delivery across the country"
-msgstr "ارسال به سراسر کشور"
-
-#: inc/customizer.php:47
-msgid "Secure online payment"
-msgstr "پرداخت امن اینترنتی"
-
-#: inc/customizer.php:48
-msgid "Seven-day returns"
-msgstr "هفت روز ضمانت بازگشت"
-
-#: inc/customizer.php:49
-msgid "Support by phone and chat"
-msgstr "پشتیبانی تلفنی و آنلاین"
-
-#: inc/customizer.php:50
+#: inc/customizer.php:51
 msgid "A store for home and kitchen goods."
 msgstr "فروشگاه لوازم خانه و آشپزخانه."
 
-#: inc/customizer.php:139
+#: inc/customizer.php:140
 msgid "Sofreh theme"
 msgstr "پوستهٔ سفره"
 
-#: inc/customizer.php:145
+#: inc/customizer.php:146
 msgid "Header"
 msgstr "سربرگ"
 
-#: inc/customizer.php:146
+#: inc/customizer.php:147
 msgid "Home page"
 msgstr "صفحهٔ اصلی"
 
-#: inc/customizer.php:147
+#: inc/customizer.php:148
 #: template-parts/home/trust.php:28
 msgid "Store promises"
 msgstr "تعهدهای فروشگاه"
 
-#: inc/customizer.php:148
+#: inc/customizer.php:149
 msgid "Product page"
 msgstr "صفحهٔ محصول"
 
-#: inc/customizer.php:149
+#: inc/customizer.php:150
 msgid "Footer and contact"
 msgstr "پانویس و تماس"
 
-#: inc/customizer.php:183
+#: inc/customizer.php:184
 msgid "Announcement bar text (leave empty to hide)"
 msgstr "متن نوار اطلاع‌رسانی (برای پنهان شدن خالی بگذارید)"
 
-#: inc/customizer.php:185
+#: inc/customizer.php:186
 msgid "Show the banner"
 msgstr "نمایش بنر"
 
-#: inc/customizer.php:188
+#: inc/customizer.php:189
 msgid "Teal"
 msgstr "سبزآبی"
 
-#: inc/customizer.php:189
+#: inc/customizer.php:190
 msgid "Dark"
 msgstr "تیره"
 
-#: inc/customizer.php:190
+#: inc/customizer.php:191
 msgid "Red"
 msgstr "قرمز"
 
 #. translators: %d: banner slide number.
-#: inc/customizer.php:198
+#: inc/customizer.php:199
 #, php-format
 msgid "Banner %d"
 msgstr "بنر %d"
 
-#: inc/customizer.php:202
+#: inc/customizer.php:203
 msgid "heading"
 msgstr "عنوان"
 
-#: inc/customizer.php:205
+#: inc/customizer.php:206
 msgid "Leave empty to hide this slide."
 msgstr "برای پنهان کردن این اسلاید خالی بگذارید."
 
-#: inc/customizer.php:207
+#: inc/customizer.php:208
 msgid "text"
 msgstr "متن"
 
-#: inc/customizer.php:208
+#: inc/customizer.php:209
 msgid "button label"
 msgstr "متن دکمه"
 
-#: inc/customizer.php:209
+#: inc/customizer.php:210
 msgid "link (empty = shop page)"
 msgstr "پیوند (خالی = صفحهٔ فروشگاه)"
 
-#: inc/customizer.php:210
+#: inc/customizer.php:211
 msgid "background"
 msgstr "رنگ پس‌زمینه"
 
-#: inc/customizer.php:224
+#: inc/customizer.php:225
 msgid "image"
 msgstr "تصویر"
 
-#: inc/customizer.php:225
+#: inc/customizer.php:226
 msgid "A product photo on a plain or transparent background works best (about 800 × 800 pixels)."
 msgstr "عکس محصول روی زمینهٔ ساده یا شفاف بهترین نتیجه را دارد (حدود ۸۰۰ × ۸۰۰ پیکسل)."
 
-#: inc/customizer.php:233
+#: inc/customizer.php:234
 msgid "Show product categories"
 msgstr "نمایش دسته‌بندی محصولات"
 
-#: inc/customizer.php:234
+#: inc/customizer.php:235
 msgid "Show newest products"
 msgstr "نمایش جدیدترین محصولات"
 
-#: inc/customizer.php:235
+#: inc/customizer.php:236
 msgid "Show products on sale"
 msgstr "نمایش محصولات تخفیف‌دار"
 
-#: inc/customizer.php:236
+#: inc/customizer.php:237
 msgid "Show best sellers"
 msgstr "نمایش پرفروش‌ترین‌ها"
 
-#: inc/customizer.php:240
+#: inc/customizer.php:241
 msgid "Products per home page section"
 msgstr "تعداد محصول در هر بخش صفحهٔ اصلی"
 
-#: inc/customizer.php:253
+#: inc/customizer.php:254
 msgid "Show the promises strip on the home page"
 msgstr "نمایش نوار تعهدها در صفحهٔ اصلی"
 
-#: inc/customizer.php:254
+#: inc/customizer.php:255
 msgid "Only state what your store actually offers. Leave a field empty to hide it."
 msgstr "فقط چیزی را بنویسید که فروشگاه شما واقعاً ارائه می‌دهد. برای پنهان کردن هر مورد، آن را خالی بگذارید."
 
-#: inc/customizer.php:255
+#: inc/customizer.php:257
 msgid "Promise 1 (delivery)"
 msgstr "تعهد ۱ (ارسال)"
 
-#: inc/customizer.php:256
+#: inc/customizer.php:257
+msgid "e.g. Delivery across the country"
+msgstr "مثلاً ارسال به سراسر کشور"
+
+#: inc/customizer.php:258
 msgid "Promise 2 (payment)"
 msgstr "تعهد ۲ (پرداخت)"
 
-#: inc/customizer.php:257
+#: inc/customizer.php:258
+msgid "e.g. Pay on delivery"
+msgstr "مثلاً پرداخت در محل"
+
+#: inc/customizer.php:259
 msgid "Promise 3 (returns)"
 msgstr "تعهد ۳ (بازگشت کالا)"
 
-#: inc/customizer.php:258
+#: inc/customizer.php:259
+msgid "e.g. Seven-day returns"
+msgstr "مثلاً هفت روز ضمانت بازگشت"
+
+#: inc/customizer.php:260
 msgid "Promise 4 (support)"
 msgstr "تعهد ۴ (پشتیبانی)"
 
-#: inc/customizer.php:263
+#: inc/customizer.php:260
+msgid "e.g. Support by phone"
+msgstr "مثلاً پشتیبانی تلفنی"
+
+#: inc/customizer.php:273
 msgid "Note under the add-to-cart button"
 msgstr "یادداشت زیر دکمهٔ افزودن به سبد"
 
-#: inc/customizer.php:266
+#: inc/customizer.php:276
 msgid "For example your shipping time or return policy. Leave empty to hide."
 msgstr "برای نمونه زمان ارسال یا شرایط بازگشت کالا. برای پنهان شدن خالی بگذارید."
 
-#: inc/customizer.php:269
+#: inc/customizer.php:279
 msgid "About the store"
 msgstr "دربارهٔ فروشگاه"
 
-#: inc/customizer.php:270
+#: inc/customizer.php:280
 msgid "Phone"
 msgstr "تلفن"
 
-#: inc/customizer.php:271
+#: inc/customizer.php:281
 msgid "Email"
 msgstr "ایمیل"
 
-#: inc/customizer.php:272
+#: inc/customizer.php:282
 msgid "Address"
 msgstr "نشانی"
 
@@ -8818,47 +9098,54 @@ msgstr "مرتب‌سازی:"
 msgid "Out of stock"
 msgstr "ناموجود"
 
-#: inc/woocommerce.php:317
+#: inc/woocommerce.php:341
 msgid "Sale"
 msgstr "حراج"
 
+#. translators: %s: discount percentage, e.g. 20. Shown in a small badge.
+#: inc/woocommerce.php:349
+#, php-format
+msgctxt "discount badge"
+msgid "%s%%"
+msgstr "%s٪"
+
 #. translators: %s: discount percentage, e.g. 20.
-#: inc/woocommerce.php:322
+#: inc/woocommerce.php:353
 #, php-format
 msgid "%s%% off"
 msgstr "%s٪ تخفیف"
 
 #. translators: %s: lowest price of the product's options.
-#: inc/woocommerce.php:352
+#: inc/woocommerce.php:399
 #, php-format
 msgid "From %s"
 msgstr "از %s"
 
-#: inc/woocommerce.php:400
+#: inc/woocommerce.php:450
 msgid "Choose options"
 msgstr "انتخاب گزینه‌ها"
 
-#: inc/woocommerce.php:400
+#: inc/woocommerce.php:450
 msgid "Add to cart"
 msgstr "افزودن به سبد خرید"
 
-#: inc/woocommerce.php:425
+#: inc/woocommerce.php:475
 msgid "Your details"
 msgstr "مشخصات شما"
 
 #. translators: %s: number of items in the cart.
-#: inc/woocommerce.php:500
+#: inc/woocommerce.php:550
 #, php-format
 msgid "Cart, %s item"
 msgid_plural "Cart, %s items"
 msgstr[0] "سبد خرید، %s کالا"
 msgstr[1] "سبد خرید، %s کالا"
 
-#: inc/woocommerce.php:518
+#: inc/woocommerce.php:568
 msgid "Cart"
 msgstr "سبد خرید"
 
-#: inc/woocommerce.php:563
+#: inc/woocommerce.php:613
 msgid "Log in | Sign up"
 msgstr "ورود | ثبت‌نام"
 
@@ -9056,11 +9343,11 @@ $sofreh_product = ( 'product' === get_post_type() && function_exists( 'wc_get_pr
 			<?php elseif ( 'post' === get_post_type() ) : ?>
 				<span class="post-card__type"><?php echo esc_html( get_the_date() ); ?></span>
 			<?php endif; ?>
-			<span class="post-card__title"><?php the_title(); ?></span>
+			<span class="post-card__title" dir="auto"><?php the_title(); ?></span>
 			<?php if ( $sofreh_product ) : ?>
-				<span class="price"><?php echo wp_kses_post( $sofreh_product->get_price_html() ); ?></span>
+				<span class="price"><?php echo sofreh_kses_price( $sofreh_product->get_price_html() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped by sofreh_kses_price(). ?></span>
 			<?php else : ?>
-				<span class="post-card__excerpt"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 22 ) ); ?></span>
+				<span class="post-card__excerpt" dir="auto"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 22 ) ); ?></span>
 			<?php endif; ?>
 		</span>
 	</a>
@@ -9368,7 +9655,7 @@ if ( sofreh_option( 'home_best' ) ) {
 									<span class="ranking__img"><?php echo wp_kses_post( $sofreh_product->get_image( 'woocommerce_gallery_thumbnail', array( 'alt' => '' ) ) ); ?></span>
 									<span class="ranking__body">
 										<span class="ranking__name"><?php echo esc_html( $sofreh_product->get_name() ); ?></span>
-										<span class="price"><?php echo wp_kses_post( $sofreh_product->get_price_html() ); ?></span>
+										<span class="price"><?php echo sofreh_kses_price( $sofreh_product->get_price_html() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped by sofreh_kses_price(). ?></span>
 									</span>
 								</a>
 							</li>
@@ -9461,7 +9748,8 @@ login details are shown on the order confirmation page.
   mobile number (it becomes the username), an email address (WooCommerce
   requires one for sign-up) and a password the customer chooses.
 * Customers sign in later with the mobile number (any digit form) and the
-  password, and are reminded on their dashboard to complete their account.
+  password, and are reminded on their dashboard to complete their account. The
+  login field is labelled "Mobile number or email".
 * A [sofreh_order_tracking] form (a "Track your order" page is created on
   activation) shows status, date, total and items for a tracking code + mobile
   number pair. Addresses and other personal details are never shown there.
@@ -9484,6 +9772,7 @@ there); on the classic checkout the email becomes optional.
 
 = 1.1.0 =
 * Manual sign-up on My Account with the mobile number as the username.
+* Login field labelled "Mobile number or email".
 
 = 1.0.0 =
 * First release.
@@ -9767,6 +10056,9 @@ final class Sofreh_Phone_Accounts {
 		// 4. Signing in and completing the account.
 		add_action( 'wp_authenticate', array( $this, 'normalize_login' ), 1, 2 );
 		add_action( 'woocommerce_login_form_start', array( $this, 'login_hint' ) );
+		if ( ! is_admin() ) {
+			add_filter( 'gettext_woocommerce', array( $this, 'login_label' ), 10, 2 );
+		}
 		add_action( 'woocommerce_account_dashboard', array( $this, 'dashboard_notice' ), 5 );
 		add_action( 'woocommerce_save_account_details', array( $this, 'mark_complete' ) );
 
@@ -10291,6 +10583,21 @@ final class Sofreh_Phone_Accounts {
 	}
 
 	/**
+	 * The login form's "Username or email address" label names what customers
+	 * actually type here: their mobile number (the username) or their email.
+	 *
+	 * @param string $translation Translated text.
+	 * @param string $text        Original text.
+	 * @return string
+	 */
+	public function login_label( $translation, $text ) {
+		if ( 'Username or email address' === $text ) {
+			return __( 'Mobile number or email', 'sofreh-phone-accounts' );
+		}
+		return $translation;
+	}
+
+	/**
 	 * Hint above the login form.
 	 */
 	public function login_hint() {
@@ -10529,7 +10836,7 @@ final class Sofreh_Phone_Accounts {
 # This file is distributed under the GNU General Public License v2 or later.
 msgid ""
 msgstr ""
-"Project-Id-Version: Sofreh Phone Accounts 1.0.0\n"
+"Project-Id-Version: Sofreh Phone Accounts 1.1.0\n"
 "Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/sofreh-phone-accounts\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: Persian\n"
@@ -10538,7 +10845,7 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
-"POT-Creation-Date: 2026-10-12T16:53:35+00:00\n"
+"POT-Creation-Date: 2026-10-12T17:30:23+00:00\n"
 "PO-Revision-Date: 2026-10-12 12:00+0330\n"
 "X-Generator: WP-CLI 2.12.0\n"
 "X-Domain: sofreh-phone-accounts\n"
@@ -10563,166 +10870,170 @@ msgstr "مشتری فقط با شماره موبایل خرید می‌کند. �
 msgid "Younes Nur"
 msgstr "یونس نور"
 
-#: includes/class-sofreh-phone-accounts.php:129
+#: includes/class-sofreh-phone-accounts.php:135
 msgid "Track your order"
 msgstr "پیگیری سفارش"
 
-#: includes/class-sofreh-phone-accounts.php:190
+#: includes/class-sofreh-phone-accounts.php:196
 msgid "Please enter a valid mobile number, for example 09121234567. It becomes your username for signing in."
 msgstr "لطفاً شماره موبایل معتبر وارد کنید، مثلاً 09121234567. این شماره نام کاربری شما برای ورود خواهد بود."
 
-#: includes/class-sofreh-phone-accounts.php:221
-#: includes/class-sofreh-phone-accounts.php:243
-#: includes/class-sofreh-phone-accounts.php:666
-#: includes/class-sofreh-phone-accounts.php:790
+#: includes/class-sofreh-phone-accounts.php:227
+#: includes/class-sofreh-phone-accounts.php:249
+#: includes/class-sofreh-phone-accounts.php:687
+#: includes/class-sofreh-phone-accounts.php:806
 msgid "Mobile number"
 msgstr "شماره موبایل"
 
-#: includes/class-sofreh-phone-accounts.php:224
+#: includes/class-sofreh-phone-accounts.php:230
 msgid "Your account is created with this number; you will see your password after placing the order."
 msgstr "حساب کاربری شما با همین شماره ساخته می‌شود؛ رمز عبور را پس از ثبت سفارش می‌بینید."
 
-#: includes/class-sofreh-phone-accounts.php:385
+#: includes/class-sofreh-phone-accounts.php:391
 msgid "Customer account created automatically from the mobile number."
 msgstr "حساب کاربری مشتری به‌صورت خودکار با شماره موبایل ساخته شد."
 
-#: includes/class-sofreh-phone-accounts.php:483
+#: includes/class-sofreh-phone-accounts.php:489
 msgid "Your order tracking code"
 msgstr "کد پیگیری سفارش شما"
 
 #. translators: %s: link to the order tracking page.
-#: includes/class-sofreh-phone-accounts.php:489
+#: includes/class-sofreh-phone-accounts.php:495
 #, php-format
 msgid "Use it with your mobile number on the <a href=\"%s\">order tracking page</a>."
 msgstr "با این کد و شماره موبایلتان در <a href=\"%s\">صفحهٔ پیگیری سفارش</a> وضعیت سفارش را ببینید."
 
-#: includes/class-sofreh-phone-accounts.php:493
+#: includes/class-sofreh-phone-accounts.php:499
 msgid "Keep it to follow up on your order."
 msgstr "این کد را برای پیگیری سفارش نگه دارید."
 
-#: includes/class-sofreh-phone-accounts.php:498
+#: includes/class-sofreh-phone-accounts.php:504
 msgid "Copy tracking code"
 msgstr "کپی کد پیگیری"
 
-#: includes/class-sofreh-phone-accounts.php:503
+#: includes/class-sofreh-phone-accounts.php:509
 msgid "Your account has been created"
 msgstr "حساب کاربری شما ساخته شد"
 
-#: includes/class-sofreh-phone-accounts.php:504
+#: includes/class-sofreh-phone-accounts.php:510
 msgid "You are signed in. Use these details to sign in next time, then complete your account information whenever you like."
 msgstr "اکنون وارد حساب خود شده‌اید. دفعهٔ بعد با این اطلاعات وارد شوید و هر زمان خواستید اطلاعات حسابتان را کامل کنید."
 
-#: includes/class-sofreh-phone-accounts.php:507
+#: includes/class-sofreh-phone-accounts.php:513
 msgid "Username (your mobile number)"
 msgstr "نام کاربری (شماره موبایل شما)"
 
-#: includes/class-sofreh-phone-accounts.php:508
+#: includes/class-sofreh-phone-accounts.php:514
 msgid "Copy username"
 msgstr "کپی نام کاربری"
 
-#: includes/class-sofreh-phone-accounts.php:511
+#: includes/class-sofreh-phone-accounts.php:517
 msgid "Password"
 msgstr "رمز عبور"
 
-#: includes/class-sofreh-phone-accounts.php:512
+#: includes/class-sofreh-phone-accounts.php:518
 msgid "Copy password"
 msgstr "کپی رمز عبور"
 
 #. translators: %s: number of minutes.
-#: includes/class-sofreh-phone-accounts.php:519
+#: includes/class-sofreh-phone-accounts.php:525
 #, php-format
 msgid "Write the password down or save it now: for your security it is shown only on this page, for %s minutes, and is never sent by email or text message."
 msgstr "همین حالا رمز عبور را یادداشت یا ذخیره کنید: برای امنیت شما فقط در همین صفحه و تا %s دقیقه نمایش داده می‌شود و هرگز با ایمیل یا پیامک فرستاده نمی‌شود."
 
-#: includes/class-sofreh-phone-accounts.php:525
+#: includes/class-sofreh-phone-accounts.php:531
 msgid "Complete your account"
 msgstr "تکمیل اطلاعات حساب"
 
-#: includes/class-sofreh-phone-accounts.php:526
+#: includes/class-sofreh-phone-accounts.php:532
 msgid "Go to my account"
 msgstr "رفتن به حساب من"
 
 #. translators: %s: link to the account page.
-#: includes/class-sofreh-phone-accounts.php:535
+#: includes/class-sofreh-phone-accounts.php:541
 #, php-format
 msgid "If you already have an account with this mobile number, <a href=\"%s\">sign in</a> to see your orders there."
 msgstr "اگر از قبل با این شماره موبایل حساب کاربری دارید، برای دیدن سفارش‌هایتان <a href=\"%s\">وارد شوید</a>."
 
-#: includes/class-sofreh-phone-accounts.php:558
+#: includes/class-sofreh-phone-accounts.php:564
 msgid "Copy"
 msgstr "کپی"
 
-#: includes/class-sofreh-phone-accounts.php:559
+#: includes/class-sofreh-phone-accounts.php:565
 msgid "Copied"
 msgstr "کپی شد"
 
-#: includes/class-sofreh-phone-accounts.php:584
+#: includes/class-sofreh-phone-accounts.php:590
 msgid "Copied to clipboard"
 msgstr "در کلیپ‌بورد کپی شد"
 
-#: includes/class-sofreh-phone-accounts.php:613
+#: includes/class-sofreh-phone-accounts.php:625
+msgid "Mobile number or email"
+msgstr "شماره موبایل یا ایمیل"
+
+#: includes/class-sofreh-phone-accounts.php:634
 msgid "Bought with your mobile number? Sign in with that number and the password shown after your purchase."
 msgstr "با شماره موبایل خرید کرده‌اید؟ با همان شماره و رمز عبوری که پس از خرید نمایش داده شد وارد شوید."
 
-#: includes/class-sofreh-phone-accounts.php:625
+#: includes/class-sofreh-phone-accounts.php:646
 msgid "Your account was created with your mobile number. Add your name and email and choose your own password."
 msgstr "حساب شما با شماره موبایلتان ساخته شده است. نام و ایمیل خود را اضافه کنید و رمز عبور دلخواهتان را انتخاب کنید."
 
-#: includes/class-sofreh-phone-accounts.php:627
+#: includes/class-sofreh-phone-accounts.php:648
 msgid "Complete account"
 msgstr "تکمیل حساب"
 
-#: includes/class-sofreh-phone-accounts.php:666
+#: includes/class-sofreh-phone-accounts.php:687
 msgid "Required"
 msgstr "الزامی"
 
-#: includes/class-sofreh-phone-accounts.php:668
+#: includes/class-sofreh-phone-accounts.php:689
 msgid "You will sign in with this number."
 msgstr "با همین شماره وارد حساب کاربری می‌شوید."
 
-#: includes/class-sofreh-phone-accounts.php:687
+#: includes/class-sofreh-phone-accounts.php:705
 msgid "An account with this mobile number already exists. Please sign in instead."
 msgstr "با این شماره موبایل قبلاً حساب کاربری ساخته شده است. لطفاً وارد شوید."
 
-#: includes/class-sofreh-phone-accounts.php:761
+#: includes/class-sofreh-phone-accounts.php:777
 msgid "The form has expired. Please try again."
 msgstr "اعتبار فرم تمام شده است. لطفاً دوباره تلاش کنید."
 
-#: includes/class-sofreh-phone-accounts.php:775
+#: includes/class-sofreh-phone-accounts.php:791
 msgid "No order matches this tracking code and mobile number."
 msgstr "سفارشی با این کد پیگیری و شماره موبایل پیدا نشد."
 
-#: includes/class-sofreh-phone-accounts.php:784
+#: includes/class-sofreh-phone-accounts.php:800
 msgid "Enter the tracking code shown after your purchase and the mobile number you ordered with."
 msgstr "کد پیگیری‌ای را که پس از خرید دریافت کردید و شماره موبایلی را که با آن سفارش دادید وارد کنید."
 
-#: includes/class-sofreh-phone-accounts.php:786
+#: includes/class-sofreh-phone-accounts.php:802
 msgid "Tracking code"
 msgstr "کد پیگیری"
 
-#: includes/class-sofreh-phone-accounts.php:794
+#: includes/class-sofreh-phone-accounts.php:810
 msgid "Track order"
 msgstr "پیگیری سفارش"
 
 #. translators: %s: order number.
-#: includes/class-sofreh-phone-accounts.php:806
+#: includes/class-sofreh-phone-accounts.php:822
 #, php-format
 msgid "Order %s"
 msgstr "سفارش %s"
 
-#: includes/class-sofreh-phone-accounts.php:810
+#: includes/class-sofreh-phone-accounts.php:826
 msgid "Status"
 msgstr "وضعیت"
 
-#: includes/class-sofreh-phone-accounts.php:811
+#: includes/class-sofreh-phone-accounts.php:827
 msgid "Date"
 msgstr "تاریخ"
 
-#: includes/class-sofreh-phone-accounts.php:812
+#: includes/class-sofreh-phone-accounts.php:828
 msgid "Total"
 msgstr "مبلغ کل"
 
-#: includes/class-sofreh-phone-accounts.php:820
+#: includes/class-sofreh-phone-accounts.php:836
 msgid "View full order"
 msgstr "مشاهدهٔ کامل سفارش"
 ```

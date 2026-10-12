@@ -284,6 +284,30 @@ function sofreh_wc_card_media_close() {
 }
 add_action( 'woocommerce_before_shop_loop_item_title', 'sofreh_wc_card_media_close', 11 );
 
+/*
+ * The discount badge sits beside the price, as on Iranian marketplaces,
+ * instead of over the product photo: one price row of badge, price and old
+ * price, with WooCommerce's own badge and price output inside it.
+ */
+remove_action( 'woocommerce_before_shop_loop_item_title', 'woocommerce_show_product_loop_sale_flash', 10 );
+
+/**
+ * Open the card's price row and print the discount badge.
+ */
+function sofreh_wc_card_price_open() {
+	echo '<div class="product-card__price">';
+	woocommerce_show_product_loop_sale_flash();
+}
+add_action( 'woocommerce_after_shop_loop_item_title', 'sofreh_wc_card_price_open', 9 );
+
+/**
+ * Close the card's price row.
+ */
+function sofreh_wc_card_price_close() {
+	echo '</div>';
+}
+add_action( 'woocommerce_after_shop_loop_item_title', 'sofreh_wc_card_price_close', 11 );
+
 
 /**
  * Sale badge shows the discount ("20% off") when it can be computed.
@@ -317,12 +341,35 @@ function sofreh_wc_sale_flash( $html, $post, $product ) {
 		return '<span class="onsale">' . esc_html__( 'Sale', 'sofreh' ) . '</span>';
 	}
 
-	return '<span class="onsale">' . esc_html(
-		/* translators: %s: discount percentage, e.g. 20. */
-		sprintf( __( '%s%% off', 'sofreh' ), number_format_i18n( $percent ) )
-	) . '</span>';
+	// Short "20%" pill beside the price; screen readers hear "20% off".
+	return sprintf(
+		'<span class="onsale"><span aria-hidden="true">%1$s</span><span class="screen-reader-text">%2$s</span></span>',
+		esc_html(
+			/* translators: %s: discount percentage, e.g. 20. Shown in a small badge. */
+			sprintf( _x( '%s%%', 'discount badge', 'sofreh' ), number_format_i18n( $percent ) )
+		),
+		esc_html(
+			/* translators: %s: discount percentage, e.g. 20. */
+			sprintf( __( '%s%% off', 'sofreh' ), number_format_i18n( $percent ) )
+		)
+	);
 }
 add_filter( 'woocommerce_sale_flash', 'sofreh_wc_sale_flash', 10, 3 );
+
+/**
+ * Escape product price HTML for output while keeping WooCommerce's <bdi>
+ * wrapper. wp_kses_post() strips <bdi>; without that isolation the currency
+ * name lands on the wrong side of the amount in right-to-left text.
+ *
+ * @param string $html Price HTML from WC_Product::get_price_html().
+ * @return string
+ */
+function sofreh_kses_price( $html ) {
+	$allowed                      = wp_kses_allowed_html( 'post' );
+	$allowed['bdi']               = array();
+	$allowed['span']['translate'] = true;
+	return wp_kses( $html, $allowed );
+}
 
 /**
  * Variable products whose options cost different amounts show "From <lowest
@@ -347,11 +394,11 @@ function sofreh_wc_variable_price_html( $price, $product ) {
 	if ( $min === $max ) {
 		return $price;
 	}
-	return sprintf(
+	return '<span class="price-from">' . sprintf(
 		/* translators: %s: lowest price of the product's options. */
 		esc_html__( 'From %s', 'sofreh' ),
 		wc_price( $min )
-	) . $product->get_price_suffix();
+	) . '</span>' . $product->get_price_suffix();
 }
 add_filter( 'woocommerce_variable_price_html', 'sofreh_wc_variable_price_html', 10, 2 );
 
@@ -361,15 +408,18 @@ add_filter( 'woocommerce_variable_price_html', 'sofreh_wc_variable_price_html', 
  * -------------------------------------------------------------------------
  */
 
-// The price moves into the buy box, next to the add-to-cart form.
+// The price and discount badge move into the buy box, next to the add-to-cart form.
 remove_action( 'woocommerce_single_product_summary', 'woocommerce_template_single_price', 10 );
+remove_action( 'woocommerce_before_single_product_summary', 'woocommerce_show_product_sale_flash', 10 );
 
 /**
  * Open the buy box: price, stock, quantity and add to cart, the store note.
  */
 function sofreh_wc_buy_box_open() {
-	echo '<div class="buy-box" id="buy-box">';
+	echo '<div class="buy-box" id="buy-box"><div class="buy-box__price">';
+	woocommerce_show_product_sale_flash();
 	woocommerce_template_single_price();
+	echo '</div>';
 }
 add_action( 'woocommerce_single_product_summary', 'sofreh_wc_buy_box_open', 25 );
 
@@ -395,7 +445,7 @@ function sofreh_wc_sticky_buy_bar() {
 	$needs_choice = $product->is_type( 'variable' ) || $product->is_type( 'grouped' );
 	?>
 	<div class="buy-bar" hidden data-sofreh-buybar>
-		<div class="buy-bar__price"><?php echo wp_kses_post( $product->get_price_html() ); ?></div>
+		<div class="buy-bar__price"><?php echo sofreh_kses_price( $product->get_price_html() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped by sofreh_kses_price(). ?></div>
 		<button type="button" class="button buy-bar__button" data-sofreh-buy="<?php echo $needs_choice ? 'choose' : 'add'; ?>">
 			<?php echo $needs_choice ? esc_html__( 'Choose options', 'sofreh' ) : esc_html__( 'Add to cart', 'sofreh' ); ?>
 		</button>

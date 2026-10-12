@@ -34,11 +34,11 @@ $sofreh_product = ( 'product' === get_post_type() && function_exists( 'wc_get_pr
 			<?php elseif ( 'post' === get_post_type() ) : ?>
 				<span class="post-card__type"><?php echo esc_html( get_the_date() ); ?></span>
 			<?php endif; ?>
-			<span class="post-card__title"><?php the_title(); ?></span>
+			<span class="post-card__title" dir="auto"><?php the_title(); ?></span>
 			<?php if ( $sofreh_product ) : ?>
-				<span class="price"><?php echo wp_kses_post( $sofreh_product->get_price_html() ); ?></span>
+				<span class="price"><?php echo sofreh_kses_price( $sofreh_product->get_price_html() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped by sofreh_kses_price(). ?></span>
 			<?php else : ?>
-				<span class="post-card__excerpt"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 22 ) ); ?></span>
+				<span class="post-card__excerpt" dir="auto"><?php echo esc_html( wp_trim_words( get_the_excerpt(), 22 ) ); ?></span>
 			<?php endif; ?>
 		</span>
 	</a>

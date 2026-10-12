@@ -333,50 +333,54 @@
 	background: var(--c-muted);
 }
 
-/* Star rating drawn with text stars, so no icon font is needed. */
+/*
+ * Star rating: five stars painted from one SVG mask (no icon font, no text
+ * glyphs). The filled layer is clipped to the rating width WooCommerce sets.
+ */
 .star-rating {
+	--star: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m12 2.8 2.8 5.7 6.3.9-4.6 4.4 1.1 6.3L12 17.1l-5.6 3 1.1-6.3-4.6-4.4 6.3-.9z'/%3E%3C/svg%3E");
 	position: relative;
 	display: inline-block;
 	overflow: hidden;
-	width: 5.4em;
-	height: 1.2em;
+	width: 5.5em;
+	height: 1.1em;
 	font-size: 0.8125rem;
-	line-height: 1.2;
-	letter-spacing: 0.08em;
-	direction: rtl;
+	line-height: 1;
+	color: transparent;
 }
 
-html:not([dir="rtl"]) .star-rating {
-	direction: ltr;
+.star-rating::before,
+.star-rating span::before {
+	content: "";
+	position: absolute;
+	inset-block: 0;
+	inset-inline-start: 0;
+	width: 5.5em;
+	-webkit-mask: var(--star) 0 0 / 1.1em 1.1em repeat-x;
+	mask: var(--star) 0 0 / 1.1em 1.1em repeat-x;
 }
 
 .star-rating::before {
-	content: "★★★★★";
-	position: absolute;
-	inset: 0;
-	color: var(--c-line-strong);
+	background: var(--c-line-strong);
 }
 
 .star-rating span {
 	position: absolute;
 	inset-block: 0;
-	right: 0;
+	inset-inline-start: 0;
 	overflow: hidden;
 	padding-top: 1.5em;
-	color: transparent;
-}
-
-html:not([dir="rtl"]) .star-rating span {
-	right: auto;
-	left: 0;
 }
 
 .star-rating span::before {
-	content: "★★★★★";
-	position: absolute;
-	top: 0;
-	inset-inline-start: 0;
-	color: var(--c-star);
+	background: var(--c-star);
+}
+
+/* The mask repeats from the left, so in RTL the filled part grows from the right. */
+[dir="rtl"] .star-rating::before,
+[dir="rtl"] .star-rating span::before {
+	-webkit-mask-position: 100% 0;
+	mask-position: 100% 0;
 }
 
 /* ------------------------------------------------------------------ */
@@ -481,38 +485,43 @@ ul.products li.product .star-rating {
 	margin-block-end: 4px;
 }
 
-/* Price block: discount pill and old price above, price below, aligned to the end */
-ul.products li.product .price {
-	display: grid;
-	grid-template-columns: auto 1fr;
+/*
+ * Price row: discount badge at the start, price at the end, old price under
+ * the price. The .price span dissolves into the row's grid so its parts can
+ * be placed; WooCommerce's screen-reader texts stay out of the layout.
+ */
+ul.products li.product .product-card__price {
+	display: flex;
+	flex-wrap: wrap;
 	align-items: center;
-	gap: 0 8px;
+	gap: 0 6px;
 	margin-top: auto;
 	font-size: 0.9375rem;
 }
 
-ul.products li.product .price ins {
-	grid-column: 1 / -1;
-	order: 2;
-	justify-self: end;
+ul.products li.product .product-card__price .price {
+	display: contents;
 }
 
-ul.products li.product .price del {
-	grid-column: 2;
+ul.products li.product .product-card__price .onsale {
+	position: static;
 	order: 1;
-	justify-self: end;
+	padding-inline: 7px;
 }
 
-ul.products li.product .price > .woocommerce-Price-amount {
-	grid-column: 1 / -1;
-	justify-self: end;
+/* The price keeps to the end of the row, and wraps under the badge on very narrow cards. */
+ul.products li.product .product-card__price ins,
+ul.products li.product .product-card__price .price > .woocommerce-Price-amount,
+ul.products li.product .product-card__price .price-from {
+	order: 2;
+	margin-inline-start: auto;
+	white-space: nowrap;
 }
 
-/* The sale badge sits beside the old price in cards. */
-ul.products li.product .product-card__media .onsale {
-	inset-block-start: auto;
-	inset-block-end: 8px;
-	inset-inline-start: 8px;
+ul.products li.product .product-card__price del {
+	order: 3;
+	flex-basis: 100%;
+	text-align: end;
 }
 
 ul.products li.product .button {
@@ -776,6 +785,18 @@ html[dir="rtl"] .strip--deals .strip__body ul.products li.product:last-child {
 	display: none;
 }
 
+/*
+ * WooCommerce moves focus to a new notice so screen readers announce it.
+ * The notice is a tabindex="-1" landing spot, not a control, so it gets no ring.
+ */
+.woocommerce-notices-wrapper:focus,
+.woocommerce-NoticeGroup:focus,
+.woocommerce-message:focus,
+.woocommerce-info:focus,
+.woocommerce-error:focus {
+	outline: none;
+}
+
 .woocommerce-message,
 .woocommerce-info,
 .woocommerce-error,
@@ -881,10 +902,6 @@ div.product > section {
 	grid-column: 1 / -1;
 }
 
-.store-layout--product div.product > .onsale {
-	inset-block-start: clamp(22px, 3vw, 36px);
-	inset-inline-start: clamp(22px, 3vw, 36px);
-}
 
 /* Summary: the facts beside the buy box */
 .store-layout--product .summary {
@@ -1098,8 +1115,21 @@ div.product > section {
 	border-radius: var(--r);
 }
 
-.buy-box > .price {
+.buy-box__price {
 	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+
+.buy-box__price .onsale {
+	position: static;
+	flex: none;
+	font-size: 0.8125rem;
+}
+
+.buy-box__price .price {
+	display: flex;
+	flex: 1;
 	flex-wrap: wrap;
 	align-items: baseline;
 	justify-content: flex-end;
@@ -1108,12 +1138,12 @@ div.product > section {
 	font-size: 1.375rem;
 }
 
-.buy-box > .price del {
+.buy-box__price .price del {
 	order: -1;
 	font-size: 0.9375rem;
 }
 
-.buy-box > .price ins {
+.buy-box__price .price ins {
 	color: var(--c-ink);
 }
 
@@ -1189,6 +1219,15 @@ table.variations label {
 
 .single_variation_wrap .woocommerce-variation {
 	margin-block-end: 8px;
+}
+
+.single_variation_wrap .woocommerce-variation:not(:has(.price, p)) {
+	margin: 0;
+}
+
+/* WooCommerce hides "Clear" with visibility; take it out of the flow too. */
+.reset_variations[style*="hidden"] {
+	display: none;
 }
 
 .woocommerce-variation-price .price {
@@ -1501,33 +1540,31 @@ p.stars a {
 }
 
 p.stars a::before {
-	content: "★";
+	content: "";
 	position: absolute;
-	inset: 0;
-	display: grid;
-	place-items: center;
-	color: var(--c-line-strong);
-	font-size: 26px;
-	line-height: 1;
+	inset: 3px;
+	background: var(--c-line-strong);
+	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m12 2.8 2.8 5.7 6.3.9-4.6 4.4 1.1 6.3L12 17.1l-5.6 3 1.1-6.3-4.6-4.4 6.3-.9z'/%3E%3C/svg%3E") center / contain no-repeat;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Cpath d='m12 2.8 2.8 5.7 6.3.9-4.6 4.4 1.1 6.3L12 17.1l-5.6 3 1.1-6.3-4.6-4.4 6.3-.9z'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 
 p.stars.selected a::before {
-	color: var(--c-star);
+	background: var(--c-star);
 }
 
 p.stars.selected a.active ~ a::before {
-	color: var(--c-line-strong);
+	background: var(--c-line-strong);
 }
 
 p.stars:hover a::before,
 p.stars.selected:hover a::before,
 p.stars.selected:hover a.active ~ a::before {
-	color: var(--c-star);
+	background: var(--c-star);
 }
 
 p.stars:hover a:hover ~ a::before,
 p.stars.selected:hover a:hover ~ a::before {
-	color: var(--c-line-strong);
+	background: var(--c-line-strong);
 }
 
 /* Related and upsells */
@@ -1593,6 +1630,75 @@ p.stars.selected:hover a:hover ~ a::before {
 	color: var(--c-ink);
 }
 
+/*
+ * Store pages (cart, checkout, account, order received) have no outer panel:
+ * each part is its own white panel on the grey ground, never a box in a box.
+ */
+.store-panel,
+.woocommerce-cart-form,
+.cart-collaterals .cart_totals,
+form.checkout #customer_details,
+form.checkout_coupon,
+.woocommerce-checkout form.woocommerce-form-login.login,
+#customer_login > .u-column1,
+#customer_login > .u-column2,
+.woocommerce-account .woocommerce > .woocommerce-form-login,
+.woocommerce-ResetPassword,
+.woocommerce-MyAccount-navigation,
+.woocommerce-MyAccount-content,
+.woocommerce-order-details,
+.woocommerce-customer-details,
+.wc-block-cart__main,
+.wc-block-cart__sidebar,
+.wc-block-checkout__main,
+.wc-block-checkout__sidebar {
+	background: var(--c-surface);
+	border-radius: var(--r-l);
+	box-shadow: var(--shadow-s);
+}
+
+.woocommerce-cart-form,
+.woocommerce-MyAccount-navigation {
+	overflow: hidden;
+}
+
+.cart-collaterals .cart_totals,
+form.checkout #customer_details,
+form.checkout_coupon,
+.woocommerce-checkout form.woocommerce-form-login.login,
+#customer_login > .u-column1,
+#customer_login > .u-column2,
+.woocommerce-account .woocommerce > .woocommerce-form-login,
+.woocommerce-ResetPassword,
+.woocommerce-MyAccount-content,
+.woocommerce-order-details,
+.woocommerce-customer-details,
+.wc-block-cart__main,
+.wc-block-cart__sidebar,
+.wc-block-checkout__main,
+.wc-block-checkout__sidebar {
+	padding: clamp(16px, 2.5vw, 24px);
+}
+
+.woocommerce-order-details,
+.woocommerce-customer-details {
+	margin-block-end: var(--gap);
+}
+
+.woocommerce-order-details__title,
+.woocommerce-column__title {
+	margin-block-start: 0;
+	font-size: 1.05rem;
+}
+
+/* Tables inside a panel lose their own frame. */
+.woocommerce-cart-form .shop_table,
+.woocommerce-order-details .shop_table,
+.woocommerce-MyAccount-content .shop_table {
+	border: 0;
+	border-radius: 0;
+}
+
 /* Classic cart */
 .woocommerce-cart-form {
 	margin-block-end: 24px;
@@ -1628,16 +1734,26 @@ p.stars.selected:hover a:hover ~ a::before {
 	margin: 0;
 }
 
+/* Remove links: WooCommerce prints a "×" character; the theme's close icon replaces it. */
 a.remove {
 	display: inline-grid;
 	place-items: center;
-	width: 32px;
-	height: 32px;
+	width: 36px;
+	height: 36px;
 	border-radius: 50%;
 	color: var(--c-muted) !important;
-	font-size: 1.3rem;
+	font-size: 0;
 	line-height: 1;
 	text-decoration: none;
+}
+
+a.remove::before {
+	content: "";
+	width: 18px;
+	height: 18px;
+	background: currentColor;
+	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round'%3E%3Cpath d='M6 6l12 12M18 6 6 18'/%3E%3C/svg%3E") center / contain no-repeat;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round'%3E%3Cpath d='M6 6l12 12M18 6 6 18'/%3E%3C/svg%3E") center / contain no-repeat;
 }
 
 a.remove:hover {
@@ -1680,9 +1796,6 @@ a.remove:hover {
 
 .cart-collaterals .cart_totals {
 	grid-column: 2;
-	padding: 18px;
-	background: var(--c-ground);
-	border-radius: var(--r);
 }
 
 .cart-collaterals .cross-sells {
@@ -1812,16 +1925,70 @@ a.remove:hover {
 		display: none;
 	}
 
-	.woocommerce-cart-form .product-remove {
-		justify-content: flex-end;
+	/*
+	 * Phone cart: photo at the start, name and price beside it, the remove
+	 * button at the end; quantity stepper and line total share the last row.
+	 */
+	.woocommerce-cart-form .shop_table_responsive tr.woocommerce-cart-form__cart-item {
+		display: grid;
+		grid-template-columns: 72px minmax(0, 1fr) auto;
+		grid-template-areas:
+			"thumb name remove"
+			"thumb price price"
+			"qty qty subtotal";
+		align-items: center;
+		gap: 4px 12px;
+		padding: 14px;
 	}
 
-	.woocommerce-cart-form .product-thumbnail {
-		justify-content: center;
+	.woocommerce-cart-form tr.woocommerce-cart-form__cart-item > td {
+		display: block;
+		padding: 0;
+		border: 0;
+		text-align: start;
+	}
+
+	.woocommerce-cart-form tr.woocommerce-cart-form__cart-item > td::before {
+		display: none;
+	}
+
+	.woocommerce-cart-form td.product-thumbnail {
+		grid-area: thumb;
+		align-self: start;
 	}
 
 	.woocommerce-cart-form .product-thumbnail img {
-		width: 96px;
+		width: 72px;
+	}
+
+	.woocommerce-cart-form td.product-name {
+		grid-area: name;
+		line-height: 1.7;
+	}
+
+	.woocommerce-cart-form td.product-remove {
+		grid-area: remove;
+		align-self: start;
+		margin-block-start: -6px;
+		margin-inline-end: -8px;
+	}
+
+	.woocommerce-cart-form td.product-price {
+		grid-area: price;
+		color: var(--c-muted);
+		font-size: 0.8125rem;
+	}
+
+	.woocommerce-cart-form td.product-quantity {
+		grid-area: qty;
+		margin-block-start: 8px;
+	}
+
+	.woocommerce-cart-form td.product-subtotal {
+		grid-area: subtotal;
+		margin-block-start: 8px;
+		font-weight: 700;
+		text-align: end;
 	}
 
 	.woocommerce-cart-form td.actions {
@@ -1867,6 +2034,12 @@ a.remove:hover {
 
 	.cart_totals .shop_table_responsive tr.woocommerce-shipping-totals {
 		flex-direction: column;
+	}
+
+	.cart_totals .shop_table_responsive tr.woocommerce-shipping-totals td {
+		flex-direction: column;
+		align-items: flex-start;
+		text-align: start;
 	}
 }
 
@@ -1981,6 +2154,10 @@ a.remove:hover {
 	padding-block-end: 32px;
 }
 
+.woocommerce-form-login .form-row:has(> .password-input) {
+	padding-block-end: 0;
+}
+
 .form-row:has(> .password-input) .woocommerce-password-strength {
 	position: absolute;
 	inset-inline: 0;
@@ -2071,8 +2248,22 @@ a.remove:hover {
 }
 
 .select2-container .select2-selection--single .select2-selection__arrow {
+	inset-block-start: 0;
 	height: 44px;
-	width: 32px;
+	width: 36px;
+}
+
+.select2-container .select2-selection--single .select2-selection__arrow b {
+	display: none;
+}
+
+.select2-container .select2-selection--single .select2-selection__arrow::before {
+	content: "";
+	position: absolute;
+	inset: 0;
+	background: var(--c-muted);
+	-webkit-mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center / 18px no-repeat;
+	mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23000' stroke-width='1.8' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E") center / 18px no-repeat;
 }
 
 .select2-container--focus .select2-selection--single,
@@ -2105,9 +2296,6 @@ a.remove:hover {
 form.checkout_coupon,
 .woocommerce-checkout form.woocommerce-form-login.login {
 	margin-block-end: 20px;
-	padding: 16px;
-	border: 1px dashed var(--c-line-strong);
-	border-radius: var(--r);
 }
 
 form.checkout_coupon {
@@ -2150,20 +2338,42 @@ form.checkout #customer_details {
 	grid-area: details;
 }
 
+/* Heading and review are two grid items drawn as one panel: each clips its shadow at the seam. */
 form.checkout #order_review_heading {
 	grid-area: heading;
 	margin: 0;
-	padding: 18px 18px 0;
-	background: var(--c-ground);
-	border-radius: var(--r) var(--r) 0 0;
+	padding: clamp(16px, 2.5vw, 24px) clamp(16px, 2.5vw, 24px) 0;
+	background: var(--c-surface);
+	border-radius: var(--r-l) var(--r-l) 0 0;
+	box-shadow: var(--shadow-s);
+	clip-path: inset(-4px -4px 0 -4px);
 	font-size: 1.05rem;
 }
 
 form.checkout #order_review {
 	grid-area: review;
-	padding: 8px 18px 18px;
-	background: var(--c-ground);
-	border-radius: 0 0 var(--r) var(--r);
+	padding: 8px clamp(16px, 2.5vw, 24px) clamp(16px, 2.5vw, 24px);
+	background: var(--c-surface);
+	border-radius: 0 0 var(--r-l) var(--r-l);
+	box-shadow: var(--shadow-s);
+	clip-path: inset(0 -4px -4px -4px);
+}
+
+form.checkout #customer_details {
+	margin-block-end: var(--gap);
+}
+
+form.checkout #customer_details .col-2 {
+	margin-block-end: 0;
+}
+
+/* Shipping method in the review table sits with the other values. */
+.woocommerce-checkout-review-order-table .woocommerce-shipping-totals td {
+	text-align: end;
+}
+
+.woocommerce-checkout-review-order-table .woocommerce-shipping-methods {
+	text-align: end;
 }
 
 form.checkout .col2-set .col-1,
@@ -2297,8 +2507,9 @@ ul.order_details,
 
 ul.order_details li {
 	padding: 12px 14px;
-	border: 1px solid var(--c-line);
 	border-radius: var(--r);
+	background: var(--c-surface);
+	box-shadow: var(--shadow-s);
 	color: var(--c-muted);
 	font-size: 0.8125rem;
 }
@@ -2311,9 +2522,6 @@ ul.order_details li strong {
 }
 
 .woocommerce-customer-details address {
-	padding: 14px;
-	border: 1px solid var(--c-line);
-	border-radius: var(--r);
 	font-style: normal;
 	line-height: 1.9;
 }
@@ -2340,8 +2548,6 @@ ul.order_details li strong {
 	margin: 0;
 	padding: 6px;
 	list-style: none;
-	border: 1px solid var(--c-line);
-	border-radius: var(--r);
 }
 
 .woocommerce-MyAccount-navigation li + li {
@@ -2380,9 +2586,8 @@ html:not([dir="rtl"]) .woocommerce-MyAccount-navigation .is-active a {
 }
 
 .woocommerce-Address {
-	padding: 16px;
-	border: 1px solid var(--c-line);
-	border-radius: var(--r);
+	padding-block-start: 12px;
+	border-top: 1px solid var(--c-line);
 }
 
 .woocommerce-Address-title {
@@ -2412,9 +2617,9 @@ html:not([dir="rtl"]) .woocommerce-MyAccount-navigation .is-active a {
 
 .woocommerce-EditAccountForm fieldset {
 	margin: 6px 0 14px;
-	padding: 14px 16px;
-	border: 1px solid var(--c-line);
-	border-radius: var(--r);
+	padding: 14px 0 0;
+	border: 0;
+	border-top: 1px solid var(--c-line);
 }
 
 .woocommerce-EditAccountForm legend {
@@ -2437,12 +2642,8 @@ html:not([dir="rtl"]) .woocommerce-MyAccount-navigation .is-active a {
 	gap: clamp(16px, 3vw, 32px);
 }
 
-.woocommerce-form-login,
-.woocommerce-form-register,
-.woocommerce-ResetPassword {
-	padding: clamp(16px, 2.5vw, 24px);
-	border: 1px solid var(--c-line);
-	border-radius: var(--r);
+#customer_login h2 {
+	margin-block-start: 0;
 }
 
 .woocommerce-account .woocommerce > h2,

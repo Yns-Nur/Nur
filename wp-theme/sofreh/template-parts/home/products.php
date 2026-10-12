@@ -95,7 +95,7 @@ if ( sofreh_option( 'home_best' ) ) {
 									<span class="ranking__img"><?php echo wp_kses_post( $sofreh_product->get_image( 'woocommerce_gallery_thumbnail', array( 'alt' => '' ) ) ); ?></span>
 									<span class="ranking__body">
 										<span class="ranking__name"><?php echo esc_html( $sofreh_product->get_name() ); ?></span>
-										<span class="price"><?php echo wp_kses_post( $sofreh_product->get_price_html() ); ?></span>
+										<span class="price"><?php echo sofreh_kses_price( $sofreh_product->get_price_html() ); // phpcs:ignore WordPress.Security.EscapeOutput.OutputNotEscaped -- Escaped by sofreh_kses_price(). ?></span>
 									</span>
 								</a>
 							</li>

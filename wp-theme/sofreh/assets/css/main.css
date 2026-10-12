@@ -276,8 +276,7 @@ pre {
 }
 
 .panel-surface,
-.reading-page > .site-main,
-.store-page > .site-main {
+.reading-page > .site-main {
 	background: var(--c-surface);
 	border-radius: var(--r-l);
 	padding: clamp(16px, 3vw, 32px);
@@ -1056,14 +1055,23 @@ html:not([dir="rtl"]) .site-drawer {
 		min-height: 44px;
 	}
 
-	.hdr-nav,
-	.hdr__actions .header-account {
+	.hdr-nav {
 		display: none;
 	}
 
-	.hdr__actions .header-cart {
+	.hdr__actions .header-cart,
+	.hdr__actions .header-account {
 		border: 0;
 		padding-inline: 8px;
+	}
+
+	.hdr__actions .header-account .header-action__label {
+		position: absolute;
+		width: 1px;
+		height: 1px;
+		overflow: hidden;
+		clip-path: inset(50%);
+		white-space: nowrap;
 	}
 
 	.tabbar {
@@ -1458,9 +1466,20 @@ html:not([dir="rtl"]) .site-drawer {
 	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
 }
 
+/* Inside the frame, posts are cells, not cards: no second border or shadow. */
 .posts-frame .post-card {
 	box-shadow: none;
-	border: 1px solid var(--c-line);
+	border-radius: 0;
+	background: none;
+}
+
+.posts-frame .post-card__media {
+	border-radius: var(--r);
+	overflow: hidden;
+}
+
+.posts-frame .post-card__body {
+	padding-inline: 0;
 }
 
 /* Section frames shared by product strips and ranking */
@@ -1547,7 +1566,7 @@ html:not([dir="rtl"]) .strip__more:hover .icon {
 	order: -1;
 	flex: none;
 	width: 28px;
-	color: var(--c-teal);
+	color: var(--c-ink);
 	font-size: 1.75rem;
 	font-weight: 800;
 	line-height: 1;

@@ -86,6 +86,9 @@ final class Sofreh_Phone_Accounts {
 		// 4. Signing in and completing the account.
 		add_action( 'wp_authenticate', array( $this, 'normalize_login' ), 1, 2 );
 		add_action( 'woocommerce_login_form_start', array( $this, 'login_hint' ) );
+		if ( ! is_admin() ) {
+			add_filter( 'gettext_woocommerce', array( $this, 'login_label' ), 10, 2 );
+		}
 		add_action( 'woocommerce_account_dashboard', array( $this, 'dashboard_notice' ), 5 );
 		add_action( 'woocommerce_save_account_details', array( $this, 'mark_complete' ) );
 
@@ -607,6 +610,21 @@ final class Sofreh_Phone_Accounts {
 		if ( '' !== $mobile && $mobile !== $username && username_exists( $mobile ) ) {
 			$username = $mobile;
 		}
+	}
+
+	/**
+	 * The login form's "Username or email address" label names what customers
+	 * actually type here: their mobile number (the username) or their email.
+	 *
+	 * @param string $translation Translated text.
+	 * @param string $text        Original text.
+	 * @return string
+	 */
+	public function login_label( $translation, $text ) {
+		if ( 'Username or email address' === $text ) {
+			return __( 'Mobile number or email', 'sofreh-phone-accounts' );
+		}
+		return $translation;
 	}
 
 	/**
